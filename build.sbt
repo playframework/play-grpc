@@ -23,5 +23,7 @@ val playTestdata = project
   .enablePlugins(AkkaGrpcPlugin)
   .settings(
     scalacOptions += "-Xlint:-unused,_",
+    akkaGrpcGeneratedLanguages += AkkaGrpc.Java,
+    akkaGrpcCodeGeneratorSettings -= "flat_package", // avoid Java+Scala fqcn conflicts
     skip in publish := true,
   )
