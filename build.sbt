@@ -2,6 +2,7 @@ val playGrpc = project in file(".")
 
 aggregateProjects(
   testdata,
+  testkit,
 )
 
 organization in ThisBuild := "com.lightbend.play"
@@ -33,5 +34,8 @@ val testdata = project
     akkaGrpcCodeGeneratorSettings -= "flat_package", // avoid Java+Scala fqcn conflicts
     skip in publish := true,
   )
+
+val testkit = project
+  .dependsOn(testdata % Test)
 
 cancelable in Global := true
