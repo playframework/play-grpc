@@ -1,7 +1,7 @@
 val playGrpc = project in file(".")
 
 aggregateProjects(
-  playTestdata,
+  testdata,
 )
 
 organization in ThisBuild := "com.lightbend.play"
@@ -25,7 +25,7 @@ javacOptions in ThisBuild ++= List(
   "-Xlint:deprecation",
 )
 
-val playTestdata = project
+val testdata = project
   .enablePlugins(AkkaGrpcPlugin)
   .settings(
     scalacOptions += "-Xlint:-unused,_",
