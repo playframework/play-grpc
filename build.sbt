@@ -33,3 +33,5 @@ val testdata = project
     akkaGrpcCodeGeneratorSettings -= "flat_package", // avoid Java+Scala fqcn conflicts
     skip in publish := true,
   )
+
+cancelable in Global := true
