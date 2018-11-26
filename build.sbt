@@ -37,5 +37,11 @@ val testdata = project
 
 val testkit = project
   .dependsOn(testdata % Test)
+  .settings(
+    libraryDependencies ++= List(
+      "com.lightbend.akka.grpc" %% "akka-grpc-runtime" % "0.4.2", // from plugin?
+      "com.typesafe.play"       %% "play-test"         % "2.7.0-RC3",
+    )
+  )
 
 cancelable in Global := true
