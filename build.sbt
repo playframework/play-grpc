@@ -22,5 +22,6 @@ javacOptions in ThisBuild ++= List("-Xlint:unchecked", "-Xlint:deprecation")
 val playTestdata = project
   .enablePlugins(AkkaGrpcPlugin)
   .settings(
+    scalacOptions += "-Xlint:-unused,_",
     skip in publish := true,
   )
