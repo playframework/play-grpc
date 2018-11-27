@@ -9,7 +9,10 @@ organization in ThisBuild := "com.lightbend.play"
 
 scalacOptions in ThisBuild ++= List(
   "-encoding", "utf8",
-  "-deprecation", "-feature", "-unchecked", "-Xlint",
+  "-deprecation", 
+  "-feature", 
+  "-unchecked", 
+  "-Xlint",
   "-Xfuture",
   "-Yno-adapted-args",
   "-Ywarn-dead-code",
@@ -17,7 +20,10 @@ scalacOptions in ThisBuild ++= List(
   "-Ywarn-value-discard",
 )
 
-javacOptions in ThisBuild ++= List("-Xlint:unchecked", "-Xlint:deprecation")
+javacOptions in ThisBuild ++= List(
+  "-Xlint:unchecked", 
+  "-Xlint:deprecation",
+)
 
 val playTestdata = project
   .enablePlugins(AkkaGrpcPlugin)
