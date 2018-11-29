@@ -1,18 +1,10 @@
 pull_request_rules:
-  - name: Label WIP PRs with the block-merge label
-    conditions:
-      - title~=^(\[wip\]( |:) |\[WIP\]( |:) |wip( |:) |WIP( |:)).*
-    actions:
-      label:
-        add: ["block-merge"]
-
   - name: Merge PRs that are ready
     conditions:
       - status-success=Travis CI - Pull Request
       - "#approved-reviews-by>=1"
       - "#changes-requested-reviews-by=0"
       - label=merge-when-green
-      - label!=block-merge
     actions:
       merge:
         method: merge
