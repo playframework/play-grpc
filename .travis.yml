@@ -11,7 +11,7 @@ git:
 jobs:
   include:
     - stage: tests
-      script: sbt test headerCheck test:headerCheck grpcVersionSyncCheck
+      script: sbt test headerCheck test:headerCheck
 #   - stage: whitesource-master
 #     script: git branch -f "$TRAVIS_BRANCH" && git checkout "$TRAVIS_BRANCH" && sbt whitesourceCheckPolicies whitesourceUpdate
 #   - stage: whitesource-release
