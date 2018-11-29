@@ -2,7 +2,7 @@ pull_request_rules:
   - name: Merge PRs that are ready
     conditions:
       - status-success=Travis CI - Pull Request
-      - "#approved-reviews-by>=1"
+    # - "#approved-reviews-by>=1"  # TODO: uncomment when initial setup is done
       - "#changes-requested-reviews-by=0"
       - label=merge-when-green
     actions:
