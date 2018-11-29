@@ -8,6 +8,10 @@ scala:
 git:
   depth: false
 
+stages:
+- tests
+- publish
+
 jobs:
   include:
     - stage: tests
