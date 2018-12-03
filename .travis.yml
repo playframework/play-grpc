@@ -22,14 +22,14 @@ jobs:
 #     script: curl -I https://ci.lightbend.com/job/techhub-publisher/build?token=$TECH_HUB_TOKEN
 
 stages:
-# - name: tests
-#   if: NOT tag =~ ^v
+  - name: tests
+    if: NOT tag =~ ^v
 # - name: whitesource-master
 #   if: repo = playframework/play-grpc AND branch = master AND type = push
 # - name: whitesource-release
 #   if: repo = playframework/play-grpc AND tag =~ ^v
   - name: publish
-    if: repo = playframework/play-grpc AND tag IS blank
+    if: repo = playframework/play-grpc AND tag =~ ^v
 # - name: techhub-ping
 #   if: repo = playframework/play-grpc AND tag =~ ^v
 
