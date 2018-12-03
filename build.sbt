@@ -3,7 +3,6 @@ import build.play.grpc.Dependencies.Versions.{ scala211, scala212 }
 import build.play.grpc.ProjectExtensions._
 
 ThisBuild / organization := "com.lightbend.play"
-ThisBuild / version      := "v0.5.0-M5" // temp
 
 ThisBuild / scalaVersion := scala212
 ThisBuild / crossScalaVersions := Seq(scala211, scala212)
