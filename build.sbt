@@ -119,10 +119,31 @@ lazy val root = Project(
     playSpecs2,
     playScalaTest,
     playTestdata,
+    docs,
   )
   .enablePlugins(build.play.grpc.NoPublish)
   .settings(
     unmanagedSources in (Compile, headerCreate) := (baseDirectory.value / "project").**("*.scala").get
+  )
+
+lazy val docs = Project(
+    id = "play-grpc-docs",
+    base = file("docs"),
+  )
+  // Make sure code generation is ran:
+  .enablePlugins(AkkaParadoxPlugin)
+  .enablePlugins(build.play.grpc.NoPublish)
+  .settings(
+    // Make sure code generation is ran before paradox:
+    (Compile / paradox) := ((Compile / paradox) dependsOn (Compile / compile)).value,
+    paradoxGroups := Map(
+      "Language" -> Seq("Scala", "Java"),
+      "Buildtool" -> Seq("sbt", "Gradle", "Maven"),
+    ),
+    paradoxProperties ++= Map(
+      "grpc.version" → Dependencies.Versions.grpc,
+    ),
+    resolvers += Resolver.jcenterRepo,
   )
 
 cancelable in Global := true
