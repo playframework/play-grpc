@@ -2,6 +2,7 @@
  * Copyright (C) 2018 Lightbend Inc. <https://www.lightbend.com>
  */
 
+// #service-impl
 package controllers
 
 import akka.stream.Materializer
@@ -17,3 +18,4 @@ class GreeterServiceImpl @Inject() (implicit mat: Materializer) extends Abstract
   override def sayHello(in: HelloRequest): Future[HelloReply] = Future.successful(HelloReply(s"Hello, ${in.name}!"))
 
 }
+// #service-impl
