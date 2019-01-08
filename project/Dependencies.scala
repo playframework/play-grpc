@@ -7,7 +7,7 @@ object Dependencies {
 
   object Versions {
     val scala211 = "2.11.12"
-    val scala212 = "2.12.6"
+    val scala212 = "2.12.8"
 
     val akkaGrpc = "0.4.2" // TODO: obtain via sbt-akka-grpc?
 
