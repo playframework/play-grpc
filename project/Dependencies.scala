@@ -7,16 +7,16 @@ object Dependencies {
 
   object Versions {
     val scala211 = "2.11.12"
-    val scala212 = "2.12.6"
+    val scala212 = "2.12.8"
 
     val akkaGrpc = "0.4.2" // TODO: obtain via sbt-akka-grpc?
 
-    val play = "2.7.0-RC3"
+    val play = "2.7.0-RC8"
 
     val grpc = "1.15.0" // needs to be in sync with akkaGrpc version?
 
     val scalaTest = "3.0.5"
-    val scalaTestPlusPlay = "4.0.0-RC1"
+    val scalaTestPlusPlay = "4.0.0-RC2"
   }
 
   object Compile {
