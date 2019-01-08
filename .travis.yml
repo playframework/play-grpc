@@ -1,8 +1,7 @@
 language: scala
 jdk: oraclejdk8
 
-scala:
-- 2.12.6
+scala: 2.12.8
 
 # make sure to fetch enough commits, so that git describe still works
 git:
