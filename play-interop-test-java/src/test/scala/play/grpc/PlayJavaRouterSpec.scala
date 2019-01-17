@@ -103,5 +103,6 @@ class PlayJavaRouterSpec extends WordSpec with Matchers with BeforeAndAfterAll w
   override def afterAll(): Unit = {
     super.afterAll()
     sys.terminate()
+    ()
   }
 }

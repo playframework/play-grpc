@@ -1,23 +1,19 @@
 import build.play.grpc.Dependencies
-import build.play.grpc.Dependencies.Versions.{ scala211, scala212 }
-import build.play.grpc.ProjectExtensions._
+import build.play.grpc.ProjectExtensions.AddPluginTest
 
 ThisBuild / organization := "com.lightbend.play"
-
-ThisBuild / scalaVersion := scala212
-ThisBuild / crossScalaVersions := Seq(scala211, scala212)
 
 ThisBuild / scalacOptions ++= List(
   "-encoding", "utf8",
   "-deprecation",
   "-feature",
   "-unchecked",
-//"-Xlint",
-//"-Xfuture",
-//"-Yno-adapted-args",
-//"-Ywarn-dead-code",
-//"-Ywarn-numeric-widen",
-//"-Ywarn-value-discard",
+  "-Xlint",
+  "-Xfuture",
+  "-Yno-adapted-args",
+  "-Ywarn-dead-code",
+  "-Ywarn-numeric-widen",
+  "-Ywarn-value-discard",
 )
 
 ThisBuild / javacOptions ++= List(
@@ -27,6 +23,20 @@ ThisBuild / javacOptions ++= List(
 
 val commonSettings = build.play.grpc.Formatting.formatSettings
 
+val playGrpc = Project("play-grpc", file("."))
+aggregateProjects(
+  playInteropTestJava,
+  playInteropTestScala,
+  playTestkit,
+  playSpecs2,
+  playScalaTest,
+  playTestdata,
+  docs,
+)
+
+enablePlugins(build.play.grpc.NoPublish)
+unmanagedSources in (Compile, headerCreate) := ((baseDirectory.value / "project") ** "*.scala").get
+
 lazy val playTestdata = Project(
     id="play-grpc-testdata",
     base=file("play-testdata")
@@ -34,6 +44,8 @@ lazy val playTestdata = Project(
   .settings(Dependencies.playTestdata)
   .settings(commonSettings)
   .settings(
+    scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
+    javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
       akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,
@@ -107,24 +119,6 @@ lazy val playInteropTestJava = Project(
   )
   .enablePlugins(build.play.grpc.NoPublish)
   .pluginTestingSettings
-
-lazy val root = Project(
-    id = "play-grpc",
-    base = file(".")
-  )
-  .aggregate(
-    playInteropTestJava,
-    playInteropTestScala,
-    playTestkit,
-    playSpecs2,
-    playScalaTest,
-    playTestdata,
-    docs,
-  )
-  .enablePlugins(build.play.grpc.NoPublish)
-  .settings(
-    unmanagedSources in (Compile, headerCreate) := (baseDirectory.value / "project").**("*.scala").get
-  )
 
 lazy val docs = Project(
     id = "play-grpc-docs",
