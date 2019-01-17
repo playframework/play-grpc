@@ -9,8 +9,7 @@ git:
 
 jobs:
   include:
-    - stage: tests
-      script: sbt test headerCheck test:headerCheck
+    - script: sbt test headerCheck test:headerCheck
 #   - stage: whitesource-master
 #     script: git branch -f "$TRAVIS_BRANCH" && git checkout "$TRAVIS_BRANCH" && sbt whitesourceCheckPolicies whitesourceUpdate
 #   - stage: whitesource-release
@@ -21,7 +20,7 @@ jobs:
 #     script: curl -I https://ci.lightbend.com/job/techhub-publisher/build?token=$TECH_HUB_TOKEN
 
 stages:
-  - name: tests
+  - name: test
     if: NOT tag =~ ^v
 # - name: whitesource-master
 #   if: repo = playframework/play-grpc AND branch = master AND type = push
