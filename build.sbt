@@ -8,12 +8,12 @@ ThisBuild / scalacOptions ++= List(
   "-deprecation",
   "-feature",
   "-unchecked",
-//"-Xlint",
-//"-Xfuture",
-//"-Yno-adapted-args",
-//"-Ywarn-dead-code",
-//"-Ywarn-numeric-widen",
-//"-Ywarn-value-discard",
+  "-Xlint",
+  "-Xfuture",
+  "-Yno-adapted-args",
+  "-Ywarn-dead-code",
+  "-Ywarn-numeric-widen",
+  "-Ywarn-value-discard",
 )
 
 ThisBuild / javacOptions ++= List(
@@ -44,6 +44,7 @@ lazy val playTestdata = Project(
   .settings(Dependencies.playTestdata)
   .settings(commonSettings)
   .settings(
+    scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
     javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
