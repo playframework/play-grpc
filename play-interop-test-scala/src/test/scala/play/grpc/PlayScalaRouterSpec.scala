@@ -81,5 +81,6 @@ class PlayScalaRouterSpec extends WordSpec with Matchers with BeforeAndAfterAll 
   override def afterAll(): Unit = {
     super.afterAll()
     sys.terminate()
+    ()
   }
 }
