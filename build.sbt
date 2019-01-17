@@ -1,6 +1,6 @@
 import build.play.grpc.Dependencies
 import build.play.grpc.Dependencies.Versions.{ scala211, scala212 }
-import build.play.grpc.ProjectExtensions._
+import build.play.grpc.ProjectExtensions.AddPluginTest
 
 ThisBuild / organization := "com.lightbend.play"
 
@@ -26,6 +26,20 @@ ThisBuild / javacOptions ++= List(
 )
 
 val commonSettings = build.play.grpc.Formatting.formatSettings
+
+val playGrpc = Project("play-grpc", file("."))
+aggregateProjects(
+  playInteropTestJava,
+  playInteropTestScala,
+  playTestkit,
+  playSpecs2,
+  playScalaTest,
+  playTestdata,
+  docs,
+)
+
+enablePlugins(build.play.grpc.NoPublish)
+unmanagedSources in (Compile, headerCreate) := ((baseDirectory.value / "project") ** "*.scala").get
 
 lazy val playTestdata = Project(
     id="play-grpc-testdata",
@@ -107,24 +121,6 @@ lazy val playInteropTestJava = Project(
   )
   .enablePlugins(build.play.grpc.NoPublish)
   .pluginTestingSettings
-
-lazy val root = Project(
-    id = "play-grpc",
-    base = file(".")
-  )
-  .aggregate(
-    playInteropTestJava,
-    playInteropTestScala,
-    playTestkit,
-    playSpecs2,
-    playScalaTest,
-    playTestdata,
-    docs,
-  )
-  .enablePlugins(build.play.grpc.NoPublish)
-  .settings(
-    unmanagedSources in (Compile, headerCreate) := (baseDirectory.value / "project").**("*.scala").get
-  )
 
 lazy val docs = Project(
     id = "play-grpc-docs",
