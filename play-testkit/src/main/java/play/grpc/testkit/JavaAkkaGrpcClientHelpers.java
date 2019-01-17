@@ -32,16 +32,20 @@ public final class JavaAkkaGrpcClientHelpers {
    */
   public static ServerEndpoint getHttp2Endpoint(final ServerEndpoints serverEndpoints) {
     final scala.collection.Traversable<ServerEndpoint> possibleEndpoints =
-        serverEndpoints.endpoints().filter(func(e->e.expectedHttpVersions().contains("2")));
-    if (possibleEndpoints.size() != 1) {
+        serverEndpoints.endpoints().filter(func(e -> e.expectedHttpVersions().contains("2")));
+    if (possibleEndpoints.size() == 0) {
       throw new IllegalArgumentException(String.format(
           "gRPC client can't automatically find HTTP/2 connection: " +
-              "%s valid endpoints available: %s",
-          possibleEndpoints.size(),
+              "no valid endpoints available. %s",
           serverEndpoints
       ));
+    } else if (possibleEndpoints.size() == 1) {
+      return possibleEndpoints.head();
+    } else {
+      // TODO: the decision on which HTTP/2 endpoint to use should be based on config (e.g. maybe the user set
+      // `akka.grpc.client."".use-tls` to false for gRPC so this should return the non-TLS HTTP/2 endpoint on the list.
+      return possibleEndpoints.filter(endpoint -> endpoint.ssl().isDefined()).head();
     }
-    return possibleEndpoints.head();
   }
 
   /** Creates a GrpcClientSettings from the given HTTP/2 endpoint and ActorSystem. */
