@@ -1,11 +1,7 @@
 import build.play.grpc.Dependencies
-import build.play.grpc.Dependencies.Versions.{ scala211, scala212 }
 import build.play.grpc.ProjectExtensions.AddPluginTest
 
 ThisBuild / organization := "com.lightbend.play"
-
-ThisBuild / scalaVersion := scala212
-ThisBuild / crossScalaVersions := Seq(scala211, scala212)
 
 ThisBuild / scalacOptions ++= List(
   "-encoding", "utf8",
