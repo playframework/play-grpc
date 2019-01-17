@@ -44,6 +44,7 @@ lazy val playTestdata = Project(
   .settings(Dependencies.playTestdata)
   .settings(commonSettings)
   .settings(
+    javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
       akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,
