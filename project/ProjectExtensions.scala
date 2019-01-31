@@ -20,6 +20,7 @@ object ProjectExtensions {
         .settings(
           javaAgents += "org.mortbay.jetty.alpn" % "jetty-alpn-agent" % "2.0.9" % Test,
           libraryDependencies += Dependencies.Compile.akkaGrpcRuntime,
+          // `akkaGrpcGeneratedLanguages` defaults to `Seq(AkkaGrpc.Scala)` so we only need to add Java
           akkaGrpcGeneratedLanguages += AkkaGrpc.Java,
           akkaGrpcCodeGeneratorSettings -= "flat_package", // avoid Java+Scala fqcn conflicts
         )
