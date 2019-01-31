@@ -18,8 +18,8 @@ jobs:
 #     script: git branch -f "$TRAVIS_BRANCH" && git checkout "$TRAVIS_BRANCH" && sbt whitesourceCheckPolicies whitesourceUpdate
     - stage: publish
       script: sbt +publish
-#   - stage: techhub-ping
-#     script: curl -I https://ci.lightbend.com/job/techhub-publisher/build?token=$TECH_HUB_TOKEN
+    - stage: techhub-ping
+      script: curl -I https://ci.lightbend.com/job/techhub-publisher/build?token=$TECH_HUB_TOKEN
 
 stages:
   - name: test
@@ -30,8 +30,8 @@ stages:
 #   if: repo = playframework/play-grpc AND tag =~ ^v
   - name: publish
     if: repo = playframework/play-grpc AND tag =~ ^v
-# - name: techhub-ping
-#   if: repo = playframework/play-grpc AND tag =~ ^v
+  - name: techhub-ping
+    if: repo = playframework/play-grpc AND tag =~ ^v
 
 cache:
   directories:
