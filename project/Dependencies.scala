@@ -8,12 +8,12 @@ object Dependencies {
   object Versions {
     val akkaGrpc = "0.4.2" // TODO: obtain via sbt-akka-grpc?
 
-    val play = "2.7.0-RC8"
+    val play = "2.7.0"
 
     val grpc = "1.15.0" // needs to be in sync with akkaGrpc version?
 
     val scalaTest = "3.0.5"
-    val scalaTestPlusPlay = "4.0.0-RC2"
+    val scalaTestPlusPlay = "4.0.0"
   }
 
   object Compile {
@@ -25,6 +25,7 @@ object Dependencies {
     val playJava           = "com.typesafe.play" %% "play-java"             % Versions.play // Apache V2
     val playGuice          = "com.typesafe.play" %% "play-guice"            % Versions.play // Apache V2
     val playAkkaHttpServer = "com.typesafe.play" %% "play-akka-http-server" % Versions.play // Apache V2
+    val playAkkaHttp2Support = "com.typesafe.play" %% "play-akka-http2-support" % Versions.play // Apache V2
     val playTest           = "com.typesafe.play" %% "play-test"             % Versions.play // Apache V2
     val playSpecs2         = "com.typesafe.play" %% "play-specs2"           % Versions.play // Apache V2
 
@@ -54,6 +55,7 @@ object Dependencies {
     Compile.play,
     Compile.grpcStub,
     Compile.playAkkaHttpServer,
+    Compile.playAkkaHttp2Support
   )
 
   val playTestkit = l ++= Seq(
@@ -71,6 +73,7 @@ object Dependencies {
     Compile.play,
     Compile.playGuice,
     Compile.playAkkaHttpServer,
+    Compile.playAkkaHttp2Support,
     Test.playSpecs2,
     Test.scalaTestPlusPlay,
   ) ++ testing
@@ -81,6 +84,7 @@ object Dependencies {
     Compile.play,
     Compile.playGuice,
     Compile.playAkkaHttpServer,
+    Compile.playAkkaHttp2Support,
     Compile.playJava,
   ) ++ testing
 }
