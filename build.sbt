@@ -21,8 +21,6 @@ ThisBuild / javacOptions ++= List(
   "-Xlint:deprecation",
 )
 
-val commonSettings = build.play.grpc.Formatting.formatSettings
-
 val playGrpc = Project("play-grpc", file("."))
 aggregateProjects(
   playInteropTestJava,
@@ -42,7 +40,6 @@ lazy val playTestdata = Project(
     base=file("play-testdata")
   )
   .settings(Dependencies.playTestdata)
-  .settings(commonSettings)
   .settings(
     scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
     javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
@@ -63,13 +60,11 @@ lazy val playTestkit = Project(
   )
   .dependsOn(playTestdata % "test")
   .settings(Dependencies.playTestkit)
-  .settings(commonSettings)
   .pluginTestingSettings
 
 val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
   .dependsOn(playTestkit, playTestkit % "test->test")
   .settings(
-    commonSettings,
     Dependencies.playSpecs2,
   )
   .pluginTestingSettings
@@ -77,7 +72,6 @@ val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
 val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
   .dependsOn(playTestkit, playTestkit % "test->test")
   .settings(
-    commonSettings,
     Dependencies.playScalaTest,
     excludeFilter in (Compile, headerSources) := {
       val orig = (excludeFilter in (Test, headerSources)).value
@@ -93,7 +87,6 @@ lazy val playInteropTestScala = Project(
   )
   .dependsOn(playSpecs2 % Test, playScalaTest % Test)
   .settings(Dependencies.playInteropTestScala)
-  .settings(commonSettings)
   .settings(
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator,
@@ -110,7 +103,6 @@ lazy val playInteropTestJava = Project(
   )
   .dependsOn(playSpecs2 % Test, playScalaTest % Test)
   .settings(Dependencies.playInteropTestJava)
-  .settings(commonSettings)
   .settings(
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
