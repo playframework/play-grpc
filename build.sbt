@@ -4,7 +4,8 @@ import build.play.grpc.ProjectExtensions.AddPluginTest
 ThisBuild / organization := "com.lightbend.play"
 
 ThisBuild / scalacOptions ++= List(
-  "-encoding", "utf8",
+  "-encoding",
+  "utf8",
   "-deprecation",
   "-feature",
   "-unchecked",
@@ -36,10 +37,9 @@ enablePlugins(build.play.grpc.NoPublish)
 unmanagedSources in (Compile, headerCreate) := ((baseDirectory.value / "project") ** "*.scala").get
 
 lazy val playTestdata = Project(
-    id="play-grpc-testdata",
-    base=file("play-testdata")
-  )
-  .settings(Dependencies.playTestdata)
+  id = "play-grpc-testdata",
+  base = file("play-testdata"),
+).settings(Dependencies.playTestdata)
   .settings(
     scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
     javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
@@ -55,10 +55,9 @@ lazy val playTestdata = Project(
   .pluginTestingSettings
 
 lazy val playTestkit = Project(
-    id="play-grpc-testkit",
-    base = file("play-testkit")
-  )
-  .dependsOn(playTestdata % "test")
+  id = "play-grpc-testkit",
+  base = file("play-testkit"),
+).dependsOn(playTestdata % "test")
   .settings(Dependencies.playTestkit)
   .pluginTestingSettings
 
@@ -82,10 +81,9 @@ val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
   .pluginTestingSettings
 
 lazy val playInteropTestScala = Project(
-    id="play-grpc-interop-test-scala",
-    base = file("play-interop-test-scala")
-  )
-  .dependsOn(playSpecs2 % Test, playScalaTest % Test)
+  id = "play-grpc-interop-test-scala",
+  base = file("play-interop-test-scala"),
+).dependsOn(playSpecs2 % Test, playScalaTest % Test)
   .settings(Dependencies.playInteropTestScala)
   .settings(
     akkaGrpcExtraGenerators ++= List(
@@ -98,10 +96,9 @@ lazy val playInteropTestScala = Project(
   .pluginTestingSettings
 
 lazy val playInteropTestJava = Project(
-    id="play-grpc-interop-test-java",
-    base = file("play-interop-test-java")
-  )
-  .dependsOn(playSpecs2 % Test, playScalaTest % Test)
+  id = "play-grpc-interop-test-java",
+  base = file("play-interop-test-java"),
+).dependsOn(playSpecs2 % Test, playScalaTest % Test)
   .settings(Dependencies.playInteropTestJava)
   .settings(
     akkaGrpcExtraGenerators ++= List(
@@ -113,17 +110,17 @@ lazy val playInteropTestJava = Project(
   .pluginTestingSettings
 
 lazy val docs = Project(
-    id = "play-grpc-docs",
-    base = file("docs"),
-  )
-  // Make sure code generation is ran:
+  id = "play-grpc-docs",
+  base = file("docs"),
+)
+// Make sure code generation is ran:
   .enablePlugins(AkkaParadoxPlugin)
   .enablePlugins(build.play.grpc.NoPublish)
   .settings(
     // Make sure code generation is ran before paradox:
-    (Compile / paradox) := ((Compile / paradox) dependsOn (Compile / compile)).value,
+    (Compile / paradox) := (Compile / paradox).dependsOn(Compile / compile).value,
     paradoxGroups := Map(
-      "Language" -> Seq("Scala", "Java"),
+      "Language"  -> Seq("Scala", "Java"),
       "Buildtool" -> Seq("sbt", "Gradle", "Maven"),
     ),
     paradoxProperties ++= Map(

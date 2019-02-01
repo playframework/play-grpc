@@ -1,7 +1,6 @@
 /*
  * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
  */
-
 package play.grpc.testkit
 
 import java.util.concurrent.TimeUnit
@@ -11,10 +10,12 @@ import akka.grpc.internal.AkkaGrpcClientFactory
 import akka.grpc.scaladsl.AkkaGrpcClient
 import akka.stream.Materializer
 import play.api.Application
-import play.core.server.{ ServerEndpoint, ServerEndpoints }
+import play.core.server.ServerEndpoint
+import play.core.server.ServerEndpoints
 
 import scala.concurrent.duration.Duration
-import scala.concurrent.{ Await, ExecutionContext }
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext
 import scala.reflect.ClassTag
 
 /**
@@ -39,7 +40,8 @@ trait AkkaGrpcClientHelpers {
   final class WithGrpcClient[T <: AkkaGrpcClient] {
     def apply[U](f: T => U)(implicit factory: AkkaGrpcClientFactory.Configured[T]): U = {
       val client = grpcClient[T]
-      try f(client) finally {
+      try f(client)
+      finally {
         Await.result(client.close(), grpcClientCloseTimeout)
         ()
       }
@@ -59,19 +61,26 @@ trait AkkaGrpcClientHelpers {
 }
 
 object AkkaGrpcClientHelpers {
+
   /**
    * Configure a factory from an application and some server endpoints. Expects to have exactly one HTTP/2 endpoint.
    */
-  def factoryForAppEndpoints[T <: AkkaGrpcClient: ClassTag](app: Application, serverEndpoints: ServerEndpoints): AkkaGrpcClientFactory.Configured[T] = {
+  def factoryForAppEndpoints[T <: AkkaGrpcClient: ClassTag](
+      app: Application,
+      serverEndpoints: ServerEndpoints,
+  ): AkkaGrpcClientFactory.Configured[T] = {
     factoryForAppEndpoints(app, JavaAkkaGrpcClientHelpers.getHttp2Endpoint(serverEndpoints))
   }
 
   /**
    * Configure a factory from an application and a server endpoints.
    */
-  def factoryForAppEndpoints[T <: AkkaGrpcClient: ClassTag](app: Application, serverEndpoint: ServerEndpoint): AkkaGrpcClientFactory.Configured[T] = {
-    implicit val sys: ActorSystem = app.actorSystem
-    implicit val materializer: Materializer = app.materializer
+  def factoryForAppEndpoints[T <: AkkaGrpcClient: ClassTag](
+      app: Application,
+      serverEndpoint: ServerEndpoint,
+  ): AkkaGrpcClientFactory.Configured[T] = {
+    implicit val sys: ActorSystem                   = app.actorSystem
+    implicit val materializer: Materializer         = app.materializer
     implicit val executionContext: ExecutionContext = sys.dispatcher
     AkkaGrpcClientFactory.configure[T](JavaAkkaGrpcClientHelpers.grpcClientSettings(serverEndpoint, sys))
   }
