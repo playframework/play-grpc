@@ -4,14 +4,17 @@
 
 package build.play.grpc
 
-import sbt._, Keys._
-import de.heikoseeberger.sbtheader.{ CommentCreator, CommentStyle, HeaderPlugin }
+import sbt._
+import Keys._
+import de.heikoseeberger.sbtheader.CommentCreator
+import de.heikoseeberger.sbtheader.CommentStyle
+import de.heikoseeberger.sbtheader.HeaderPlugin
 
 object CopyrightHeader extends AutoPlugin {
   import HeaderPlugin.autoImport._
 
   override def requires = HeaderPlugin
-  override def trigger = allRequirements
+  override def trigger  = allRequirements
 
   override def buildSettings = Seq(headerEmptyLine := false)
 
@@ -21,14 +24,14 @@ object CopyrightHeader extends AutoPlugin {
         Seq(
           headerLicense := Some(HeaderLicense.Custom(headerFor(CurrentYear))),
           headerMappings := headerMappings.value ++ Map(
-            HeaderFileType.scala       -> cStyleComment,
-            HeaderFileType.java        -> cStyleComment,
+            HeaderFileType.scala  -> cStyleComment,
+            HeaderFileType.java   -> cStyleComment,
             HeaderFileType("txt") -> twirlStyleBlockComment,
           ),
-          unmanagedResourceDirectories in headerCreate += baseDirectory.value / "src" / "main" / "twirl"
-        )
+          unmanagedResourceDirectories in headerCreate += baseDirectory.value / "src" / "main" / "twirl",
+        ),
       )
-    }
+    },
   )
 
   val CurrentYear = java.time.Year.now.getValue.toString

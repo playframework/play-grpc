@@ -1,13 +1,13 @@
 /*
  * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
  */
-
 package play.grpc.scalatest
 
 import akka.grpc.internal.AkkaGrpcClientFactory
 import akka.grpc.scaladsl.AkkaGrpcClient
 import play.api.Application
-import play.api.test.{ DefaultTestServerFactory, RunningServer }
+import play.api.test.DefaultTestServerFactory
+import play.api.test.RunningServer
 import scala.reflect.ClassTag
 import org.scalatest.TestData
 import org.scalatestplus.play.BaseOneServerPerTest
@@ -21,11 +21,13 @@ import play.grpc.testkit.AkkaGrpcClientHelpers
 trait ServerGrpcClient extends AkkaGrpcClientHelpers { this: BaseOneServerPerTest =>
 
   /** Configure the factory by combining the current app and server information */
-  implicit def configuredAkkaGrpcClientFactory[T <: AkkaGrpcClient: ClassTag](implicit running: RunningServer): AkkaGrpcClientFactory.Configured[T] = {
+  implicit def configuredAkkaGrpcClientFactory[T <: AkkaGrpcClient: ClassTag](
+      implicit running: RunningServer,
+  ): AkkaGrpcClientFactory.Configured[T] = {
     AkkaGrpcClientHelpers.factoryForAppEndpoints(running.app, running.endpoints)
   }
 
-  override protected def newServerForTest(app: Application, testData: TestData): RunningServer =
+  protected override def newServerForTest(app: Application, testData: TestData): RunningServer =
     DefaultTestServerFactory.start(app)
 
 }

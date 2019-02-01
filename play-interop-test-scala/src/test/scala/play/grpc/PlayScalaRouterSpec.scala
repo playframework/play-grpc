@@ -1,7 +1,6 @@
 /*
  * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
  */
-
 package play.grpc
 
 import scala.concurrent.duration._
@@ -11,21 +10,27 @@ import akka.stream.ActorMaterializer
 import play.api.libs.typedmap.TypedMap
 import play.api.mvc.akkahttp.AkkaHttpHandler
 import play.api.mvc.Headers
-import play.api.mvc.request.{ RemoteConnection, RequestFactory, RequestTarget }
+import play.api.mvc.request.RemoteConnection
+import play.api.mvc.request.RequestFactory
+import play.api.mvc.request.RequestTarget
 import controllers.GreeterServiceImpl
 import example.myapp.helloworld.grpc.helloworld._
 import GreeterServiceMarshallers._
-import akka.grpc.{ Grpc, ProtobufSerializer }
+import akka.grpc.Grpc
+import akka.grpc.ProtobufSerializer
 import akka.http.scaladsl.model.HttpEntity.Chunk
-import akka.stream.scaladsl.{ Sink, Source }
+import akka.stream.scaladsl.Sink
+import akka.stream.scaladsl.Source
 import akka.util.ByteString
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.{ BeforeAndAfterAll, Matchers, WordSpec }
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.Matchers
+import org.scalatest.WordSpec
 
 class PlayScalaRouterSpec extends WordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
-  implicit val sys = ActorSystem()
-  implicit val mat = ActorMaterializer()
-  implicit val ec = sys.dispatcher
+  implicit val sys      = ActorSystem()
+  implicit val mat      = ActorMaterializer()
+  implicit val ec       = sys.dispatcher
   implicit val patience = PatienceConfig(timeout = 3.seconds, interval = 15.milliseconds)
 
   val router = new GreeterServiceImpl
@@ -42,8 +47,8 @@ class PlayScalaRouterSpec extends WordSpec with Matchers with BeforeAndAfterAll 
 
       val name = "John"
 
-      val handler = router.routes(playRequestFor(uri)).asInstanceOf[AkkaHttpHandler]
-      val request = akkaHttpRequestFor(uri, HelloRequest(name))
+      val handler  = router.routes(playRequestFor(uri)).asInstanceOf[AkkaHttpHandler]
+      val request  = akkaHttpRequestFor(uri, HelloRequest(name))
       val response = handler(request).futureValue
       response.status shouldBe StatusCodes.OK
 
@@ -63,19 +68,30 @@ class PlayScalaRouterSpec extends WordSpec with Matchers with BeforeAndAfterAll 
     }
 
     def akkaHttpRequestFor[T](uri: Uri, msg: T)(implicit serializer: ProtobufSerializer[T]) = {
-      HttpRequest(uri = uri, entity = HttpEntity.Chunked(Grpc.contentType, Source.single(msg).map(serializer.serialize).via(Grpc.grpcFramingEncoder).map(Chunk(_))))
+      HttpRequest(
+        uri = uri,
+        entity = HttpEntity.Chunked(
+          Grpc.contentType,
+          Source.single(msg).map(serializer.serialize).via(Grpc.grpcFramingEncoder).map(Chunk(_)),
+        ),
+      )
     }
     def akkaHttpResponse[T](response: HttpResponse)(implicit deserializer: ProtobufSerializer[T]) =
-      response.entity.dataBytes.via(Grpc.grpcFramingDecoder).runWith(Sink.reduce[ByteString](_ ++ _)).map(deserializer.deserialize)
+      response.entity.dataBytes
+        .via(Grpc.grpcFramingDecoder)
+        .runWith(Sink.reduce[ByteString](_ ++ _))
+        .map(deserializer.deserialize)
 
-    def playRequestFor(uri: Uri) = RequestFactory.plain.createRequest(
-      RemoteConnection(uri.authority.host.address, secure = false, clientCertificateChain = None),
-      "GET",
-      RequestTarget(uri.toString, uri.path.toString, queryString = Map.empty),
-      version = "42",
-      Headers(),
-      attrs = TypedMap.empty,
-      body = ())
+    def playRequestFor(uri: Uri) =
+      RequestFactory.plain.createRequest(
+        RemoteConnection(uri.authority.host.address, secure = false, clientCertificateChain = None),
+        "GET",
+        RequestTarget(uri.toString, uri.path.toString, queryString = Map.empty),
+        version = "42",
+        Headers(),
+        attrs = TypedMap.empty,
+        body = (),
+      )
   }
 
   override def afterAll(): Unit = {
