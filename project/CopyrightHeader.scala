@@ -4,14 +4,19 @@
 
 package build.play.grpc
 
-import sbt._, Keys._
-import de.heikoseeberger.sbtheader.{ CommentCreator, HeaderPlugin }
+import sbt._
+import Keys._
+import de.heikoseeberger.sbtheader.CommentCreator
+import de.heikoseeberger.sbtheader.CommentStyle
+import de.heikoseeberger.sbtheader.HeaderPlugin
 
 object CopyrightHeader extends AutoPlugin {
   import HeaderPlugin.autoImport._
 
   override def requires = HeaderPlugin
-  override def trigger = allRequirements
+  override def trigger  = allRequirements
+
+  override def buildSettings = Seq(headerEmptyLine := false)
 
   override def projectSettings = Def.settings(
     Seq(Compile, Test).flatMap { config =>
@@ -19,44 +24,45 @@ object CopyrightHeader extends AutoPlugin {
         Seq(
           headerLicense := Some(HeaderLicense.Custom(headerFor(CurrentYear))),
           headerMappings := headerMappings.value ++ Map(
-            HeaderFileType.scala       -> cStyleComment,
-            HeaderFileType.java        -> cStyleComment,
+            HeaderFileType.scala  -> cStyleComment,
+            HeaderFileType.java   -> cStyleComment,
             HeaderFileType("txt") -> twirlStyleBlockComment,
           ),
-          unmanagedResourceDirectories in headerCreate += baseDirectory.value / "src" / "main" / "twirl"
-        )
+          unmanagedResourceDirectories in headerCreate += baseDirectory.value / "src" / "main" / "twirl",
+        ),
       )
-    }
+    },
   )
 
   val CurrentYear = java.time.Year.now.getValue.toString
-  val CopyrightPattern = "Copyright \\([Cc]\\) (\\d{4}(-\\d{4})?) (Lightbend|Typesafe) Inc. <.*>".r
+  val CopyrightPattern =
+    "Copyright \\([Cc]\\) (\\d{4}(-\\d{4})?) (?:Lightbend|Typesafe) Inc. <.*>".r
   val CopyrightHeaderPattern = s"(?s).*${CopyrightPattern}.*".r
 
-  def headerFor(year: String): String =
-    s"Copyright (C) $year Lightbend Inc. <https://www.lightbend.com>"
+  def headerFor(yearRange: String): String =
+    s"Copyright (C) $yearRange Lightbend Inc. <https://www.lightbend.com>"
 
-  private def lightbendCommentCreator(commentCreator: CommentCreator) = new CommentCreator() {
-
-    def updateLightbendHeader(header: String): String = header match {
-      case CopyrightHeaderPattern(years, null, _) =>
-        if (years != CurrentYear)
-          CopyrightPattern.replaceFirstIn(header, headerFor(years + "-" + CurrentYear))
-        else
-          CopyrightPattern.replaceFirstIn(header, headerFor(years))
-      case CopyrightHeaderPattern(years, endYears, _) =>
-        CopyrightPattern.replaceFirstIn(header, headerFor(years.replace(endYears, "-" + CurrentYear)))
-      case _ =>
-        header
+  /** Updates the year range in the Lightbend copyright line */
+  private class LightbendCommentCreator(commentCreator: CommentCreator) extends CommentCreator {
+    private def updatedYearRange(header: String): Option[String] = PartialFunction.condOpt(header) {
+      case CopyrightHeaderPattern(CurrentYear, null) => CurrentYear
+      case CopyrightHeaderPattern(years, null)       => years + "-" + CurrentYear
+      case CopyrightHeaderPattern(years, endYears)   => years.replace(endYears, "-" + CurrentYear)
     }
 
     override def apply(text: String, existingText: Option[String]): String = {
+      val newText = commentCreator(text, existingText)
       existingText
-        .map(updateLightbendHeader)
-        .getOrElse(commentCreator(text, existingText))
+        .flatMap(updatedYearRange)
+        .map(yearRange => CopyrightPattern.replaceFirstIn(newText, headerFor(yearRange)))
+        .getOrElse(newText)
         .trim
     }
   }
-  val cStyleComment = HeaderCommentStyle.cStyleBlockComment.copy(commentCreator = lightbendCommentCreator(HeaderCommentStyle.cStyleBlockComment.commentCreator))
-  val twirlStyleBlockComment = HeaderCommentStyle.twirlStyleBlockComment.copy(commentCreator = lightbendCommentCreator(HeaderCommentStyle.twirlStyleBlockComment.commentCreator))
+
+  private def updateCommentCreator(style: CommentStyle) =
+    style.copy(commentCreator = new LightbendCommentCreator(style.commentCreator))
+
+  val cStyleComment          = updateCommentCreator(HeaderCommentStyle.cStyleBlockComment)
+  val twirlStyleBlockComment = updateCommentCreator(HeaderCommentStyle.twirlStyleBlockComment)
 }

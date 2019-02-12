@@ -1,7 +1,6 @@
 /*
  * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
  */
-
 package example.myapp.helloworld.grpc;
 
 import akka.stream.Materializer;
@@ -14,7 +13,10 @@ import java.util.concurrent.CompletionStage;
 /** User implementation, with support for dependency injection etc */
 @Singleton
 public class GreeterServiceImpl extends AbstractGreeterServiceRouter {
-  @Inject public GreeterServiceImpl(final Materializer mat) { super(mat); }
+  @Inject
+  public GreeterServiceImpl(final Materializer mat) {
+    super(mat);
+  }
 
   @Override
   public CompletionStage<HelloReply> sayHello(final HelloRequest in) {

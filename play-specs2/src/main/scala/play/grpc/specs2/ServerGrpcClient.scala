@@ -1,7 +1,6 @@
 /*
  * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
  */
-
 package play.grpc.specs2
 
 import scala.reflect.ClassTag
@@ -19,7 +18,9 @@ import play.grpc.testkit.AkkaGrpcClientHelpers
 trait ServerGrpcClient extends AkkaGrpcClientHelpers {
 
   /** Configure the factory by combining the app and the current implicit server information */
-  implicit def configuredAkkaGrpcClientFactory[T <: AkkaGrpcClient: ClassTag](implicit running: RunningServer): AkkaGrpcClientFactory.Configured[T] = {
+  implicit def configuredAkkaGrpcClientFactory[T <: AkkaGrpcClient: ClassTag](
+      implicit running: RunningServer,
+  ): AkkaGrpcClientFactory.Configured[T] = {
     AkkaGrpcClientHelpers.factoryForAppEndpoints(running.app, running.endpoints)
   }
 

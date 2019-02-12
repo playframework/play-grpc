@@ -1,7 +1,6 @@
-/**
+/*
  * Copyright (C) 2009-2019 Lightbend Inc. <https://www.lightbend.com>
  */
-
 // #using-client
 package controllers;
 
@@ -25,14 +24,9 @@ public class MyController extends Controller {
   }
 
   public CompletionStage<Result> sayHello(String name) {
-    return greeterServiceClient.sayHello(
-        HelloRequest.newBuilder()
-            .setName(name)
-            .build()
-    ).thenApply(response ->
-      ok("response: " + response.getMessage())
-    );
+    return greeterServiceClient
+        .sayHello(HelloRequest.newBuilder().setName(name).build())
+        .thenApply(response -> ok("response: " + response.getMessage()));
   };
-
 }
 // #using-client
