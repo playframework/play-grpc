@@ -1,7 +1,6 @@
 /*
  * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
  */
-
 package play.grpc.testkit;
 
 import akka.grpc.GrpcClientSettings;
@@ -35,8 +34,7 @@ public final class PlayJavaFunctionalTest {
 
   @Before
   public void startServer() throws Exception {
-    if (runningServer != null)
-      runningServer.stopServer().close();
+    if (runningServer != null) runningServer.stopServer().close();
     app = provideApplication();
     final play.api.Application app = this.app.asScala();
     runningServer = testServerFactory.start(app);
@@ -57,26 +55,33 @@ public final class PlayJavaFunctionalTest {
     return wsClient.url(url).get().toCompletableFuture().get();
   }
 
-  @Test public void returns404OnNonGrpcRequest() throws Exception {
+  @Test
+  public void returns404OnNonGrpcRequest() throws Exception {
     assertEquals(404, wsGet("/").getStatus()); // Maybe should be a 426, see #396
   }
 
-  @Test public void returns200OnNonExistentGrpcMethod() throws Exception {
+  @Test
+  public void returns200OnNonExistentGrpcMethod() throws Exception {
     final WSResponse rsp = wsGet("/" + GreeterService.name + "/FooBar");
     assertEquals(200, rsp.getStatus()); // Maybe should be a 426, see #396
   }
 
-  @Test public void returns200OnEmptyRequestToAGrpcMethod() throws Exception {
+  @Test
+  public void returns200OnEmptyRequestToAGrpcMethod() throws Exception {
     final WSResponse rsp = wsGet("/" + GreeterService.name + "/SayHello");
     assertEquals(200, rsp.getStatus()); // Maybe should be a 426, see #396
   }
 
-  @Test public void worksWithAGrpcClient() throws Exception {
+  @Test
+  public void worksWithAGrpcClient() throws Exception {
     final HelloRequest req = HelloRequest.newBuilder().setName("Alice").build();
     final GrpcClientSettings grpcClientSettings =
         JavaAkkaGrpcClientHelpers.grpcClientSettings(runningServer);
-    final GreeterServiceClient greeterServiceClient = GreeterServiceClient.create(
-        grpcClientSettings, app.asScala().materializer(), app.asScala().actorSystem().dispatcher());
+    final GreeterServiceClient greeterServiceClient =
+        GreeterServiceClient.create(
+            grpcClientSettings,
+            app.asScala().materializer(),
+            app.asScala().actorSystem().dispatcher());
     try {
       final HelloReply helloReply = greeterServiceClient.sayHello(req).toCompletableFuture().get();
       assertEquals("Hello, Alice!", helloReply.getMessage());
@@ -84,5 +89,4 @@ public final class PlayJavaFunctionalTest {
       greeterServiceClient.close().toCompletableFuture().get(30, TimeUnit.SECONDS);
     }
   }
-
 }

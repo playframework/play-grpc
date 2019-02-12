@@ -1,7 +1,6 @@
 /*
  * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
  */
-
 // #service-impl
 package controllers;
 
@@ -30,6 +29,5 @@ public class GreeterServiceImpl extends AbstractGreeterServiceRouter {
     HelloReply reply = HelloReply.newBuilder().setMessage(message).build();
     return CompletableFuture.completedFuture(reply);
   }
-
 }
 // #service-impl

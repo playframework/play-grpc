@@ -4,7 +4,8 @@ import build.play.grpc.ProjectExtensions.AddPluginTest
 ThisBuild / organization := "com.lightbend.play"
 
 ThisBuild / scalacOptions ++= List(
-  "-encoding", "utf8",
+  "-encoding",
+  "utf8",
   "-deprecation",
   "-feature",
   "-unchecked",
@@ -21,8 +22,6 @@ ThisBuild / javacOptions ++= List(
   "-Xlint:deprecation",
 )
 
-val commonSettings = build.play.grpc.Formatting.formatSettings
-
 val playGrpc = Project("play-grpc", file("."))
 aggregateProjects(
   playInteropTestJava,
@@ -38,11 +37,9 @@ enablePlugins(build.play.grpc.NoPublish)
 unmanagedSources in (Compile, headerCreate) := ((baseDirectory.value / "project") ** "*.scala").get
 
 lazy val playTestdata = Project(
-    id="play-grpc-testdata",
-    base=file("play-testdata")
-  )
-  .settings(Dependencies.playTestdata)
-  .settings(commonSettings)
+  id = "play-grpc-testdata",
+  base = file("play-testdata"),
+).settings(Dependencies.playTestdata)
   .settings(
     scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
     javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
@@ -58,18 +55,15 @@ lazy val playTestdata = Project(
   .pluginTestingSettings
 
 lazy val playTestkit = Project(
-    id="play-grpc-testkit",
-    base = file("play-testkit")
-  )
-  .dependsOn(playTestdata % "test")
+  id = "play-grpc-testkit",
+  base = file("play-testkit"),
+).dependsOn(playTestdata % "test")
   .settings(Dependencies.playTestkit)
-  .settings(commonSettings)
   .pluginTestingSettings
 
 val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
   .dependsOn(playTestkit, playTestkit % "test->test")
   .settings(
-    commonSettings,
     Dependencies.playSpecs2,
   )
   .pluginTestingSettings
@@ -77,7 +71,6 @@ val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
 val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
   .dependsOn(playTestkit, playTestkit % "test->test")
   .settings(
-    commonSettings,
     Dependencies.playScalaTest,
     excludeFilter in (Compile, headerSources) := {
       val orig = (excludeFilter in (Test, headerSources)).value
@@ -88,12 +81,10 @@ val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
   .pluginTestingSettings
 
 lazy val playInteropTestScala = Project(
-    id="play-grpc-interop-test-scala",
-    base = file("play-interop-test-scala")
-  )
-  .dependsOn(playSpecs2 % Test, playScalaTest % Test)
+  id = "play-grpc-interop-test-scala",
+  base = file("play-interop-test-scala"),
+).dependsOn(playSpecs2 % Test, playScalaTest % Test)
   .settings(Dependencies.playInteropTestScala)
-  .settings(commonSettings)
   .settings(
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator,
@@ -105,12 +96,10 @@ lazy val playInteropTestScala = Project(
   .pluginTestingSettings
 
 lazy val playInteropTestJava = Project(
-    id="play-grpc-interop-test-java",
-    base = file("play-interop-test-java")
-  )
-  .dependsOn(playSpecs2 % Test, playScalaTest % Test)
+  id = "play-grpc-interop-test-java",
+  base = file("play-interop-test-java"),
+).dependsOn(playSpecs2 % Test, playScalaTest % Test)
   .settings(Dependencies.playInteropTestJava)
-  .settings(commonSettings)
   .settings(
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
@@ -121,17 +110,17 @@ lazy val playInteropTestJava = Project(
   .pluginTestingSettings
 
 lazy val docs = Project(
-    id = "play-grpc-docs",
-    base = file("docs"),
-  )
-  // Make sure code generation is ran:
+  id = "play-grpc-docs",
+  base = file("docs"),
+)
+// Make sure code generation is ran:
   .enablePlugins(AkkaParadoxPlugin)
   .enablePlugins(build.play.grpc.NoPublish)
   .settings(
     // Make sure code generation is ran before paradox:
-    (Compile / paradox) := ((Compile / paradox) dependsOn (Compile / compile)).value,
+    (Compile / paradox) := (Compile / paradox).dependsOn(Compile / compile).value,
     paradoxGroups := Map(
-      "Language" -> Seq("Scala", "Java"),
+      "Language"  -> Seq("Scala", "Java"),
       "Buildtool" -> Seq("sbt", "Gradle", "Maven"),
     ),
     paradoxProperties ++= Map(

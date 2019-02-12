@@ -1,10 +1,10 @@
 /*
  * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
  */
-
 package play.grpc.scalatest
 
-import org.scalatest.concurrent.{ IntegrationPatience, ScalaFutures }
+import org.scalatest.concurrent.IntegrationPatience
+import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneServerPerTest
 import play.api.Application
@@ -17,8 +17,12 @@ import example.myapp.helloworld.grpc.helloworld._
 /**
  * Test for the Play gRPC ScalaTest APIs
  */
-class PlayScalaTestSpec extends PlaySpec with GuiceOneServerPerTest with ServerGrpcClient
-  with ScalaFutures with IntegrationPatience {
+class PlayScalaTestSpec
+    extends PlaySpec
+    with GuiceOneServerPerTest
+    with ServerGrpcClient
+    with ScalaFutures
+    with IntegrationPatience {
 
   override def fakeApplication(): Application = {
     GuiceApplicationBuilder()
