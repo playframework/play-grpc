@@ -1,6 +1,7 @@
 language: scala
 jdk: oraclejdk8
 scala: 2.12.8
+before_install: curl -Lo coursier https://git.io/coursier-cli && chmod +x coursier
 
 # make sure to fetch enough commits, so that git describe still works
 git:
@@ -8,7 +9,9 @@ git:
 
 jobs:
   include:
-    - script: sbt test headerCheck test:headerCheck
+    - script:
+      - ./coursier launch org.scalameta:scalafmt-cli_2.12:2.0.0-RC4 -- --test
+      - sbt test headerCheck test:headerCheck
 #   - stage: whitesource-master
 #     script: git branch -f "$TRAVIS_BRANCH" && git checkout "$TRAVIS_BRANCH" && sbt whitesourceCheckPolicies whitesourceUpdate
 #   - stage: whitesource-release
