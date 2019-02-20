@@ -27,6 +27,8 @@ aggregateProjects(
   playInteropTestJava,
   playInteropTestScala,
   playTestkit,
+  lagomScaladslGrpcTestKit,
+  lagomJavadslGrpcTestKit,
   playSpecs2,
   playScalaTest,
   playTestdata,
@@ -59,6 +61,20 @@ lazy val playTestkit = Project(
   base = file("play-testkit"),
 ).dependsOn(playTestdata % "test")
   .settings(Dependencies.playTestkit)
+  .pluginTestingSettings
+
+lazy val lagomJavadslGrpcTestKit = Project(
+  id = "lagom-javadsl-grpc-testkit",
+  base = file("lagom-javadsl-grpc-testkit"),
+).dependsOn(playTestdata % "test")
+  .settings(Dependencies.lagomJavadslGrpcTestKit)
+  .pluginTestingSettings
+
+lazy val lagomScaladslGrpcTestKit = Project(
+  id = "lagom-scaladsl-grpc-testkit",
+  base = file("lagom-scaladsl-grpc-testkit"),
+).dependsOn(playTestdata % "test")
+  .settings(Dependencies.lagomScaladslGrpcTestKit)
   .pluginTestingSettings
 
 val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))

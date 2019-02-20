@@ -8,7 +8,8 @@ object Dependencies {
   object Versions {
     val akkaGrpc = "0.4.2" // TODO: obtain via sbt-akka-grpc?
 
-    val play = "2.7.0"
+    val play  = "2.7.0"
+    val lagom = "1.5.0-RC1"
 
     val grpc = "1.15.0" // needs to be in sync with akkaGrpc version?
 
@@ -31,6 +32,9 @@ object Dependencies {
     val playSpecs2           = "com.typesafe.play" %% "play-specs2"             % Versions.play // Apache V2
 
     val scalaTestPlusPlay = "org.scalatestplus.play" %% "scalatestplus-play" % Versions.scalaTestPlusPlay // Apache V2
+
+    val lagomJavadslTestKit  = "com.lightbend.lagom" %% "lagom-javadsl-testkit"  % Versions.lagom
+    val lagomScaladslTestKit = "com.lightbend.lagom" %% "lagom-scaladsl-testkit" % Versions.lagom
   }
 
   object Test {
@@ -63,6 +67,14 @@ object Dependencies {
     Compile.play,
     Compile.playTest,
     Test.playAhcWs,
+  )
+
+  val lagomJavadslGrpcTestKit = l ++= Seq(
+    Compile.lagomJavadslTestKit,
+  )
+
+  val lagomScaladslGrpcTestKit = l ++= Seq(
+    Compile.lagomScaladslTestKit,
   )
 
   val playSpecs2    = l += Compile.playSpecs2
