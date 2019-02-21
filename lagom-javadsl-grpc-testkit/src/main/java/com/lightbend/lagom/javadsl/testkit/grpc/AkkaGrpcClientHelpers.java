@@ -55,6 +55,37 @@ public class AkkaGrpcClientHelpers {
       Function3<GrpcClientSettings, Materializer, ExecutionContext, T> clientFactory,
       Function<T, Result> block)
       throws Exception {
+    T grpcClient = null;
+    Result result = null;
+
+    try {
+      grpcClient = grpcClient(server, clientFactory);
+      result = block.apply(grpcClient);
+    } finally {
+      if (grpcClient != null) {
+        // TODO: return the CompletionStage<Done> produce by `close`
+        grpcClient.close();
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Builds an <code>AkkaGrpcClient</code> for the <code>server</code> run during tests. The <code>
+   * server</code> must run with SSL enabled, otherwise the creation of a client will fail.
+   *
+   * <p>The returned `client` must be stopped (in an `@AfterAll` method, for example).
+   *
+   * @param server the <code>ServiceTest.TestServer</code> started to run the tests on
+   * @param clientFactory a factory method as create by the Akka gRPC code generators
+   * @param <T>
+   * @throws IllegalArgumentException if the <code>server</code> is not setup with SSL enabled
+   */
+  public static <T extends AkkaGrpcClient> T grpcClient(
+      ServiceTest.TestServer server,
+      Function3<GrpcClientSettings, Materializer, ExecutionContext, T> clientFactory)
+      throws Exception {
 
     if (!server.portSsl().isPresent())
       throw new IllegalArgumentException(
@@ -70,19 +101,6 @@ public class AkkaGrpcClientHelpers {
             // this value will have to be configurable
             .withOverrideAuthority("localhost");
 
-    T grpcClient = null;
-    Result result = null;
-
-    try {
-      grpcClient =
-          clientFactory.apply(settings, server.materializer(), server.system().dispatcher());
-      result = block.apply(grpcClient);
-    } finally {
-      if (grpcClient != null) {
-        grpcClient.close();
-      }
-    }
-
-    return result;
+    return clientFactory.apply(settings, server.materializer(), server.system().dispatcher());
   }
 }
