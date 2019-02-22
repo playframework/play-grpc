@@ -14,9 +14,7 @@ jobs:
     - script:
       - bin/scalafmt --test || travis_terminate 1
       - sbt test headerCheck test:headerCheck
-#   - stage: whitesource-master
-#     script: git branch -f "$TRAVIS_BRANCH" && git checkout "$TRAVIS_BRANCH" && sbt whitesourceCheckPolicies whitesourceUpdate
-#   - stage: whitesource-release
+#   - stage: whitesource
 #     script: git branch -f "$TRAVIS_BRANCH" && git checkout "$TRAVIS_BRANCH" && sbt whitesourceCheckPolicies whitesourceUpdate
     - stage: publish
       script: sbt +publish
@@ -26,10 +24,8 @@ jobs:
 stages:
   - name: test
     if: NOT tag =~ ^v
-# - name: whitesource-master
-#   if: repo = playframework/play-grpc AND branch = master AND type = push
-# - name: whitesource-release
-#   if: repo = playframework/play-grpc AND tag =~ ^v
+# - name: whitesource
+#   if: repo = playframework/akka-grpc AND ((branch = master AND type != pull_request) OR tag =~ ^v)
   - name: publish
     if: repo = playframework/play-grpc AND tag =~ ^v
   - name: techhub-ping
