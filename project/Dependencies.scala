@@ -6,6 +6,8 @@ import sbt.Keys._
 object Dependencies {
 
   object Versions {
+    val akka = "2.5.21"
+
     val akkaGrpc = "0.4.2" // TODO: obtain via sbt-akka-grpc?
 
     val play  = "2.7.0"
@@ -15,10 +17,14 @@ object Dependencies {
 
     val scalaTest         = "3.0.5"
     val scalaTestPlusPlay = "4.0.0"
+
+    val macwire = "2.3.0"
   }
 
   object Compile {
     val grpcStub = "io.grpc" % "grpc-stub" % Versions.grpc
+
+    val akkaStream       = "com.typesafe.akka"            %% "akka-stream"        % Versions.akka
 
     val akkaGrpcRuntime = "com.lightbend.akka.grpc" %% "akka-grpc-runtime" % Versions.akkaGrpc // Apache V2
 
@@ -35,6 +41,8 @@ object Dependencies {
 
     val lagomJavadslTestKit  = "com.lightbend.lagom" %% "lagom-javadsl-testkit"  % Versions.lagom
     val lagomScaladslTestKit = "com.lightbend.lagom" %% "lagom-scaladsl-testkit" % Versions.lagom
+
+    val macwire = "com.softwaremill.macwire" %% "macros" % Versions.macwire % "provided"
   }
 
   object Test {
@@ -69,14 +77,6 @@ object Dependencies {
     Test.playAhcWs,
   )
 
-  val lagomJavadslGrpcTestKit = l ++= Seq(
-    Compile.lagomJavadslTestKit,
-  )
-
-  val lagomScaladslGrpcTestKit = l ++= Seq(
-    Compile.lagomScaladslTestKit,
-  )
-
   val playSpecs2    = l += Compile.playSpecs2
   val playScalaTest = l += Compile.scalaTestPlusPlay
 
@@ -100,4 +100,34 @@ object Dependencies {
     Compile.playAkkaHttp2Support,
     Compile.playJava,
   ) ++ testing
+
+  val lagomJavadslGrpcTestKit = l ++= Seq(
+    Compile.lagomJavadslTestKit,
+  )
+
+  val lagomScaladslGrpcTestKit = l ++= Seq(
+    Compile.lagomScaladslTestKit,
+  )
+
+  val lagomInteropTestScala = l ++= Seq(
+    // TODO https://github.com/akka/akka-grpc/issues/193
+    Compile.grpcStub,
+    Compile.lagomScaladslTestKit,
+    Compile.playAkkaHttpServer,
+    Compile.playAkkaHttp2Support,
+    Compile.macwire,
+    // Used to force the akka version
+    Compile.akkaStream,
+  ) ++ testing
+
+  val lagomInteropTestJava = l ++= Seq(
+    // TODO https://github.com/akka/akka-grpc/issues/193
+    Compile.grpcStub,
+    Compile.lagomJavadslTestKit,
+    Compile.playAkkaHttpServer,
+    Compile.playAkkaHttp2Support,
+    // Used to force the akka version
+    Compile.akkaStream,
+  ) ++ testing
+
 }

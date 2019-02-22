@@ -25,6 +25,7 @@ object AkkaGrpcClientHelpers {
    */
   def withGrpcClient[T <: AkkaGrpcClient, Q](
       server: ServiceTest.TestServer[_],
+      // TODO: replace with AkkaGrpcClientFactory
       clientFactory: GrpcClientSettings => T,
       block: T => Q,
   ): Q = {
@@ -35,7 +36,7 @@ object AkkaGrpcClientHelpers {
       block(instance)
     } finally {
       if (instance != null) {
-        // TODO: return the Future<Done> produce by `close`
+        // TODO: Await until `close` completes (like play-scalatest and play-specs2)
         instance.close()
       }
     }
@@ -56,6 +57,7 @@ object AkkaGrpcClientHelpers {
   @throws[IllegalArgumentException]
   def grpcClient[T <: AkkaGrpcClient](
       server: ServiceTest.TestServer[_],
+      // TODO: replace with AkkaGrpcClientFactory
       clientFactory: GrpcClientSettings => T,
   ): T = {
 

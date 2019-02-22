@@ -29,6 +29,7 @@ public class AkkaGrpcClientHelpers {
    */
   public static <T extends AkkaGrpcClient> void withGrpcClient(
       ServiceTest.TestServer server,
+      // TODO: replace with AkkaGrpcClientFactory
       Function3<GrpcClientSettings, Materializer, ExecutionContext, T> clientFactory,
       Procedure<T> block)
       throws Exception {
@@ -52,6 +53,7 @@ public class AkkaGrpcClientHelpers {
    */
   public static <T extends AkkaGrpcClient, Result> Result withGrpcClient(
       ServiceTest.TestServer server,
+      // TODO: replace with AkkaGrpcClientFactory
       Function3<GrpcClientSettings, Materializer, ExecutionContext, T> clientFactory,
       Function<T, Result> block)
       throws Exception {
@@ -63,7 +65,7 @@ public class AkkaGrpcClientHelpers {
       result = block.apply(grpcClient);
     } finally {
       if (grpcClient != null) {
-        // TODO: return the CompletionStage<Done> produce by `close`
+        // TODO: Await until `close` completes (like play-scalatest and play-specs2)
         grpcClient.close();
       }
     }
@@ -84,6 +86,7 @@ public class AkkaGrpcClientHelpers {
    */
   public static <T extends AkkaGrpcClient> T grpcClient(
       ServiceTest.TestServer server,
+      // TODO: replace with AkkaGrpcClientFactory
       Function3<GrpcClientSettings, Materializer, ExecutionContext, T> clientFactory)
       throws Exception {
 
