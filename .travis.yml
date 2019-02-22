@@ -10,6 +10,7 @@ jobs:
   include:
     - script:
       - bin/scalafmt --test
+    - script:
       - sbt test headerCheck test:headerCheck
 #   - stage: whitesource-master
 #     script: git branch -f "$TRAVIS_BRANCH" && git checkout "$TRAVIS_BRANCH" && sbt whitesourceCheckPolicies whitesourceUpdate
