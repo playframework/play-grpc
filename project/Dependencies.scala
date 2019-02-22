@@ -54,6 +54,8 @@ object Dependencies {
     val scalaTest         = "org.scalatest"           %% "scalatest" % Versions.scalaTest % Test // Apache V2
     val scalaTestPlusPlay = Compile.scalaTestPlusPlay % Test
 
+    val junitInterface = "com.novocode" % "junit-interface" % "0.11" % "test"
+
   }
 
   private val l = libraryDependencies
@@ -121,6 +123,7 @@ object Dependencies {
   ) ++ testing
 
   val lagomInteropTestJava = l ++= Seq(
+    Test.junitInterface,
     // TODO https://github.com/akka/akka-grpc/issues/193
     Compile.grpcStub,
     Compile.lagomJavadslTestKit,

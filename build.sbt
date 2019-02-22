@@ -154,6 +154,12 @@ lazy val lagomInteropTestJava = Project(
 ).dependsOn(lagomJavadslGrpcTestKit % Test)
   .settings(Dependencies.lagomInteropTestJava)
   .settings(
+    akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Java),
+    akkaGrpcGeneratedSources :=
+      Seq(
+        AkkaGrpc.Server,
+        AkkaGrpc.Client // the client is only used in tests. See https://github.com/akka/akka-grpc/issues/410
+      ),
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
       akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,
