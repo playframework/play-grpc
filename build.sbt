@@ -116,14 +116,12 @@ lazy val playInteropTestJava = Project(
 lazy val lagomJavadslGrpcTestKit = Project(
   id = "lagom-javadsl-grpc-testkit",
   base = file("lagom-javadsl-grpc-testkit"),
-).settings(Dependencies.lagomJavadslGrpcTestKit)
-  .pluginTestingSettings
+).settings(Dependencies.lagomJavadslGrpcTestKit).pluginTestingSettings
 
 lazy val lagomScaladslGrpcTestKit = Project(
   id = "lagom-scaladsl-grpc-testkit",
   base = file("lagom-scaladsl-grpc-testkit"),
-).settings(Dependencies.lagomScaladslGrpcTestKit)
-  .pluginTestingSettings
+).settings(Dependencies.lagomScaladslGrpcTestKit).pluginTestingSettings
 
 lazy val lagomInteropTestScala = Project(
   id = "lagom-grpc-interop-test-scala",
@@ -135,7 +133,7 @@ lazy val lagomInteropTestScala = Project(
     akkaGrpcGeneratedSources :=
       Seq(
         AkkaGrpc.Server,
-        AkkaGrpc.Client,// the client is only used in tests. See https://github.com/akka/akka-grpc/issues/410
+        AkkaGrpc.Client, // the client is only used in tests. See https://github.com/akka/akka-grpc/issues/410
       ),
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator,
@@ -156,7 +154,7 @@ lazy val lagomInteropTestJava = Project(
     akkaGrpcGeneratedSources :=
       Seq(
         AkkaGrpc.Server,
-        AkkaGrpc.Client,// the client is only used in tests. See https://github.com/akka/akka-grpc/issues/410
+        AkkaGrpc.Client, // the client is only used in tests. See https://github.com/akka/akka-grpc/issues/410
       ),
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
