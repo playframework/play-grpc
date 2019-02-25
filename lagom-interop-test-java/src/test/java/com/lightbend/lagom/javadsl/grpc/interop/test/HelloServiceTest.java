@@ -6,8 +6,8 @@ package com.lightbend.lagom.javadsl.grpc.interop.test;
 import com.lightbend.lagom.javadsl.grpc.interop.GreeterServiceClient;
 import com.lightbend.lagom.javadsl.grpc.interop.HelloReply;
 import com.lightbend.lagom.javadsl.grpc.interop.HelloRequest;
-import com.lightbend.lagom.javadsl.testkit.grpc.AkkaGrpcClientHelpers;
 import com.lightbend.lagom.javadsl.grpc.interop.test.api.api.HelloService;
+import com.lightbend.lagom.javadsl.testkit.grpc.AkkaGrpcClientHelpers;
 import org.junit.Test;
 
 import static com.lightbend.lagom.javadsl.testkit.ServiceTest.defaultSetup;
@@ -34,6 +34,7 @@ public class HelloServiceTest {
     withServer(
         defaultSetup().withSsl(),
         server -> {
+          // #managed-client
           AkkaGrpcClientHelpers.withGrpcClient(
               server,
               GreeterServiceClient::create,
@@ -45,6 +46,29 @@ public class HelloServiceTest {
                         .get(5, SECONDS);
                 assertEquals("Hi Steve (gRPC)", reply.getMessage());
               });
+          // #managed-client
+        });
+  }
+
+  @Test
+  public void shouldSayHelloUsingUnmanagedGrpc() throws Exception {
+    withServer(
+        defaultSetup().withSsl(),
+        server -> {
+          // #unmanaged-client
+          GreeterServiceClient client =
+              AkkaGrpcClientHelpers.grpcClient(server, GreeterServiceClient::create);
+          try {
+            HelloReply reply =
+                client
+                    .sayHello(HelloRequest.newBuilder().setName("Steve").build())
+                    .toCompletableFuture()
+                    .get(5, SECONDS);
+            assertEquals("Hi Steve (gRPC)", reply.getMessage());
+          } finally {
+            client.close().toCompletableFuture().get(5, SECONDS);
+          }
+          // #unmanaged-client
         });
   }
 }
