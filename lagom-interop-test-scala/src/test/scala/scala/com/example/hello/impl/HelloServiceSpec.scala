@@ -1,17 +1,21 @@
 package scala.com.example.hello.impl
 
 import akka.stream.Materializer
-import com.lightbend.lagom.scaladsl.grpc.interop.helloworld.{ GreeterServiceClient, HelloRequest }
-import com.lightbend.lagom.scaladsl.grpc.interop.test.{ HelloApplication, HelloService }
+import com.lightbend.lagom.scaladsl.grpc.interop.helloworld.GreeterServiceClient
+import com.lightbend.lagom.scaladsl.grpc.interop.helloworld.HelloRequest
+import com.lightbend.lagom.scaladsl.grpc.interop.test.HelloApplication
+import com.lightbend.lagom.scaladsl.grpc.interop.test.HelloService
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
 import com.lightbend.lagom.scaladsl.testkit.ServiceTest
 import com.lightbend.lagom.scaladsl.testkit.grpc.AkkaGrpcClientHelpers
-import org.scalatest.{ AsyncWordSpec, BeforeAndAfterAll, Matchers }
+import org.scalatest.AsyncWordSpec
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.Matchers
 
 class HelloServiceSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll {
 
   private val server: ServiceTest.TestServer[HelloApplication with LocalServiceLocator] = ServiceTest.startServer(
-    ServiceTest.defaultSetup.withSsl(true)
+    ServiceTest.defaultSetup.withSsl(true),
   ) { ctx =>
     new HelloApplication(ctx) with LocalServiceLocator
   }
@@ -19,12 +23,12 @@ class HelloServiceSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAl
   val client: HelloService = server.serviceClient.implement[HelloService]
   val grpcClient: GreeterServiceClient = AkkaGrpcClientHelpers.grpcClient(
     server,
-    GreeterServiceClient.apply
+    GreeterServiceClient.apply,
   )
 
   implicit val mat: Materializer = server.materializer
 
-  override protected def afterAll(): Unit = {
+  protected override def afterAll(): Unit = {
     grpcClient.close()
     server.stop()
   }
@@ -40,8 +44,8 @@ class HelloServiceSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAl
     "say hello over gRPC" in {
       grpcClient
         .sayHello(HelloRequest("Alice"))
-        .map{
-          _.message should be ("Hi Alice! (gRPC)")
+        .map {
+          _.message should be("Hi Alice! (gRPC)")
         }
     }
 

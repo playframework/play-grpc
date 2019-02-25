@@ -5,8 +5,8 @@ import com.lightbend.lagom.scaladsl.api.ServiceCall
 import scala.concurrent.Future
 
 /**
-  * Implementation of the HelloService.
-  */
+ * Implementation of the HelloService.
+ */
 class HelloServiceImpl() extends HelloService {
 
   override def hello(id: String) = ServiceCall { _ =>

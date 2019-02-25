@@ -1,28 +1,28 @@
 package com.lightbend.lagom.scaladsl.grpc.interop.test
 
 import akka.NotUsed
-import com.lightbend.lagom.scaladsl.api.{ Service, ServiceCall }
+import com.lightbend.lagom.scaladsl.api.Service
+import com.lightbend.lagom.scaladsl.api.ServiceCall
 
 /**
-  * The Hello service interface.
-  * <p>
-  * This describes everything that Lagom needs to know about how to serve and
-  * consume the HelloService.
-  */
+ * The Hello service interface.
+ * <p>
+ * This describes everything that Lagom needs to know about how to serve and
+ * consume the HelloService.
+ */
 trait HelloService extends Service {
 
   /**
-    * Example: curl http://localhost:9000/api/hello/Alice
-    */
+   * Example: curl http://localhost:9000/api/hello/Alice
+   */
   def hello(id: String): ServiceCall[NotUsed, String]
 
-  override final def descriptor = {
+  final override def descriptor = {
     import Service._
     named("hello-srvc")
       .withCalls(
-        pathCall("/api/hello/:id", hello _)
+        pathCall("/api/hello/:id", hello _),
       )
       .withAutoAcl(true)
   }
 }
-
