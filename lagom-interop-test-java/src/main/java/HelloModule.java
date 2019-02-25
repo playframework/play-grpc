@@ -1,3 +1,6 @@
+/*
+ * Copyright (C) 2019 Lightbend Inc. <https://www.lightbend.com>
+ */
 import com.google.inject.AbstractModule;
 import com.lightbend.lagom.javadsl.server.ServiceGuiceSupport;
 import com.lightbend.lagom.scaladsl.grpc.interop.test.HelloGrpcServiceImpl;

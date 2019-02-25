@@ -1,3 +1,6 @@
+/*
+ * Copyright (C) 2019 Lightbend Inc. <https://www.lightbend.com>
+ */
 package com.lightbend.lagom.scaladsl.grpc.interop.test
 
 import akka.stream.Materializer
