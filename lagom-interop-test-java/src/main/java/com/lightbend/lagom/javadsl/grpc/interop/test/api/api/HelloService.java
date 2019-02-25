@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 Lightbend Inc. <https://www.lightbend.com>
  */
-package com.lightbend.lagom.scaladsl.grpc.interop.test.api;
+package com.lightbend.lagom.javadsl.grpc.interop.test.api.api;
 
 import akka.NotUsed;
 import com.lightbend.lagom.javadsl.api.Descriptor;

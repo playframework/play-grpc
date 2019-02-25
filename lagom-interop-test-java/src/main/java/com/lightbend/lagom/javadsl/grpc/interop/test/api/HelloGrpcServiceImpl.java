@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 Lightbend Inc. <https://www.lightbend.com>
  */
-package com.lightbend.lagom.scaladsl.grpc.interop.test;
+package com.lightbend.lagom.javadsl.grpc.interop.test.api;
 
 import akka.stream.Materializer;
 import com.lightbend.lagom.javadsl.grpc.interop.AbstractGreeterServiceRouter;
