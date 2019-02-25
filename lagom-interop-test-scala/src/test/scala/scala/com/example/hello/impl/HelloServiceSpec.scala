@@ -51,7 +51,7 @@ class HelloServiceAsyncSpec extends AsyncWordSpec with Matchers with BeforeAndAf
       }
     }
 
-    // #unmanaged-client
+    // #unmanaged-client-test
     "say hello over gRPC (unmnanaged client)" in {
       grpcClient
         .sayHello(HelloRequest("Alice"))
@@ -59,7 +59,7 @@ class HelloServiceAsyncSpec extends AsyncWordSpec with Matchers with BeforeAndAf
           _.message should be("Hi Alice! (gRPC)")
         }
     }
-    // #unmanaged-client
+    // #unmanaged-client-test
 
   }
 
@@ -80,8 +80,6 @@ class HelloServiceSpec extends WordSpec with Matchers with BeforeAndAfterAll {
   protected override def afterAll(): Unit = {
     server.stop()
   }
-
-  // #unmanaged-client
 
   "Hello service (Sync)" should {
 

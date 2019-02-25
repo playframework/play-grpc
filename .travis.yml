@@ -11,6 +11,7 @@ jobs:
     - script:
       - bin/scalafmt --test
       - sbt test headerCheck test:headerCheck
+      - sbt paradox
 #   - stage: whitesource-master
 #     script: git branch -f "$TRAVIS_BRANCH" && git checkout "$TRAVIS_BRANCH" && sbt whitesourceCheckPolicies whitesourceUpdate
 #   - stage: whitesource-release
