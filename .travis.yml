@@ -1,20 +1,21 @@
 language: scala
-jdk: oraclejdk8
 scala: 2.12.8
 
 # make sure to fetch enough commits, so that git describe still works
 git:
   depth: false
 
+
+before_install: curl -Ls https://git.io/jabba | bash && . ~/.jabba/jabba.sh
+install: jabba install adopt@1.8.192-12 && jabba use $_ && java -version
+
 jobs:
   include:
     - script:
-      - bin/scalafmt --test
+      - bin/scalafmt --test || travis_terminate 1
       - sbt test headerCheck test:headerCheck
       - sbt paradox
-#   - stage: whitesource-master
-#     script: git branch -f "$TRAVIS_BRANCH" && git checkout "$TRAVIS_BRANCH" && sbt whitesourceCheckPolicies whitesourceUpdate
-#   - stage: whitesource-release
+#   - stage: whitesource
 #     script: git branch -f "$TRAVIS_BRANCH" && git checkout "$TRAVIS_BRANCH" && sbt whitesourceCheckPolicies whitesourceUpdate
     - stage: publish
       script: sbt +publish
@@ -24,10 +25,8 @@ jobs:
 stages:
   - name: test
     if: NOT tag =~ ^v
-# - name: whitesource-master
-#   if: repo = playframework/play-grpc AND branch = master AND type = push
-# - name: whitesource-release
-#   if: repo = playframework/play-grpc AND tag =~ ^v
+# - name: whitesource
+#   if: repo = playframework/akka-grpc AND ((branch = master AND type != pull_request) OR tag =~ ^v)
   - name: publish
     if: repo = playframework/play-grpc AND tag =~ ^v
   - name: techhub-ping
@@ -36,6 +35,7 @@ stages:
 cache:
   directories:
     - $HOME/.ivy2/cache
+    - $HOME/.jabba/jdk
     - $HOME/.sbt
 
 before_cache:
