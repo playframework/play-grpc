@@ -1,17 +1,15 @@
 # Play gRPC
 
 
-
 [Akka gRPC](https://developer.lightbend.com/docs/akka-grpc/current/) provides support for building streaming gRPC 
 servers and clients on top of Akka Streams. Play gRPC provides examples and tools on embedding Akka gRPC endpoints on
-a Play application.
+Play applications and Lagom Services.
 
 @@toc
 
 @@@ index
 
- * [Serving gRPC](serving-grpc.md)
- * [Using a gRPC client](consuming-grpc.md)
- * [Gradle support](gradle-support.md)
+ * [Akka-gRPC in Play](play/index.md)
+ * [Akka-gRPC in Lagom](lagom/index.md)
 
 @@@
