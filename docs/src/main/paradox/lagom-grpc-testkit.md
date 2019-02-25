@@ -1,23 +1,27 @@
 ## Using a gRPC client in Lagom tests
 
 When your Lagom Service exposes a gRPC interface you will need a gRPC Client on your 
-tests. `play-grpc` provides extensions to @java[[Lagom's `testkit`](https://www.lagomframework.com/documentation/current/java/Test.html#How-to-test-one-service)]@scala[[Lagom's `testkit`](https://www.lagomframework.com/documentation/current/scala/TestingServices.html#How-to-test-one-service)]. 
+tests. `play-grpc` provides extensions to @java[[Lagom's `testkit`](https://www.lagomframework.com/documentation/current/java/Test.html#How-to-test-one-service)]@scala[[Lagom's `testkit`](https://www.lagomframework.com/documentation/current/scala/TestingServices.html#How-to-test-one-service)].
 
 First you have to include the dependency to the testkit extension:
 
 Scala
-:  ```scala
-"com.lightbend.play" %% "lagom-scaladsl-grpc-testkit" % version
-```
+:   @@@vars
+    ```scala
+    "com.lightbend.play" %% "lagom-scaladsl-grpc-testkit" % "$project.version$"
+    ```
+    @@@
 
 Java
-:  ```scala
-"com.lightbend.play" %% "lagom-javadsl-grpc-testkit" % version
-```
+:   @@@vars
+    ```scala
+    "com.lightbend.play" %% "lagom-javadsl-grpc-testkit" % "$project.version$"
+    ```
+    @@@
 
 ### Unmanaged client
 
-You can use an unmanaged client with an idiom similar to Lagom's @java[[`server.client`](https://www.lagomframework.com/documentation/current/java/Test.html#How-to-test-one-service)]@scala[[`server.client`](https://www.lagomframework.com/documentation/current/scala/TestingServices.html#How-to-test-one-service)]. The main difference is that the gRPC unmanaged client requires manual 
+You can use an unmanaged client with an idiom similar to Lagom's @java[[`server.client`](https://www.lagomframework.com/documentation/current/java/Test.html#How-to-test-one-service)]@scala[[`server.client`](https://www.lagomframework.com/documentation/current/scala/TestingServices.html#How-to-test-one-service)]. The main difference is that the gRPC unmanaged client requires manual
 resource cleanup so you are responsible for invoking `close` once you are done using the client instance. This option is convenient if you want to reuse the client in multiple tests or even within the same test.
 
 Scala
