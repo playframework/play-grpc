@@ -30,6 +30,10 @@ aggregateProjects(
   playSpecs2,
   playScalaTest,
   playTestdata,
+  lagomScaladslGrpcTestKit,
+  lagomJavadslGrpcTestKit,
+  lagomInteropTestJava,
+  lagomInteropTestScala,
   docs,
 )
 
@@ -101,6 +105,57 @@ lazy val playInteropTestJava = Project(
 ).dependsOn(playSpecs2 % Test, playScalaTest % Test)
   .settings(Dependencies.playInteropTestJava)
   .settings(
+    akkaGrpcExtraGenerators ++= List(
+      akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
+      akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,
+    ),
+  )
+  .enablePlugins(build.play.grpc.NoPublish)
+  .pluginTestingSettings
+
+lazy val lagomJavadslGrpcTestKit = Project(
+  id = "lagom-javadsl-grpc-testkit",
+  base = file("lagom-javadsl-grpc-testkit"),
+).settings(Dependencies.lagomJavadslGrpcTestKit).pluginTestingSettings
+
+lazy val lagomScaladslGrpcTestKit = Project(
+  id = "lagom-scaladsl-grpc-testkit",
+  base = file("lagom-scaladsl-grpc-testkit"),
+).settings(Dependencies.lagomScaladslGrpcTestKit).pluginTestingSettings
+
+lazy val lagomInteropTestScala = Project(
+  id = "lagom-grpc-interop-test-scala",
+  base = file("lagom-interop-test-scala"),
+).dependsOn(lagomScaladslGrpcTestKit % Test)
+  .settings(Dependencies.lagomInteropTestScala)
+  .settings(
+    akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Scala),
+    akkaGrpcGeneratedSources :=
+      Seq(
+        AkkaGrpc.Server,
+        AkkaGrpc.Client, // the client is only used in tests. See https://github.com/akka/akka-grpc/issues/410
+      ),
+    akkaGrpcExtraGenerators ++= List(
+      akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator,
+      akka.grpc.gen.scaladsl.play.PlayScalaClientCodeGenerator,
+      akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator,
+    ),
+  )
+  .enablePlugins(build.play.grpc.NoPublish)
+  .pluginTestingSettings
+
+lazy val lagomInteropTestJava = Project(
+  id = "lagom-grpc-interop-test-java",
+  base = file("lagom-interop-test-java"),
+).dependsOn(lagomJavadslGrpcTestKit % Test)
+  .settings(Dependencies.lagomInteropTestJava)
+  .settings(
+    akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Java),
+    akkaGrpcGeneratedSources :=
+      Seq(
+        AkkaGrpc.Server,
+        AkkaGrpc.Client, // the client is only used in tests. See https://github.com/akka/akka-grpc/issues/410
+      ),
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
       akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,

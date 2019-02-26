@@ -1,0 +1,100 @@
+/*
+ * Copyright (C) 2019 Lightbend Inc. <https://www.lightbend.com>
+ */
+package com.example.hello.impl
+
+import akka.stream.Materializer
+import com.lightbend.lagom.scaladsl.grpc.interop.helloworld.GreeterServiceClient
+import com.lightbend.lagom.scaladsl.grpc.interop.helloworld.HelloRequest
+import com.lightbend.lagom.scaladsl.grpc.interop.test.HelloApplication
+import com.lightbend.lagom.scaladsl.grpc.interop.test.HelloService
+import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
+import com.lightbend.lagom.scaladsl.testkit.ServiceTest
+import com.lightbend.lagom.scaladsl.testkit.grpc.AkkaGrpcClientHelpers
+import org.scalatest.AsyncWordSpec
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.Matchers
+import org.scalatest.WordSpec
+
+import scala.concurrent.Await
+import scala.concurrent.duration._
+
+class HelloServiceAsyncSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll {
+
+  private val server: ServiceTest.TestServer[HelloApplication with LocalServiceLocator] = ServiceTest.startServer(
+    ServiceTest.defaultSetup.withSsl(true).withCluster(false),
+  ) { ctx =>
+    new HelloApplication(ctx) with LocalServiceLocator
+  }
+
+  implicit val mat: Materializer = server.materializer
+  val client: HelloService       = server.serviceClient.implement[HelloService]
+
+  // #unmanaged-client
+  val grpcClient: GreeterServiceClient = AkkaGrpcClientHelpers.grpcClient(
+    server,
+    GreeterServiceClient.apply,
+  )
+
+  protected override def afterAll(): Unit = {
+    grpcClient.close()
+    server.stop()
+  }
+
+  // #unmanaged-client
+
+  "Hello service (Async)" should {
+
+    "say hello over HTTP" in {
+      client.hello("Alice").invoke().map { answer =>
+        answer should ===("Hi Alice!")
+      }
+    }
+
+    // #unmanaged-client
+    "say hello over gRPC (unmnanaged client)" in {
+      grpcClient
+        .sayHello(HelloRequest("Alice"))
+        .map {
+          _.message should be("Hi Alice! (gRPC)")
+        }
+    }
+    // #unmanaged-client
+
+  }
+
+}
+
+class HelloServiceSpec extends WordSpec with Matchers with BeforeAndAfterAll {
+
+  private val server: ServiceTest.TestServer[HelloApplication with LocalServiceLocator] = ServiceTest.startServer(
+    ServiceTest.defaultSetup.withSsl(true).withCluster(false),
+  ) { ctx =>
+    new HelloApplication(ctx) with LocalServiceLocator
+  }
+
+  implicit val mat: Materializer = server.materializer
+  implicit val ctx               = server.executionContext
+  val client: HelloService       = server.serviceClient.implement[HelloService]
+
+  protected override def afterAll(): Unit = {
+    server.stop()
+  }
+
+  "Hello service (Sync)" should {
+
+    // #managed-client
+    "say hello over gRPC (managed client)" in {
+      AkkaGrpcClientHelpers.withGrpcClient(server, GreeterServiceClient.apply _) { grpcClient =>
+        grpcClient
+          .sayHello(HelloRequest("Alice"))
+          .map {
+            _.message should be("Hi Alice! (gRPC)")
+          }
+      }
+    }
+    // #managed-client
+
+  }
+
+}

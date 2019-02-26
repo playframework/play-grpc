@@ -17,7 +17,6 @@ sbt
     ```
     @@@
 
-
 Then you need to enable the Play server side code generator in `build.sbt`:
 
 Scala
