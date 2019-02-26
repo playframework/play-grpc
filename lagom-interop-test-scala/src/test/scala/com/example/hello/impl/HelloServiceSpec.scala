@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 Lightbend Inc. <https://www.lightbend.com>
  */
-package scala.com.example.hello.impl
+package com.example.hello.impl
 
 import akka.stream.Materializer
 import com.lightbend.lagom.scaladsl.grpc.interop.helloworld.GreeterServiceClient
@@ -51,7 +51,7 @@ class HelloServiceAsyncSpec extends AsyncWordSpec with Matchers with BeforeAndAf
       }
     }
 
-    // #unmanaged-client-test
+    // #unmanaged-client
     "say hello over gRPC (unmnanaged client)" in {
       grpcClient
         .sayHello(HelloRequest("Alice"))
@@ -59,7 +59,7 @@ class HelloServiceAsyncSpec extends AsyncWordSpec with Matchers with BeforeAndAf
           _.message should be("Hi Alice! (gRPC)")
         }
     }
-    // #unmanaged-client-test
+    // #unmanaged-client
 
   }
 
