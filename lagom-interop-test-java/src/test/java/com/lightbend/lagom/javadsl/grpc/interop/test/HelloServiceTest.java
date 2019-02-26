@@ -6,8 +6,8 @@ package com.lightbend.lagom.javadsl.grpc.interop.test;
 import com.lightbend.lagom.javadsl.grpc.interop.GreeterServiceClient;
 import com.lightbend.lagom.javadsl.grpc.interop.HelloReply;
 import com.lightbend.lagom.javadsl.grpc.interop.HelloRequest;
-import com.lightbend.lagom.javadsl.grpc.interop.test.api.api.HelloService;
 import com.lightbend.lagom.javadsl.testkit.grpc.AkkaGrpcClientHelpers;
+import com.lightbend.lagom.javadsl.grpc.interop.test.api.api.HelloService;
 import org.junit.Test;
 
 import static com.lightbend.lagom.javadsl.testkit.ServiceTest.defaultSetup;

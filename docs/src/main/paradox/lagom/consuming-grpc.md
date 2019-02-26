@@ -1,4 +1,4 @@
-## Using a gRPC client in a Play Framework app
+## Using a gRPC client in Lagom
 
 Akka gRPC has special support to allow for seamless injection of generated clients in Play. To enable this, you
 need first to enable the gRPC plugin as described in the [client docs](https://developer.lightbend.com/docs/akka-grpc/current/client/walkthrough.html) and then add a
