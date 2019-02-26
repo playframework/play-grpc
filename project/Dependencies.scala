@@ -6,18 +6,25 @@ import sbt.Keys._
 object Dependencies {
 
   object Versions {
+    val akka = "2.5.21"
+
     val akkaGrpc = "0.4.2" // TODO: obtain via sbt-akka-grpc?
 
-    val play = "2.7.0"
+    val play  = "2.7.0"
+    val lagom = "1.5.0-RC1"
 
     val grpc = "1.15.0" // needs to be in sync with akkaGrpc version?
 
     val scalaTest         = "3.0.5"
     val scalaTestPlusPlay = "4.0.0"
+
+    val macwire = "2.3.0"
   }
 
   object Compile {
     val grpcStub = "io.grpc" % "grpc-stub" % Versions.grpc
+
+    val akkaStream = "com.typesafe.akka" %% "akka-stream" % Versions.akka
 
     val akkaGrpcRuntime = "com.lightbend.akka.grpc" %% "akka-grpc-runtime" % Versions.akkaGrpc // Apache V2
 
@@ -31,6 +38,11 @@ object Dependencies {
     val playSpecs2           = "com.typesafe.play" %% "play-specs2"             % Versions.play // Apache V2
 
     val scalaTestPlusPlay = "org.scalatestplus.play" %% "scalatestplus-play" % Versions.scalaTestPlusPlay // Apache V2
+
+    val lagomJavadslTestKit  = "com.lightbend.lagom" %% "lagom-javadsl-testkit"  % Versions.lagom
+    val lagomScaladslTestKit = "com.lightbend.lagom" %% "lagom-scaladsl-testkit" % Versions.lagom
+
+    val macwire = "com.softwaremill.macwire" %% "macros" % Versions.macwire % "provided"
   }
 
   object Test {
@@ -41,6 +53,8 @@ object Dependencies {
     val playSpecs2        = Compile.playSpecs2        % Test
     val scalaTest         = "org.scalatest"           %% "scalatest" % Versions.scalaTest % Test // Apache V2
     val scalaTestPlusPlay = Compile.scalaTestPlusPlay % Test
+
+    val junitInterface = "com.novocode" % "junit-interface" % "0.11" % "test"
 
   }
 
@@ -88,4 +102,35 @@ object Dependencies {
     Compile.playAkkaHttp2Support,
     Compile.playJava,
   ) ++ testing
+
+  val lagomJavadslGrpcTestKit = l ++= Seq(
+    Compile.lagomJavadslTestKit,
+  )
+
+  val lagomScaladslGrpcTestKit = l ++= Seq(
+    Compile.lagomScaladslTestKit,
+  )
+
+  val lagomInteropTestScala = l ++= Seq(
+    // TODO https://github.com/akka/akka-grpc/issues/193
+    Compile.grpcStub,
+    Compile.lagomScaladslTestKit,
+    Compile.playAkkaHttpServer,
+    Compile.playAkkaHttp2Support,
+    Compile.macwire,
+    // Used to force the akka version
+    Compile.akkaStream,
+  ) ++ testing
+
+  val lagomInteropTestJava = l ++= Seq(
+    Test.junitInterface,
+    // TODO https://github.com/akka/akka-grpc/issues/193
+    Compile.grpcStub,
+    Compile.lagomJavadslTestKit,
+    Compile.playAkkaHttpServer,
+    Compile.playAkkaHttp2Support,
+    // Used to force the akka version
+    Compile.akkaStream,
+  ) ++ testing
+
 }
