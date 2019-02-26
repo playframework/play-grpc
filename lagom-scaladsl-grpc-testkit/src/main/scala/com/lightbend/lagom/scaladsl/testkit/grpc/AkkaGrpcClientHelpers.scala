@@ -27,8 +27,7 @@ object AkkaGrpcClientHelpers {
       server: ServiceTest.TestServer[_],
       // TODO: replace with AkkaGrpcClientFactory
       clientFactory: GrpcClientSettings => T,
-      block: T => Q,
-  ): Q = {
+  )(block: T => Q): Q = {
 
     var instance: T = null.asInstanceOf[T]
     try {

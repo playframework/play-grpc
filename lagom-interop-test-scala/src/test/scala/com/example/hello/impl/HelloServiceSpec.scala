@@ -16,9 +16,6 @@ import org.scalatest.BeforeAndAfterAll
 import org.scalatest.Matchers
 import org.scalatest.WordSpec
 
-import scala.concurrent.Await
-import scala.concurrent.duration._
-
 class HelloServiceAsyncSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll {
 
   private val server: ServiceTest.TestServer[HelloApplication with LocalServiceLocator] = ServiceTest.startServer(
