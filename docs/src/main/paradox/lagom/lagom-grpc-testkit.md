@@ -25,17 +25,17 @@ You can use an unmanaged client with an idiom similar to Lagom's @java[[`server.
 resource cleanup so you are responsible for invoking `close` once you are done using the client instance. This option is convenient if you want to reuse the client in multiple tests or even within the same test.
 
 Scala
-:   @@snip [HelloServiceSpec.scala](../../../../lagom-interop-test-scala/src/test/scala/com/example/hello/impl/HelloServiceSpec.scala)  { #unmanaged-client }
+:   @@snip [HelloServiceSpec.scala](../../../../../lagom-interop-test-scala/src/test/scala/com/example/hello/impl/HelloServiceSpec.scala)  { #unmanaged-client }
 
 Java
-:   @@snip [HelloServiceTest.java](../../../../lagom-interop-test-java/src/test/java/com/lightbend/lagom/javadsl/grpc/interop/test/HelloServiceTest.java)  { #unmanaged-client }
+:   @@snip [HelloServiceTest.java](../../../../../lagom-interop-test-java/src/test/java/com/lightbend/lagom/javadsl/grpc/interop/test/HelloServiceTest.java)  { #unmanaged-client }
 
 ### Managed client
 
 The Lagom gRPC managed client is a similar API but will handle the resource management for you. This option is convenient if you want a fresh new isntance of the client on each use, but is also more costly:
 
 Scala
-:   @@snip [HelloServiceSpec.scala](../../../../lagom-interop-test-scala/src/test/scala/com/example/hello/impl/HelloServiceSpec.scala)  { #managed-client }
+:   @@snip [HelloServiceSpec.scala](../../../../../lagom-interop-test-scala/src/test/scala/com/example/hello/impl/HelloServiceSpec.scala)  { #managed-client }
 
 Java
-:   @@snip [HelloServiceTest.java](../../../../lagom-interop-test-java/src/test/java/com/lightbend/lagom/javadsl/grpc/interop/test/HelloServiceTest.java)  { #managed-client }
+:   @@snip [HelloServiceTest.java](../../../../../lagom-interop-test-java/src/test/java/com/lightbend/lagom/javadsl/grpc/interop/test/HelloServiceTest.java)  { #managed-client }
