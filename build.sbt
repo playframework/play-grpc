@@ -22,6 +22,8 @@ ThisBuild / javacOptions ++= List(
   "-Xlint:deprecation",
 )
 
+resolvers += Resolver.bintrayRepo("akka", "maven")
+
 val playGrpc = Project("play-grpc", file("."))
 aggregateProjects(
   playInteropTestJava,
