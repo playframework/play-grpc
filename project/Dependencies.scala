@@ -8,7 +8,7 @@ object Dependencies {
   object Versions {
     val akka = "2.5.21"
 
-    val akkaGrpc = "0.4.2" // TODO: obtain via sbt-akka-grpc?
+    val akkaGrpc = "0.5.0+14-c97a24a0" // TODO: obtain via sbt-akka-grpc?
 
     val play  = "2.7.0"
     val lagom = "1.5.0-RC1"
