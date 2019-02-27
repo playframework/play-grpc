@@ -181,7 +181,8 @@ lazy val docs = Project(
       "Buildtool" -> Seq("sbt", "Gradle", "Maven"),
     ),
     paradoxProperties ++= Map(
-      "grpc.version" → Dependencies.Versions.grpc,
+      "grpc.version"      -> Dependencies.Versions.grpc,
+      "akka.grpc.version" -> Dependencies.Versions.akkaGrpc,
     ),
     resolvers += Resolver.jcenterRepo,
   )
