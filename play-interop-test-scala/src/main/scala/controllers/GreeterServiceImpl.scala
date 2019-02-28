@@ -4,6 +4,7 @@
 // #service-impl
 package controllers
 
+import akka.actor.ActorSystem
 import akka.stream.Materializer
 import example.myapp.helloworld.grpc.helloworld.AbstractGreeterServiceRouter
 import example.myapp.helloworld.grpc.helloworld.HelloReply
@@ -15,7 +16,8 @@ import scala.concurrent.Future
 
 /** User implementation, with support for dependency injection etc */
 @Singleton
-class GreeterServiceImpl @Inject()(implicit mat: Materializer) extends AbstractGreeterServiceRouter(mat) {
+class GreeterServiceImpl @Inject()(implicit mat: Materializer, actorSystem: ActorSystem)
+    extends AbstractGreeterServiceRouter(mat, actorSystem) {
 
   override def sayHello(in: HelloRequest): Future[HelloReply] = Future.successful(HelloReply(s"Hello, ${in.name}!"))
 

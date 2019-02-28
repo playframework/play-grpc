@@ -3,6 +3,7 @@
  */
 package example.myapp.helloworld.grpc;
 
+import akka.actor.ActorSystem;
 import akka.stream.Materializer;
 
 import javax.inject.Inject;
@@ -13,9 +14,10 @@ import java.util.concurrent.CompletionStage;
 /** User implementation, with support for dependency injection etc */
 @Singleton
 public class GreeterServiceImpl extends AbstractGreeterServiceRouter {
+
   @Inject
-  public GreeterServiceImpl(final Materializer mat) {
-    super(mat);
+  public GreeterServiceImpl(final Materializer mat, final ActorSystem actorSystem) {
+    super(mat, actorSystem);
   }
 
   @Override
