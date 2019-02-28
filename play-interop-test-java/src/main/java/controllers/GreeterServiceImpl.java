@@ -4,6 +4,7 @@
 // #service-impl
 package controllers;
 
+import akka.actor.ActorSystem;
 import akka.stream.Materializer;
 import com.google.inject.Inject;
 import example.myapp.helloworld.grpc.AbstractGreeterServiceRouter;
@@ -19,8 +20,8 @@ import java.util.concurrent.CompletionStage;
 public class GreeterServiceImpl extends AbstractGreeterServiceRouter {
 
   @Inject
-  public GreeterServiceImpl(Materializer mat) {
-    super(mat);
+  public GreeterServiceImpl(Materializer mat, ActorSystem actorSystem) {
+    super(mat, actorSystem);
   }
 
   @Override

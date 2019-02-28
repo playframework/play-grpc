@@ -3,6 +3,7 @@
  */
 package com.lightbend.lagom.javadsl.grpc.interop.test.api;
 
+import akka.actor.ActorSystem;
 import akka.stream.Materializer;
 import com.lightbend.lagom.javadsl.grpc.interop.AbstractGreeterServiceRouter;
 import com.lightbend.lagom.javadsl.grpc.interop.HelloReply;
@@ -17,8 +18,8 @@ import java.util.concurrent.CompletionStage;
 public class HelloGrpcServiceImpl extends AbstractGreeterServiceRouter {
 
   @Inject
-  public HelloGrpcServiceImpl(Materializer mat) {
-    super(mat);
+  public HelloGrpcServiceImpl(Materializer mat, ActorSystem sys) {
+    super(mat, sys);
   }
 
   @Override
