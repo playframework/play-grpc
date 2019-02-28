@@ -61,15 +61,15 @@ public final class PlayJavaFunctionalTest {
   }
 
   @Test
-  public void returns200OnNonExistentGrpcMethod() throws Exception {
+  public void returns500OnNonExistentGrpcMethod() throws Exception {
     final WSResponse rsp = wsGet("/" + GreeterService.name + "/FooBar");
-    assertEquals(200, rsp.getStatus()); // Maybe should be a 426, see #396
+    assertEquals(500, rsp.getStatus()); // Maybe should be a 426, see #396
   }
 
   @Test
-  public void returns200OnEmptyRequestToAGrpcMethod() throws Exception {
+  public void returns500OnEmptyRequestToAGrpcMethod() throws Exception {
     final WSResponse rsp = wsGet("/" + GreeterService.name + "/SayHello");
-    assertEquals(200, rsp.getStatus()); // Maybe should be a 426, see #396
+    assertEquals(500, rsp.getStatus()); // Maybe should be a 426, see #396
   }
 
   @Test
