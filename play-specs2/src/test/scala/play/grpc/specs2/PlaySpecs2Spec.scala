@@ -41,9 +41,12 @@ class PlaySpecs2Spec extends ForServer with ServerGrpcClient with PlaySpecificat
         result.status must ===(200) // Maybe should be a 426, see #396
       // TODO: Test that trailer has a not implemented status
     }
-    "give a 500 when routing an empty request to a gRPC method" >> { implicit rs: RunningServer =>
+    "give a grpc-status 13 when routing an empty request to a gRPC method" >> { implicit rs: RunningServer =>
       val result = await(wsUrl(s"/${GreeterService.name}/SayHello").get)
-      result.status must ===(500) // Maybe should be a 426, see #396
+      result.status must ===(200) // Maybe should be a 426, see #396
+
+      // grpc-status 13 means INTERNAL error. See https://developers.google.com/maps-booking/reference/grpc-api/status_codes
+      result.header("grpc-status") must beSome("13")
     }
     "work with a gRPC client" >> { implicit rs: RunningServer =>
       withGrpcClient[GreeterServiceClient] { client: GreeterServiceClient =>
