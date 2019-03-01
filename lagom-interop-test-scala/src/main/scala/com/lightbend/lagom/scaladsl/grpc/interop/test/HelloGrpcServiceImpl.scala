@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2019 Lightbend Inc. <https://www.lightbend.com>
  */
+// #service-impl
 package com.lightbend.lagom.scaladsl.grpc.interop.test
 
 import akka.actor.ActorSystem
@@ -15,3 +16,4 @@ class HelloGrpcServiceImpl(mat: Materializer, sys: ActorSystem) extends Abstract
   override def sayHello(in: HelloRequest): Future[HelloReply] =
     Future.successful(HelloReply(s"Hi ${in.name}! (gRPC)"))
 }
+// #service-impl
