@@ -15,4 +15,3 @@ addSbtPlugin("com.lightbend.sbt"       % "sbt-java-formatter" % "0.4.1")
 
 // Only needed for snapshots
 resolvers += Resolver.bintrayRepo("akka", "maven")
-
