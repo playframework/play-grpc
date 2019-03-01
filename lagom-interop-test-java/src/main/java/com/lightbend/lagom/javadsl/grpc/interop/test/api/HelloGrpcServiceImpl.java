@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2019 Lightbend Inc. <https://www.lightbend.com>
  */
+// #service-impl
 package com.lightbend.lagom.javadsl.grpc.interop.test.api;
 
 import akka.actor.ActorSystem;
@@ -28,3 +29,4 @@ public class HelloGrpcServiceImpl extends AbstractGreeterServiceRouter {
     return CompletableFuture.completedFuture(reply);
   }
 }
+// #service-impl

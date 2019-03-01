@@ -3,8 +3,10 @@
 
 @@@ index
 
- * [Serving gRPC](serving-grpc.md)
- * [Using a gRPC client](consuming-grpc.md)
- * [Using gRPC in Lagom tests](lagom-grpc-testkit.md)
+ * [Overview](overview.md)
+ * [Serving gRPC from Lagom](serving-grpc.md)
+ * [Using a gRPC client in Lagom](consuming-grpc.md)
+ * [Using a gRPC client in Lagom tests](lagom-grpc-testkit.md)
+ * [Lagom gRCP sample applications](sample-applications.md)
 
 @@@
