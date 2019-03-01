@@ -73,9 +73,11 @@ class PlayJavaRouterSpec extends WordSpec with Matchers with BeforeAndAfterAll w
       implicit serializer: ProtobufSerializer[T],
       mat: Materializer,
       codec: Codec,
-      system: ActorSystem
+      system: ActorSystem,
   ): ToResponseMarshaller[Source[T, NotUsed]] =
-    Marshaller.opaque((response: Source[T, NotUsed]) ⇒ GrpcMarshalling.marshalStream(response)(serializer, mat, codec, system))
+    Marshaller.opaque(
+      (response: Source[T, NotUsed]) ⇒ GrpcMarshalling.marshalStream(response)(serializer, mat, codec, system),
+    )
 
   val router = new GreeterServiceImpl(mat, sys)
 

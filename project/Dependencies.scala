@@ -8,10 +8,10 @@ object Dependencies {
   object Versions {
     val akka = "2.5.21"
 
-    val akkaGrpc = "0.5.0+14-c97a24a0" // TODO: obtain via sbt-akka-grpc?
+    val akkaGrpc = "0.5.0+15-0d4b666d" // TODO: obtain via sbt-akka-grpc?
 
     val play  = "2.7.0"
-    val lagom = "1.5.0-RC1"
+    val lagom = "1.5.0-RC2"
 
     val grpc = "1.16.1" // needs to be in sync with akkaGrpc version?
 
