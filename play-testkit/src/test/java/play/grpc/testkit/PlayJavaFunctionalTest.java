@@ -3,6 +3,8 @@
  */
 package play.grpc.testkit;
 
+import io.grpc.Status;
+
 import akka.grpc.GrpcClientSettings;
 
 import example.myapp.helloworld.grpc.*;
@@ -49,7 +51,7 @@ public final class PlayJavaFunctionalTest {
     }
   }
 
-  private WSResponse wsGet(final String path) throws Exception {
+  private WSResponse wsGqet(final String path) throws Exception {
     final WSClient wsClient = app.injector().instanceOf(WSClient.class);
     final String url = runningServer.endpoints().httpEndpoint().get().pathUrl(path);
     return wsClient.url(url).get().toCompletableFuture().get();
@@ -61,15 +63,23 @@ public final class PlayJavaFunctionalTest {
   }
 
   @Test
-  public void returns500OnNonExistentGrpcMethod() throws Exception {
+  public void returnsGrpcUnimplementedOnNonExistentGrpcMethod() throws Exception {
     final WSResponse rsp = wsGet("/" + GreeterService.name + "/FooBar");
-    assertEquals(500, rsp.getStatus()); // Maybe should be a 426, see #396
+    assertEquals(200, rsp.getStatus());
+    assertEquals(
+      Integer.toString(Status.Code.UNIMPLEMENTED.value()),
+      rsp.getSingleHeader("grpc-status").get()
+    );
   }
 
   @Test
-  public void returns500OnEmptyRequestToAGrpcMethod() throws Exception {
+  public void returnsGrpcInternalErrorOnEmptyRequestToAGrpcMethod() throws Exception {
     final WSResponse rsp = wsGet("/" + GreeterService.name + "/SayHello");
-    assertEquals(500, rsp.getStatus()); // Maybe should be a 426, see #396
+    assertEquals(200, rsp.getStatus());
+    assertEquals(
+      Integer.toString(Status.Code.INTERNAL.value()),
+      rsp.getSingleHeader("grpc-status").get()
+    );
   }
 
   @Test
@@ -83,7 +93,8 @@ public final class PlayJavaFunctionalTest {
             app.asScala().materializer(),
             app.asScala().actorSystem().dispatcher());
     try {
-      final HelloReply helloReply = greeterServiceClient.sayHello(req).toCompletableFuture().get();
+      final HelloReply helloReply =
+ greeterServiceClient.sayHello(req).toCompletableFuture().get();
       assertEquals("Hello, Alice!", helloReply.getMessage());
     } finally {
       greeterServiceClient.close().toCompletableFuture().get(30, TimeUnit.SECONDS);

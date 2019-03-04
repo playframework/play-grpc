@@ -12,6 +12,7 @@ import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.ws.WSClient
 import play.api.routing.Router
+import io.grpc.Status
 import example.myapp.helloworld.grpc.helloworld._
 
 /**
@@ -37,17 +38,15 @@ class PlayScalaTestSpec
       val result = wsUrl("/").get.futureValue
       result.status must be(404) // Maybe should be a 426, see #396
     }
-    "give an Ok header (and hopefully a not implemented trailer) when routing a non-existent gRPC method" in {
+    "give a grpc 'unimplemented' error when routing a non-existent gRPC method" in {
       val result = wsUrl(s"/${GreeterService.name}/FooBar").get.futureValue
       result.status must be(200) // Maybe should be a 426, see #396
-      // TODO: Test that trailer has a not implemented status
+      result.header("grpc-status") mustEqual Some(Status.Code.UNIMPLEMENTED.value().toString)
     }
-    "give a grpc-status 13 when routing an empty request to a gRPC method" in {
+    "give a grpc 'internal' error when routing an empty request to a gRPC method" in {
       val result = wsUrl(s"/${GreeterService.name}/SayHello").get.futureValue
-      result.status must be(200) // Maybe should be a 426, see #396
-
-      // grpc-status 13 means INTERNAL error. See https://developers.google.com/maps-booking/reference/grpc-api/status_codes
-      result.header("grpc-status") mustEqual Some("13")
+      result.status must be(200)
+      result.header("grpc-status") mustEqual Some(Status.Code.INTERNAL.value().toString)
     }
     "work with a gRPC client" in withGrpcClient[GreeterServiceClient] { client: GreeterServiceClient =>
       val reply = client.sayHello(HelloRequest("Alice")).futureValue
