@@ -67,9 +67,8 @@ public final class PlayJavaFunctionalTest {
     final WSResponse rsp = wsGet("/" + GreeterService.name + "/FooBar");
     assertEquals(200, rsp.getStatus());
     assertEquals(
-      Integer.toString(Status.Code.UNIMPLEMENTED.value()),
-      rsp.getSingleHeader("grpc-status").get()
-    );
+        Integer.toString(Status.Code.UNIMPLEMENTED.value()),
+        rsp.getSingleHeader("grpc-status").get());
   }
 
   @Test
@@ -77,9 +76,7 @@ public final class PlayJavaFunctionalTest {
     final WSResponse rsp = wsGet("/" + GreeterService.name + "/SayHello");
     assertEquals(200, rsp.getStatus());
     assertEquals(
-      Integer.toString(Status.Code.INTERNAL.value()),
-      rsp.getSingleHeader("grpc-status").get()
-    );
+        Integer.toString(Status.Code.INTERNAL.value()), rsp.getSingleHeader("grpc-status").get());
   }
 
   @Test
@@ -93,8 +90,7 @@ public final class PlayJavaFunctionalTest {
             app.asScala().materializer(),
             app.asScala().actorSystem().dispatcher());
     try {
-      final HelloReply helloReply =
- greeterServiceClient.sayHello(req).toCompletableFuture().get();
+      final HelloReply helloReply = greeterServiceClient.sayHello(req).toCompletableFuture().get();
       assertEquals("Hello, Alice!", helloReply.getMessage());
     } finally {
       greeterServiceClient.close().toCompletableFuture().get(30, TimeUnit.SECONDS);
