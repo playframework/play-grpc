@@ -51,7 +51,7 @@ public final class PlayJavaFunctionalTest {
     }
   }
 
-  private WSResponse wsGqet(final String path) throws Exception {
+  private WSResponse wsGet(final String path) throws Exception {
     final WSClient wsClient = app.injector().instanceOf(WSClient.class);
     final String url = runningServer.endpoints().httpEndpoint().get().pathUrl(path);
     return wsClient.url(url).get().toCompletableFuture().get();
