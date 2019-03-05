@@ -11,10 +11,7 @@ install: jabba install adopt@1.8.192-12 && jabba use $_ && java -version
 
 jobs:
   include:
-    - script:
-      - scripts/scalafmt --test || travis_terminate 1
-      - sbt test headerCheck test:headerCheck
-      - sbt paradox
+    - script: sbt test paradox headerCheck test:headerCheck scalafmtCheckAll scalafmtSbtCheck
 #   - stage: whitesource
 #     script: git branch -f "$TRAVIS_BRANCH" && git checkout "$TRAVIS_BRANCH" && sbt whitesourceCheckPolicies whitesourceUpdate
     - stage: publish
