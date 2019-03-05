@@ -3,6 +3,8 @@
  */
 package play.grpc.testkit;
 
+import io.grpc.Status;
+
 import akka.grpc.GrpcClientSettings;
 
 import example.myapp.helloworld.grpc.*;
@@ -61,15 +63,20 @@ public final class PlayJavaFunctionalTest {
   }
 
   @Test
-  public void returns500OnNonExistentGrpcMethod() throws Exception {
+  public void returnsGrpcUnimplementedOnNonExistentGrpcMethod() throws Exception {
     final WSResponse rsp = wsGet("/" + GreeterService.name + "/FooBar");
-    assertEquals(500, rsp.getStatus()); // Maybe should be a 426, see #396
+    assertEquals(200, rsp.getStatus());
+    assertEquals(
+        Integer.toString(Status.Code.UNIMPLEMENTED.value()),
+        rsp.getSingleHeader("grpc-status").get());
   }
 
   @Test
-  public void returns500OnEmptyRequestToAGrpcMethod() throws Exception {
+  public void returnsGrpcInternalErrorOnEmptyRequestToAGrpcMethod() throws Exception {
     final WSResponse rsp = wsGet("/" + GreeterService.name + "/SayHello");
-    assertEquals(500, rsp.getStatus()); // Maybe should be a 426, see #396
+    assertEquals(200, rsp.getStatus());
+    assertEquals(
+        Integer.toString(Status.Code.INTERNAL.value()), rsp.getSingleHeader("grpc-status").get());
   }
 
   @Test
