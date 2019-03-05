@@ -15,7 +15,10 @@ import scala.concurrent.Future
 class GreeterServiceImpl @Inject()(implicit mat: Materializer, actorSystem: ActorSystem)
     extends AbstractGreeterServiceRouter(mat, actorSystem) {
 
-  override def sayHello(in: HelloRequest): Future[HelloReply] = Future.successful(HelloReply(s"Hello, ${in.name}!"))
+  override def sayHello(in: HelloRequest): Future[HelloReply] = {
+    actorSystem.log.error("Saying hello!")
+    Future.successful(HelloReply(s"Hello, ${in.name}!"))
+  }
 
 }
 // #service-impl
