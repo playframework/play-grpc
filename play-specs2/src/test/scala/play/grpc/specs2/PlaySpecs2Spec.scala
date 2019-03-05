@@ -11,8 +11,8 @@ import play.api.libs.ws.WSClient
 import play.api.libs.ws.WSRequest
 import play.api.routing.Router
 import play.api.test._
-
 import example.myapp.helloworld.grpc.helloworld._
+import io.grpc.Status
 
 /**
  * Test for the Play gRPC Specs2 APIs
@@ -46,7 +46,7 @@ class PlaySpecs2Spec extends ForServer with ServerGrpcClient with PlaySpecificat
       result.status must ===(200) // Maybe should be a 426, see #396
 
       // grpc-status 13 means INTERNAL error. See https://developers.google.com/maps-booking/reference/grpc-api/status_codes
-      result.header("grpc-status") must beSome("13")
+      result.header("grpc-status") must beSome(Status.Code.INTERNAL.value().toString)
     }
     "work with a gRPC client" >> { implicit rs: RunningServer =>
       withGrpcClient[GreeterServiceClient] { client: GreeterServiceClient =>
