@@ -12,6 +12,7 @@ addSbtPlugin("com.typesafe.sbt"        % "sbt-twirl"          % "1.3.13")
 addSbtPlugin("de.heikoseeberger"       % "sbt-header"         % "5.1.0")
 addSbtPlugin("org.foundweekends"       % "sbt-bintray"        % "0.5.4")
 addSbtPlugin("com.lightbend.sbt"       % "sbt-java-formatter" % "0.4.1")
+addSbtPlugin("org.scalameta"           % "sbt-scalafmt"       % "2.0.0-RC5")
 
 // Only needed for snapshots
 resolvers += Resolver.bintrayRepo("akka", "maven")
