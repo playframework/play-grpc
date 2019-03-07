@@ -22,6 +22,8 @@ ThisBuild / javacOptions ++= List(
   "-Xlint:deprecation",
 )
 
+// Only needed for akka, akka-grpc ,...  snapshots
+// See also projects/plugins.sbt
 ThisBuild / resolvers += Resolver.bintrayRepo("akka", "maven")
 
 val playGrpc = Project("play-grpc", file("."))
