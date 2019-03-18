@@ -1,6 +1,6 @@
 # play-grpc
 
-Play support for [akka-grpc](https://developer.lightbend.com/docs/akka-grpc/current/).
+Play and Lagom support for [akka-grpc](https://developer.lightbend.com/docs/akka-grpc/current/).
 
 ## Project Status
 
