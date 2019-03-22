@@ -7,7 +7,7 @@ git:
 
 
 before_install: curl -Ls https://git.io/jabba | bash && . ~/.jabba/jabba.sh
-install: jabba install adopt@1.8.192-12 && jabba use $_ && java -version
+install: jabba install adopt@1.8.202-08 && jabba use $_ && java -Xmx32m -version
 
 jobs:
   include:
