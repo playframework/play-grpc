@@ -17,10 +17,10 @@ matrix:
 
 before_install: curl -Ls https://git.io/jabba | bash && . ~/.jabba/jabba.sh
 install: jabba install "$TRAVIS_JDK" && jabba use "$_" && java -Xmx32m -version
+script: sbt test paradox headerCheck test:headerCheck scalafmtCheckAll scalafmtSbtCheck
 
 jobs:
   include:
-    - script: sbt test paradox headerCheck test:headerCheck scalafmtCheckAll scalafmtSbtCheck
 #   - stage: whitesource
 #     script: git branch -f "$TRAVIS_BRANCH" && git checkout "$TRAVIS_BRANCH" && sbt whitesourceCheckPolicies whitesourceUpdate
     - stage: publish
