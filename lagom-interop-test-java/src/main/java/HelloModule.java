@@ -13,10 +13,10 @@ public class HelloModule extends AbstractModule implements ServiceGuiceSupport {
   protected void configure() {
     bindService(
         // bind the lagom service
-        HelloService.class, HelloServiceImpl.class,
+        HelloService.class,
+        HelloServiceImpl.class,
         // include additional routers (in this case a gRPC router)
-        additionalRouter(HelloGrpcServiceImpl.class)
-    );
+        additionalRouter(HelloGrpcServiceImpl.class));
   }
 }
 // #service-additional-router
