@@ -42,6 +42,7 @@ aggregateProjects(
 
 enablePlugins(build.play.grpc.NoPublish)
 unmanagedSources in (Compile, headerCreate) := ((baseDirectory.value / "project") ** "*.scala").get
+crossScalaVersions := Nil // https://github.com/sbt/sbt/issues/3465
 
 val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
   .settings(
