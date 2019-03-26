@@ -50,10 +50,10 @@ val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
     javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
-      akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,
+      akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator(),
       akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator,
       akka.grpc.gen.scaladsl.play.PlayScalaClientCodeGenerator,
-      akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator,
+      akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator(),
     ),
     libraryDependencies ++= Seq(
       Dependencies.Compile.play,
@@ -99,7 +99,7 @@ val playInteropTestScala = Project("play-grpc-interop-test-scala", file("play-in
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator,
       akka.grpc.gen.scaladsl.play.PlayScalaClientCodeGenerator,
-      akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator,
+      akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator(),
     ),
     libraryDependencies ++= Seq(
       // TODO https://github.com/akka/akka-grpc/issues/193
@@ -122,7 +122,7 @@ val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-inte
   .settings(
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
-      akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,
+      akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator(),
     ),
     libraryDependencies ++= Seq(
       // TODO https://github.com/akka/akka-grpc/issues/193
@@ -141,12 +141,14 @@ val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-inte
 
 val lagomJavadslGrpcTestKit = Project("lagom-javadsl-grpc-testkit", file("lagom-javadsl-grpc-testkit"))
   .settings(
+    crossScalaVersions -= scala213.value,
     libraryDependencies += Dependencies.Compile.lagomJavadslTestKit,
   )
   .pluginTestingSettings
 
 val lagomScaladslGrpcTestKit = Project("lagom-scaladsl-grpc-testkit", file("lagom-scaladsl-grpc-testkit"))
   .settings(
+    crossScalaVersions -= scala213.value,
     libraryDependencies += Dependencies.Compile.lagomScaladslTestKit,
   )
   .pluginTestingSettings
@@ -154,6 +156,7 @@ val lagomScaladslGrpcTestKit = Project("lagom-scaladsl-grpc-testkit", file("lago
 val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom-interop-test-scala"))
   .dependsOn(lagomScaladslGrpcTestKit % Test)
   .settings(
+    crossScalaVersions -= scala213.value,
     akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Scala),
     akkaGrpcGeneratedSources :=
       Seq(
@@ -163,7 +166,7 @@ val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator,
       akka.grpc.gen.scaladsl.play.PlayScalaClientCodeGenerator,
-      akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator,
+      akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator(),
     ),
     libraryDependencies ++= Seq(
       // TODO https://github.com/akka/akka-grpc/issues/193
@@ -184,6 +187,7 @@ val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom
 val lagomInteropTestJava = Project("lagom-grpc-interop-test-java", file("lagom-interop-test-java"))
   .dependsOn(lagomJavadslGrpcTestKit % Test)
   .settings(
+    crossScalaVersions -= scala213.value,
     akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Java),
     akkaGrpcGeneratedSources :=
       Seq(
@@ -192,7 +196,7 @@ val lagomInteropTestJava = Project("lagom-grpc-interop-test-java", file("lagom-i
       ),
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
-      akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,
+      akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator(),
     ),
     libraryDependencies ++= Seq(
       // TODO https://github.com/akka/akka-grpc/issues/193
