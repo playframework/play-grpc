@@ -11,7 +11,6 @@ ThisBuild / scalacOptions ++= List(
   "-unchecked",
   "-Xlint",
   "-Xfuture",
-  "-Yno-adapted-args",
   "-Ywarn-dead-code",
   "-Ywarn-numeric-widen",
   "-Ywarn-value-discard",
