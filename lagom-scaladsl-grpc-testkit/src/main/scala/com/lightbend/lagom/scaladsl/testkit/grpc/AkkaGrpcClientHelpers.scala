@@ -3,9 +3,15 @@
  */
 package com.lightbend.lagom.scaladsl.testkit.grpc
 
+import java.util.concurrent.TimeUnit
+
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
+
 import akka.annotation.ApiMayChange
 import akka.grpc.GrpcClientSettings
 import akka.grpc.scaladsl.AkkaGrpcClient
+
 import com.lightbend.lagom.scaladsl.testkit.ServiceTest
 
 /**
@@ -28,18 +34,16 @@ object AkkaGrpcClientHelpers {
       // TODO: replace with AkkaGrpcClientFactory
       clientFactory: GrpcClientSettings => T,
   )(block: T => Q): Q = {
-
-    var instance: T = null.asInstanceOf[T]
+    var client: T = null.asInstanceOf[T]
     try {
-      instance = grpcClient[T](server, clientFactory)
-      block(instance)
+      client = grpcClient[T](server, clientFactory)
+      block(client)
     } finally {
-      if (instance != null) {
-        // TODO: Await until `close` completes (like play-scalatest and play-specs2)
-        instance.close()
+      if (client != null) {
+        Await.result(client.close(), grpcClientCloseTimeout)
+        ()
       }
     }
-
   }
 
   /**
@@ -77,5 +81,8 @@ object AkkaGrpcClientHelpers {
 
     clientFactory(settings)
   }
+
+  /** The close timeout used by gRPC clients. */
+  protected def grpcClientCloseTimeout: Duration = Duration(30, TimeUnit.SECONDS)
 
 }

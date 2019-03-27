@@ -3,8 +3,6 @@
  */
 package play.grpc.testkit;
 
-import static scala.compat.java8.JFunction.*;
-
 import akka.actor.ActorSystem;
 import akka.grpc.GrpcClientSettings;
 
@@ -30,8 +28,11 @@ public final class JavaAkkaGrpcClientHelpers {
    * <p>If no HTTP/2 endpoint exists this throws an IllegalArgumentException.
    */
   public static ServerEndpoint getHttp2Endpoint(final ServerEndpoints serverEndpoints) {
-    final scala.collection.Traversable<ServerEndpoint> possibleEndpoints =
-        serverEndpoints.endpoints().filter(func(e -> e.expectedHttpVersions().contains("2")));
+    final scala.collection.Iterable<ServerEndpoint> possibleEndpoints =
+        serverEndpoints
+            .endpoints()
+            .filter(e -> e.expectedHttpVersions().contains("2"))
+            .toIterable();
     if (possibleEndpoints.size() == 0) {
       throw new IllegalArgumentException(
           String.format(
@@ -57,11 +58,10 @@ public final class JavaAkkaGrpcClientHelpers {
         http2Endpoint
             .ssl()
             .getOrElse(
-                func(
-                    () -> {
-                      throw new IllegalArgumentException(
-                          "GrpcClientSettings requires a server endpoint with ssl, but non provided");
-                    }));
+                () -> {
+                  throw new IllegalArgumentException(
+                      "GrpcClientSettings requires a server endpoint with ssl, but non provided");
+                });
 
     return grpcClientSettings(http2Endpoint, clientSsl.sslContext(), actorSystem);
   }
