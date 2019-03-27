@@ -15,7 +15,7 @@ object Dependencies {
 
     val grpc = "1.16.1" // needs to be in sync with akkaGrpc version?
 
-    val scalaTest         = "3.0.5"
+    val scalaTest         = "3.0.7"
     val scalaTestPlusPlay = "4.0.1"
 
     val macwire = "2.3.0"
@@ -55,82 +55,6 @@ object Dependencies {
     val scalaTestPlusPlay = Compile.scalaTestPlusPlay % Test
 
     val junitInterface = "com.novocode" % "junit-interface" % "0.11" % "test"
-
   }
-
-  private val l = libraryDependencies
-
-  val testing = Seq(
-    Test.scalaTest,
-    Test.junit,
-  )
-
-  val playTestdata = l ++= Seq(
-    // usually automatically added by `suggestedDependencies`, which doesn't work with ReflectiveCodeGen
-    Compile.play,
-    Compile.grpcStub,
-    Compile.playAkkaHttpServer,
-    Compile.playAkkaHttp2Support,
-  )
-
-  val playTestkit = l ++= Seq(
-    Compile.play,
-    Compile.playTest,
-    Test.playAhcWs,
-  )
-
-  val playSpecs2    = l += Compile.playSpecs2
-  val playScalaTest = l += Compile.scalaTestPlusPlay
-
-  val playInteropTestScala = l ++= Seq(
-    // TODO https://github.com/akka/akka-grpc/issues/193
-    Compile.grpcStub,
-    Compile.play,
-    Compile.playGuice,
-    Compile.playAkkaHttpServer,
-    Compile.playAkkaHttp2Support,
-    Test.playSpecs2,
-    Test.scalaTestPlusPlay,
-  ) ++ testing
-
-  val playInteropTestJava = l ++= Seq(
-    // TODO https://github.com/akka/akka-grpc/issues/193
-    Compile.grpcStub,
-    Compile.play,
-    Compile.playGuice,
-    Compile.playAkkaHttpServer,
-    Compile.playAkkaHttp2Support,
-    Compile.playJava,
-  ) ++ testing
-
-  val lagomJavadslGrpcTestKit = l ++= Seq(
-    Compile.lagomJavadslTestKit,
-  )
-
-  val lagomScaladslGrpcTestKit = l ++= Seq(
-    Compile.lagomScaladslTestKit,
-  )
-
-  val lagomInteropTestScala = l ++= Seq(
-    // TODO https://github.com/akka/akka-grpc/issues/193
-    Compile.grpcStub,
-    Compile.lagomScaladslTestKit,
-    Compile.playAkkaHttpServer,
-    Compile.playAkkaHttp2Support,
-    Compile.macwire,
-    // Used to force the akka version
-    Compile.akkaStream,
-  ) ++ testing
-
-  val lagomInteropTestJava = l ++= Seq(
-    Test.junitInterface,
-    // TODO https://github.com/akka/akka-grpc/issues/193
-    Compile.grpcStub,
-    Compile.lagomJavadslTestKit,
-    Compile.playAkkaHttpServer,
-    Compile.playAkkaHttp2Support,
-    // Used to force the akka version
-    Compile.akkaStream,
-  ) ++ testing
 
 }

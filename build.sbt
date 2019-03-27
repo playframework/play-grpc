@@ -11,7 +11,6 @@ ThisBuild / scalacOptions ++= List(
   "-unchecked",
   "-Xlint",
   "-Xfuture",
-  "-Yno-adapted-args",
   "-Ywarn-dead-code",
   "-Ywarn-numeric-widen",
   "-Ywarn-value-discard",
@@ -43,11 +42,9 @@ aggregateProjects(
 
 enablePlugins(build.play.grpc.NoPublish)
 unmanagedSources in (Compile, headerCreate) := ((baseDirectory.value / "project") ** "*.scala").get
+crossScalaVersions := Nil // https://github.com/sbt/sbt/issues/3465
 
-lazy val playTestdata = Project(
-  id = "play-grpc-testdata",
-  base = file("play-testdata"),
-).settings(Dependencies.playTestdata)
+val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
   .settings(
     scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
     javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
@@ -58,80 +55,104 @@ lazy val playTestdata = Project(
       akka.grpc.gen.scaladsl.play.PlayScalaClientCodeGenerator,
       akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator,
     ),
+    libraryDependencies ++= Seq(
+      Dependencies.Compile.play,
+      Dependencies.Compile.grpcStub,
+      Dependencies.Compile.playAkkaHttpServer,
+      Dependencies.Compile.playAkkaHttp2Support,
+    ),
   )
-  .enablePlugins(build.play.grpc.NoPublish)
   .pluginTestingSettings
+  .enablePlugins(build.play.grpc.NoPublish)
 
-lazy val playTestkit = Project(
-  id = "play-grpc-testkit",
-  base = file("play-testkit"),
-).dependsOn(playTestdata % "test")
-  .settings(Dependencies.playTestkit)
+val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
+  .dependsOn(playTestdata % "test")
+  .settings(
+    libraryDependencies ++= Seq(
+      Dependencies.Compile.play,
+      Dependencies.Compile.playTest,
+      Dependencies.Test.playAhcWs,
+    ),
+  )
   .pluginTestingSettings
 
 val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
   .dependsOn(playTestkit, playTestkit % "test->test")
-  .settings(
-    Dependencies.playSpecs2,
-  )
+  .settings(libraryDependencies += Dependencies.Compile.playSpecs2)
   .pluginTestingSettings
 
 val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
   .dependsOn(playTestkit, playTestkit % "test->test")
   .settings(
-    Dependencies.playScalaTest,
     excludeFilter in (Compile, headerSources) := {
       val orig = (excludeFilter in (Test, headerSources)).value
       // The following files have a different license
       orig || "NewGuiceOneServerPerTest.scala" || "NewServerProvider.scala" || "NewBaseOneServerPerTest.scala"
     },
+    libraryDependencies += Dependencies.Compile.scalaTestPlusPlay,
   )
   .pluginTestingSettings
 
-lazy val playInteropTestScala = Project(
-  id = "play-grpc-interop-test-scala",
-  base = file("play-interop-test-scala"),
-).dependsOn(playSpecs2 % Test, playScalaTest % Test)
-  .settings(Dependencies.playInteropTestScala)
+val playInteropTestScala = Project("play-grpc-interop-test-scala", file("play-interop-test-scala"))
+  .dependsOn(playSpecs2 % Test, playScalaTest % Test)
   .settings(
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator,
       akka.grpc.gen.scaladsl.play.PlayScalaClientCodeGenerator,
       akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator,
     ),
+    libraryDependencies ++= Seq(
+      // TODO https://github.com/akka/akka-grpc/issues/193
+      Dependencies.Compile.grpcStub,
+      Dependencies.Compile.play,
+      Dependencies.Compile.playGuice,
+      Dependencies.Compile.playAkkaHttpServer,
+      Dependencies.Compile.playAkkaHttp2Support,
+      Dependencies.Test.junit,
+      Dependencies.Test.playSpecs2,
+      Dependencies.Test.scalaTest,
+      Dependencies.Test.scalaTestPlusPlay,
+    ),
   )
-  .enablePlugins(build.play.grpc.NoPublish)
   .pluginTestingSettings
+  .enablePlugins(build.play.grpc.NoPublish)
 
-lazy val playInteropTestJava = Project(
-  id = "play-grpc-interop-test-java",
-  base = file("play-interop-test-java"),
-).dependsOn(playSpecs2 % Test, playScalaTest % Test)
-  .settings(Dependencies.playInteropTestJava)
+val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-interop-test-java"))
+  .dependsOn(playSpecs2 % Test, playScalaTest % Test)
   .settings(
     akkaGrpcExtraGenerators ++= List(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
       akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,
     ),
+    libraryDependencies ++= Seq(
+      // TODO https://github.com/akka/akka-grpc/issues/193
+      Dependencies.Compile.grpcStub,
+      Dependencies.Compile.play,
+      Dependencies.Compile.playGuice,
+      Dependencies.Compile.playAkkaHttpServer,
+      Dependencies.Compile.playAkkaHttp2Support,
+      Dependencies.Compile.playJava,
+      Dependencies.Test.junit,
+      Dependencies.Test.scalaTest,
+    ),
   )
   .enablePlugins(build.play.grpc.NoPublish)
   .pluginTestingSettings
 
-lazy val lagomJavadslGrpcTestKit = Project(
-  id = "lagom-javadsl-grpc-testkit",
-  base = file("lagom-javadsl-grpc-testkit"),
-).settings(Dependencies.lagomJavadslGrpcTestKit).pluginTestingSettings
+val lagomJavadslGrpcTestKit = Project("lagom-javadsl-grpc-testkit", file("lagom-javadsl-grpc-testkit"))
+  .settings(
+    libraryDependencies += Dependencies.Compile.lagomJavadslTestKit,
+  )
+  .pluginTestingSettings
 
-lazy val lagomScaladslGrpcTestKit = Project(
-  id = "lagom-scaladsl-grpc-testkit",
-  base = file("lagom-scaladsl-grpc-testkit"),
-).settings(Dependencies.lagomScaladslGrpcTestKit).pluginTestingSettings
+val lagomScaladslGrpcTestKit = Project("lagom-scaladsl-grpc-testkit", file("lagom-scaladsl-grpc-testkit"))
+  .settings(
+    libraryDependencies += Dependencies.Compile.lagomScaladslTestKit,
+  )
+  .pluginTestingSettings
 
-lazy val lagomInteropTestScala = Project(
-  id = "lagom-grpc-interop-test-scala",
-  base = file("lagom-interop-test-scala"),
-).dependsOn(lagomScaladslGrpcTestKit % Test)
-  .settings(Dependencies.lagomInteropTestScala)
+val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom-interop-test-scala"))
+  .dependsOn(lagomScaladslGrpcTestKit % Test)
   .settings(
     akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Scala),
     akkaGrpcGeneratedSources :=
@@ -144,15 +165,24 @@ lazy val lagomInteropTestScala = Project(
       akka.grpc.gen.scaladsl.play.PlayScalaClientCodeGenerator,
       akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator,
     ),
+    libraryDependencies ++= Seq(
+      // TODO https://github.com/akka/akka-grpc/issues/193
+      Dependencies.Compile.grpcStub,
+      Dependencies.Compile.lagomScaladslTestKit,
+      Dependencies.Compile.playAkkaHttpServer,
+      Dependencies.Compile.playAkkaHttp2Support,
+      Dependencies.Compile.macwire,
+      // Used to force the akka version
+      Dependencies.Compile.akkaStream,
+      Dependencies.Test.junit,
+      Dependencies.Test.scalaTest,
+    ),
   )
-  .enablePlugins(build.play.grpc.NoPublish)
   .pluginTestingSettings
+  .enablePlugins(build.play.grpc.NoPublish)
 
-lazy val lagomInteropTestJava = Project(
-  id = "lagom-grpc-interop-test-java",
-  base = file("lagom-interop-test-java"),
-).dependsOn(lagomJavadslGrpcTestKit % Test)
-  .settings(Dependencies.lagomInteropTestJava)
+val lagomInteropTestJava = Project("lagom-grpc-interop-test-java", file("lagom-interop-test-java"))
+  .dependsOn(lagomJavadslGrpcTestKit % Test)
   .settings(
     akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Java),
     akkaGrpcGeneratedSources :=
@@ -164,19 +194,26 @@ lazy val lagomInteropTestJava = Project(
       akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
       akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,
     ),
+    libraryDependencies ++= Seq(
+      // TODO https://github.com/akka/akka-grpc/issues/193
+      Dependencies.Compile.grpcStub,
+      Dependencies.Compile.lagomJavadslTestKit,
+      Dependencies.Compile.playAkkaHttpServer,
+      Dependencies.Compile.playAkkaHttp2Support,
+      // Used to force the akka version
+      Dependencies.Compile.akkaStream,
+      Dependencies.Test.junit,
+      Dependencies.Test.junitInterface,
+      Dependencies.Test.scalaTest,
+    ),
   )
-  .enablePlugins(build.play.grpc.NoPublish)
   .pluginTestingSettings
-
-lazy val docs = Project(
-  id = "play-grpc-docs",
-  base = file("docs"),
-)
-// Make sure code generation is ran:
-  .enablePlugins(AkkaParadoxPlugin)
   .enablePlugins(build.play.grpc.NoPublish)
+
+val docs = Project("play-grpc-docs", file("docs"))
+  .enablePlugins(AkkaParadoxPlugin)
   .settings(
-    // Make sure code generation is ran before paradox:
+    // Make sure code generation is run before paradox:
     (Compile / paradox) := (Compile / paradox).dependsOn(Compile / compile).value,
     paradoxGroups := Map(
       "Language"  -> Seq("Scala", "Java"),
@@ -188,5 +225,6 @@ lazy val docs = Project(
     ),
     resolvers += Resolver.jcenterRepo,
   )
+  .enablePlugins(build.play.grpc.NoPublish)
 
 cancelable in Global := true
