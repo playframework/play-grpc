@@ -12,8 +12,4 @@ akkaGrpc {
 }
 ```
 
-For a full example project see the
-@java[[Quickstart project](https://github.com/playframework/play-java-grpc-example).]
-@scala[[Quickstart project](https://github.com/playframework/play-scala-grpc-example).]
-
-See the [gradle support docs](https://developer.lightbend.com/docs/akka-grpc/current/buildtools/gradle.html) for details about the other options.
+See the [Akka gRPC Gradle support docs](https://doc.akka.io/docs/akka-grpc/current/buildtools/gradle.html) for further details.
