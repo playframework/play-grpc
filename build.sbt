@@ -27,6 +27,7 @@ ThisBuild / resolvers += Resolver.bintrayRepo("akka", "maven")
 
 val playGrpc = Project("play-grpc", file("."))
 aggregateProjects(
+  playGenerators,
   playInteropTestJava,
   playInteropTestScala,
   playTestkit,
@@ -48,12 +49,12 @@ val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
   .settings(
     scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
     javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
-    akkaGrpcExtraGenerators ++= List(
-      akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
-      akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,
-      akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator,
-      akka.grpc.gen.scaladsl.play.PlayScalaClientCodeGenerator,
-      akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator,
+    ReflectiveCodeGen.extraGenerators ++= List(
+      "akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator",
+      "play.grpc.gen.javadsl.PlayJavaClientCodeGenerator",
+      "play.grpc.gen.javadsl.PlayJavaServerCodeGenerator",
+      "play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator",
+      "play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator",
     ),
     libraryDependencies ++= Seq(
       Dependencies.Compile.play,
@@ -64,6 +65,15 @@ val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
   )
   .pluginTestingSettings
   .enablePlugins(build.play.grpc.NoPublish)
+
+val playGenerators = Project("play-grpc-generators", file("play-generators"))
+  .enablePlugins(SbtTwirl, BuildInfoPlugin)
+  .settings(
+    libraryDependencies ++= Seq(
+      Dependencies.Compile.akkaGrpcCodegen,
+      Dependencies.Test.scalaTest,
+    )
+  )
 
 val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
   .dependsOn(playTestdata % "test")
@@ -96,10 +106,10 @@ val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
 val playInteropTestScala = Project("play-grpc-interop-test-scala", file("play-interop-test-scala"))
   .dependsOn(playSpecs2 % Test, playScalaTest % Test)
   .settings(
-    akkaGrpcExtraGenerators ++= List(
-      akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator,
-      akka.grpc.gen.scaladsl.play.PlayScalaClientCodeGenerator,
-      akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator,
+    ReflectiveCodeGen.extraGenerators ++= List(
+      "akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator",
+      "play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator",
+      "play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator",
     ),
     libraryDependencies ++= Seq(
       // TODO https://github.com/akka/akka-grpc/issues/193
@@ -120,9 +130,9 @@ val playInteropTestScala = Project("play-grpc-interop-test-scala", file("play-in
 val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-interop-test-java"))
   .dependsOn(playSpecs2 % Test, playScalaTest % Test)
   .settings(
-    akkaGrpcExtraGenerators ++= List(
-      akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
-      akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,
+    ReflectiveCodeGen.extraGenerators ++= List(
+      "play.grpc.gen.javadsl.PlayJavaClientCodeGenerator",
+      "play.grpc.gen.javadsl.PlayJavaServerCodeGenerator",
     ),
     libraryDependencies ++= Seq(
       // TODO https://github.com/akka/akka-grpc/issues/193
@@ -154,16 +164,11 @@ val lagomScaladslGrpcTestKit = Project("lagom-scaladsl-grpc-testkit", file("lago
 val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom-interop-test-scala"))
   .dependsOn(lagomScaladslGrpcTestKit % Test)
   .settings(
-    akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Scala),
-    akkaGrpcGeneratedSources :=
-      Seq(
-        AkkaGrpc.Server,
-        AkkaGrpc.Client, // the client is only used in tests. See https://github.com/akka/akka-grpc/issues/410
-      ),
-    akkaGrpcExtraGenerators ++= List(
-      akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator,
-      akka.grpc.gen.scaladsl.play.PlayScalaClientCodeGenerator,
-      akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator,
+    ReflectiveCodeGen.generatedLanguages := Seq("Scala"),
+    ReflectiveCodeGen.extraGenerators ++= List(
+      "akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator",
+      "play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator",
+      "play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator",
     ),
     libraryDependencies ++= Seq(
       // TODO https://github.com/akka/akka-grpc/issues/193
@@ -184,15 +189,10 @@ val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom
 val lagomInteropTestJava = Project("lagom-grpc-interop-test-java", file("lagom-interop-test-java"))
   .dependsOn(lagomJavadslGrpcTestKit % Test)
   .settings(
-    akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Java),
-    akkaGrpcGeneratedSources :=
-      Seq(
-        AkkaGrpc.Server,
-        AkkaGrpc.Client, // the client is only used in tests. See https://github.com/akka/akka-grpc/issues/410
-      ),
-    akkaGrpcExtraGenerators ++= List(
-      akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator,
-      akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator,
+    ReflectiveCodeGen.generatedLanguages := Seq("Java"),
+    ReflectiveCodeGen.extraGenerators ++= List(
+      "play.grpc.gen.javadsl.PlayJavaClientCodeGenerator",
+      "play.grpc.gen.javadsl.PlayJavaServerCodeGenerator",
     ),
     libraryDependencies ++= Seq(
       // TODO https://github.com/akka/akka-grpc/issues/193
