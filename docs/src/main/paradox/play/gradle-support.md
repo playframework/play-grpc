@@ -8,7 +8,10 @@ akkaGrpc {
   language = "Java"
   generateClient = true
   generateServer = true
-  generatePlay = true
+  extraGenerators = [
+    'akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator',
+    'akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator'
+  ]
 }
 ```
 
