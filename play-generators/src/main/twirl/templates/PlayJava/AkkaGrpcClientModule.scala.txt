@@ -1,7 +1,6 @@
 @*
  * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
  *@
-
 @(packageName: String, services: Seq[akka.grpc.gen.javadsl.Service])
 @akka.grpc.gen.Constants.DoNotEditComment
 @{if (packageName.nonEmpty) s"package $packageName;" else ""}
