@@ -9,7 +9,7 @@ package @service.packageName
 import akka.annotation.InternalApi
 import akka.actor.ActorSystem
 import akka.grpc.GrpcServiceException
-import akka.grpc.internal.PlayRouterUsingActions
+import play.grpc.internal.PlayRouterUsingActions
 import akka.grpc.scaladsl.GrpcExceptionHandler.defaultMapper
 import akka.http.scaladsl.model.Uri.Path
 import akka.http.scaladsl.model.Uri.Path.Segment
