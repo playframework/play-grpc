@@ -72,7 +72,7 @@ val playGenerators = Project("play-grpc-generators", file("play-generators"))
     libraryDependencies ++= Seq(
       Dependencies.Compile.akkaGrpcCodegen,
       Dependencies.Test.scalaTest,
-    )
+    ),
   )
 
 val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
