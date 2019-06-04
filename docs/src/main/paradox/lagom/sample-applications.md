@@ -1,4 +1,4 @@
-# Lagom gRCP sample applications
+# Lagom gRPC sample applications
 
 There are also samples demonstrating the use of gRPC in Lagom in both Java and Scala.
 
