@@ -22,18 +22,24 @@ sbt
 Then you need to enable the Play server side code generator in `build.sbt`:
 
 Scala
-:   ```scala
-enablePlugins(AkkaGrpcPlugin)
-import play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator
-akkaGrpcExtraGenerators += PlayScalaServerCodeGenerator
-```
+:   @@@vars
+    ```scala
+    enablePlugins(AkkaGrpcPlugin)
+    import play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator
+    akkaGrpcExtraGenerators += PlayScalaServerCodeGenerator
+    libraryDependencies += "com.lightbend.play" %% "play-grpc-runtime" % "$project.version$"
+    ```
+    @@@
 
 Java
-:   ```scala
-enablePlugins(AkkaGrpcPlugin)
-import play.grpc.gen.javadsl.PlayJavaServerCodeGenerator
-akkaGrpcExtraGenerators += PlayJavaServerCodeGenerator
-```
+:   @@@vars
+    ```scala
+    enablePlugins(AkkaGrpcPlugin)
+    import play.grpc.gen.javadsl.PlayJavaServerCodeGenerator
+    akkaGrpcExtraGenerators += PlayJavaServerCodeGenerator
+    libraryDependencies += "com.lightbend.play" %% "play-grpc-runtime" % "$project.version$"
+    ```
+    @@@
 
 The plugin will look for `.proto` service descriptors in `app/protobuf` and output an abstract class per service
 that you then implement, so for example for the following protobuf descriptor:
