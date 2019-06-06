@@ -7,6 +7,7 @@ import com.lightbend.sbt.javaagent.JavaAgent
 import com.lightbend.sbt.javaagent.JavaAgent.autoImport.javaAgents
 import sbtprotoc.ProtocPlugin
 import sbtprotoc.ProtocPlugin.autoImport.PB
+import akka.grpc.sbt.AkkaGrpcPlugin.autoImport._
 
 // helper to define projects that test the plugin infrastructure
 object ProjectExtensions {
@@ -20,7 +21,7 @@ object ProjectExtensions {
           javaAgents += "org.mortbay.jetty.alpn" % "jetty-alpn-agent" % "2.0.9" % Test,
           libraryDependencies += Dependencies.Compile.akkaGrpcRuntime,
           // Defaults to `Seq("Scala")` so we only need to add Java
-          ReflectiveCodeGen.generatedLanguages += "Java",
+          ReflectiveCodeGen.generatedLanguages += AkkaGrpc.Java,
           ReflectiveCodeGen.codeGeneratorSettings -= "flat_package", // avoid Java+Scala fqcn conflicts
         )
         .enablePlugins(ReflectiveCodeGen)

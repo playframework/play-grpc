@@ -164,7 +164,7 @@ val lagomScaladslGrpcTestKit = Project("lagom-scaladsl-grpc-testkit", file("lago
 val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom-interop-test-scala"))
   .dependsOn(lagomScaladslGrpcTestKit % Test)
   .settings(
-    ReflectiveCodeGen.generatedLanguages := Seq("Scala"),
+    ReflectiveCodeGen.generatedLanguages := Seq(AkkaGrpc.Scala),
     ReflectiveCodeGen.extraGenerators ++= List(
       "akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator",
       "play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator",
@@ -189,7 +189,7 @@ val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom
 val lagomInteropTestJava = Project("lagom-grpc-interop-test-java", file("lagom-interop-test-java"))
   .dependsOn(lagomJavadslGrpcTestKit % Test)
   .settings(
-    ReflectiveCodeGen.generatedLanguages := Seq("Java"),
+    ReflectiveCodeGen.generatedLanguages := Seq(AkkaGrpc.Java),
     ReflectiveCodeGen.extraGenerators ++= List(
       "play.grpc.gen.javadsl.PlayJavaClientCodeGenerator",
       "play.grpc.gen.javadsl.PlayJavaServerCodeGenerator",

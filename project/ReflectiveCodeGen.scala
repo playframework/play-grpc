@@ -10,13 +10,14 @@ import protocbridge.Target
 import sbt.ProjectRef
 import sbt.file
 import sbt.internal.inc.classpath.ClasspathUtilities
+import akka.grpc.sbt.AkkaGrpcPlugin.autoImport._
 
 import scala.collection.mutable.ListBuffer
 
 /** A plugin that allows to use a code generator compiled in one subproject to be used in a test project */
 object ReflectiveCodeGen extends AutoPlugin {
-  val generatedLanguages    = SettingKey[Seq[String]]("reflectiveGrpcGeneratedLanguages")
-  val generatedSources      = SettingKey[Seq[String]]("reflectiveGrpcGeneratedSources")
+  val generatedLanguages    = SettingKey[Seq[AkkaGrpc.Language]]("reflectiveGrpcGeneratedLanguages")
+  val generatedSources      = SettingKey[Seq[AkkaGrpc.GeneratedSource]]("reflectiveGrpcGeneratedSources")
   val extraGenerators       = SettingKey[Seq[String]]("reflectiveGrpcExtraGenerators")
   val codeGeneratorSettings = settingKey[Seq[String]]("Code generator settings")
 
@@ -61,8 +62,8 @@ object ReflectiveCodeGen extends AutoPlugin {
       ),
     ) ++ Seq(
       codeGeneratorSettings in Global := Nil,
-      generatedLanguages in Global := Seq("Scala"),
-      generatedSources in Global := Seq("Client", "Server"),
+      generatedLanguages in Global := Seq(AkkaGrpc.Scala),
+      generatedSources in Global := Seq(AkkaGrpc.Client, AkkaGrpc.Server),
       extraGenerators in Global := Seq.empty,
       watchSources ++= (watchSources in ProjectRef(file("."), "play-grpc-generators")).value,
     )
@@ -71,8 +72,8 @@ object ReflectiveCodeGen extends AutoPlugin {
 
   def loadAndSetGenerator(
       classpath: Classpath,
-      languages0: Seq[String],
-      sources0: Seq[String],
+      languages0: Seq[AkkaGrpc.Language],
+      sources0: Seq[AkkaGrpc.GeneratedSource],
       extraGenerators0: Seq[String],
       targetPath: File,
       generatorSettings: Seq[String],
