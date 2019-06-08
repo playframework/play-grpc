@@ -7,13 +7,14 @@ with HTTPS and the ALPN agent. This is still somewhat involved and we hope to si
   To use gRPC in Play Framework you must enable [HTTP/2 Support](https://www.playframework.com/documentation/2.7.x/AkkaHttpServer#HTTP%2F2-support-%28experimental%29).
 @@@
 
-Generating classes from the gRPC service definition is done buy adding the [Akka gRPC plugin to your sbt build](https://developer.lightbend.com/docs/akka-grpc/current/buildtools/sbt.html):
+Generating classes from the gRPC service definition is done buy adding the [Akka gRPC plugin to your sbt build](https://developer.lightbend.com/docs/akka-grpc/current/buildtools/sbt.html) along with the Play gRPC generators:
 
 sbt
 :   @@@vars
     ```scala
     // in project/plugins.sbt:
-    addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "$project.version$")
+    addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "$akka.grpc.version$")
+    libraryDependencies += "com.lightbend.play" %% "play-grpc-generators" % "$project.version$"
     ```
     @@@
 
@@ -23,14 +24,14 @@ Then you need to enable the Play server side code generator in `build.sbt`:
 Scala
 :   ```scala
 enablePlugins(AkkaGrpcPlugin)
-import akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator
+import play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator
 akkaGrpcExtraGenerators += PlayScalaServerCodeGenerator
 ```
 
 Java
 :   ```scala
 enablePlugins(AkkaGrpcPlugin)
-import akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator
+import play.grpc.gen.javadsl.PlayJavaServerCodeGenerator
 akkaGrpcExtraGenerators += PlayJavaServerCodeGenerator
 ```
 
