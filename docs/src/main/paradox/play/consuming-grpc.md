@@ -6,13 +6,13 @@ source generator in `build.sbt`:
 
 Scala
 :  ```
-import akka.grpc.gen.scaladsl.play.PlayScalaClientCodeGenerator
+import play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator
 akkaGrpcExtraGenerators += PlayScalaClientCodeGenerator
 ```
 
 Java
 :  ```
-import akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator
+import play.grpc.gen.javadsl.PlayJavaClientCodeGenerator
 akkaGrpcExtraGenerators += PlayJavaClientCodeGenerator
 ```
 
