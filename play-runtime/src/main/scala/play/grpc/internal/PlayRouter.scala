@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2009-2019 Lightbend Inc. <https://www.lightbend.com>
  */
 package play.grpc.internal
@@ -30,7 +30,8 @@ import scala.compat.java8.OptionConverters._
   def handlerFor(
       javaHandler: akka.japi.Function[akka.http.javadsl.model.HttpRequest, CompletionStage[
         akka.http.javadsl.model.HttpResponse,
-      ]])(
+      ]],
+  )(
       implicit ec: ExecutionContext,
   ): HttpRequest => Future[HttpResponse] =
     AkkaHttpHandler.apply(
