@@ -15,7 +15,7 @@ object Dependencies {
 
     val grpc = "1.20.0" // needs to be in sync with akkaGrpc version?
 
-    val scalaTest         = "3.0.7"
+    val scalaTest         = "3.0.8"
     val scalaTestPlusPlay = "4.0.2"
 
     val macwire = "2.3.3"
