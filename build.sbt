@@ -30,6 +30,7 @@ aggregateProjects(
   playGenerators,
   playInteropTestJava,
   playInteropTestScala,
+  playRuntime,
   playTestkit,
   playSpecs2,
   playScalaTest,
@@ -45,7 +46,17 @@ enablePlugins(build.play.grpc.NoPublish)
 unmanagedSources in (Compile, headerCreate) := ((baseDirectory.value / "project") ** "*.scala").get
 crossScalaVersions := Nil // https://github.com/sbt/sbt/issues/3465
 
+val playRuntime = Project("play-grpc-runtime", file("play-runtime"))
+  .settings(
+    libraryDependencies ++= Seq(
+      Dependencies.Compile.akkaGrpcRuntime,
+      Dependencies.Compile.play,
+      Dependencies.Compile.playAkkaHttpServer,
+    ),
+  )
+
 val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
+  .dependsOn(playRuntime)
   .settings(
     scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
     javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
@@ -104,7 +115,7 @@ val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
   .pluginTestingSettings
 
 val playInteropTestScala = Project("play-grpc-interop-test-scala", file("play-interop-test-scala"))
-  .dependsOn(playSpecs2 % Test, playScalaTest % Test)
+  .dependsOn(playRuntime, playSpecs2 % Test, playScalaTest % Test)
   .settings(
     ReflectiveCodeGen.extraGenerators ++= List(
       "akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator",
@@ -128,7 +139,7 @@ val playInteropTestScala = Project("play-grpc-interop-test-scala", file("play-in
   .enablePlugins(build.play.grpc.NoPublish)
 
 val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-interop-test-java"))
-  .dependsOn(playSpecs2 % Test, playScalaTest % Test)
+  .dependsOn(playRuntime, playSpecs2 % Test, playScalaTest % Test)
   .settings(
     ReflectiveCodeGen.extraGenerators ++= List(
       "play.grpc.gen.javadsl.PlayJavaClientCodeGenerator",
@@ -162,7 +173,7 @@ val lagomScaladslGrpcTestKit = Project("lagom-scaladsl-grpc-testkit", file("lago
   .pluginTestingSettings
 
 val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom-interop-test-scala"))
-  .dependsOn(lagomScaladslGrpcTestKit % Test)
+  .dependsOn(playRuntime, lagomScaladslGrpcTestKit % Test)
   .settings(
     ReflectiveCodeGen.generatedLanguages := Seq(AkkaGrpc.Scala),
     ReflectiveCodeGen.extraGenerators ++= List(
@@ -187,7 +198,7 @@ val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom
   .enablePlugins(build.play.grpc.NoPublish)
 
 val lagomInteropTestJava = Project("lagom-grpc-interop-test-java", file("lagom-interop-test-java"))
-  .dependsOn(lagomJavadslGrpcTestKit % Test)
+  .dependsOn(playRuntime, lagomJavadslGrpcTestKit % Test)
   .settings(
     ReflectiveCodeGen.generatedLanguages := Seq(AkkaGrpc.Java),
     ReflectiveCodeGen.extraGenerators ++= List(
