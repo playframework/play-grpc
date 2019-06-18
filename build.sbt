@@ -52,7 +52,7 @@ val playRuntime = Project("play-grpc-runtime", file("play-runtime"))
       Dependencies.Compile.akkaGrpcRuntime,
       Dependencies.Compile.play,
       Dependencies.Compile.playAkkaHttpServer,
-    )
+    ),
   )
 
 val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
