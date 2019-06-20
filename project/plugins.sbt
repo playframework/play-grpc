@@ -11,7 +11,7 @@ addSbtPlugin("com.typesafe.sbt"   % "sbt-twirl"          % "1.4.2")
 addSbtPlugin("de.heikoseeberger"  % "sbt-header"         % "5.2.0")
 addSbtPlugin("org.foundweekends"  % "sbt-bintray"        % "0.5.5")
 addSbtPlugin("com.lightbend.sbt"  % "sbt-java-formatter" % "0.4.4")
-addSbtPlugin("org.scalameta"      % "sbt-scalafmt"       % "2.0.0-RC5")
+addSbtPlugin("org.scalameta"      % "sbt-scalafmt"       % "2.0.1")
 
 addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "0.6.2")
 
