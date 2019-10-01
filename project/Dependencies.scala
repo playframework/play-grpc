@@ -6,12 +6,12 @@ import sbt.Keys._
 object Dependencies {
 
   object Versions {
-    val akka = "2.5.25"
+    val akka = "2.6.0-M7"
 
-    val akkaGrpc = "0.7.0" // TODO: obtain via sbt-akka-grpc?
+    val akkaGrpc = "0.7.1+25-ccdf7cf9" // TODO: obtain via sbt-akka-grpc?
 
-    val play  = "2.7.3"
-    val lagom = "1.5.3"
+    val play  = "2.8.0-M5"
+    val lagom = "1.6.0-M6"
 
     val grpc = "1.24.0" // needs to be in sync with akkaGrpc version?
 
