@@ -14,7 +14,7 @@ import play.api.mvc.ControllerComponents
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class MyController @Inject()(
+class MyController @Inject() (
     implicit greeterClient: GreeterServiceClient,
     cc: ControllerComponents,
     exec: ExecutionContext,
