@@ -14,6 +14,7 @@ sbt
     ```scala
     // in project/plugins.sbt:
     addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "$akka.grpc.version$")
+    resolvers += Resolver.bintrayRepo("playframework", "maven")
     libraryDependencies += "com.lightbend.play" %% "play-grpc-generators" % "$project.version$"
     ```
     @@@
