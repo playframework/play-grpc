@@ -24,10 +24,10 @@ import akka.stream.scaladsl.Source
 import akka.util.ByteString
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.BeforeAndAfterAll
-import org.scalatest.Matchers
-import org.scalatest.WordSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class PlayScalaRouterSpec extends WordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
+class PlayScalaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
   implicit val sys      = ActorSystem()
   implicit val mat      = ActorMaterializer()
   implicit val ec       = sys.dispatcher
