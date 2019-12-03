@@ -4,10 +4,10 @@
 package play.grpc.gen.scaladsl
 
 import akka.grpc.gen.scaladsl.Service
-import org.scalatest.Matchers
-import org.scalatest.WordSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class PlayScalaClientCodeGeneratorSpec extends WordSpec with Matchers {
+class PlayScalaClientCodeGeneratorSpec extends AnyWordSpec with Matchers {
 
   "The PlayScalaClientCodeGenerator" must {
 

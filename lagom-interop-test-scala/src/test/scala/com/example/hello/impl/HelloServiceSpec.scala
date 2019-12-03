@@ -11,10 +11,10 @@ import com.lightbend.lagom.scaladsl.grpc.interop.test.HelloService
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
 import com.lightbend.lagom.scaladsl.testkit.ServiceTest
 import com.lightbend.lagom.scaladsl.testkit.grpc.AkkaGrpcClientHelpers
-import org.scalatest.AsyncWordSpec
 import org.scalatest.BeforeAndAfterAll
-import org.scalatest.Matchers
-import org.scalatest.WordSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.wordspec.AsyncWordSpec
 
 class HelloServiceAsyncSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll {
 
@@ -62,7 +62,7 @@ class HelloServiceAsyncSpec extends AsyncWordSpec with Matchers with BeforeAndAf
 
 }
 
-class HelloServiceSpec extends WordSpec with Matchers with BeforeAndAfterAll {
+class HelloServiceSpec extends AnyWordSpec with Matchers with BeforeAndAfterAll {
 
   private val server: ServiceTest.TestServer[HelloApplication with LocalServiceLocator] = ServiceTest.startServer(
     ServiceTest.defaultSetup.withSsl(true).withCluster(false),

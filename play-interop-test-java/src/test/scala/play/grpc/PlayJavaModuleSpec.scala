@@ -7,14 +7,14 @@ import java.io.File
 
 import example.myapp.helloworld.grpc.GreeterServiceClient
 import example.myapp.helloworld.grpc.GreeterServiceClientProvider
-import org.scalatest.Matchers
-import org.scalatest.WordSpec
 import play.api.inject.ProviderConstructionTarget
 import play.api.Configuration
 import play.api.Environment
 import play.api.Mode
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class PlayJavaModuleSpec extends WordSpec with Matchers {
+class PlayJavaModuleSpec extends AnyWordSpec with Matchers {
 
   "The generated module" should {
 
