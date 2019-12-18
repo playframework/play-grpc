@@ -6,12 +6,12 @@ import sbt.Keys._
 object Dependencies {
 
   object Versions {
-    val akka = "2.5.27"
+    val akka = "2.6.1"
 
-    val akkaGrpc = "0.7.2" // TODO: obtain via sbt-akka-grpc?
+    val akkaGrpc = "0.7.3" // TODO: obtain via sbt-akka-grpc?
 
-    val play  = "2.7.4"
-    val lagom = "1.5.5"
+    val play  = "2.8.0"
+    val lagom = "1.6.0"
 
     val grpc = "1.25.0" // needs to be in sync with akkaGrpc version?
 
@@ -25,6 +25,7 @@ object Dependencies {
     val grpcStub = "io.grpc" % "grpc-stub" % Versions.grpc
 
     val akkaStream = "com.typesafe.akka" %% "akka-stream" % Versions.akka
+    val akkaDiscovery = "com.typesafe.akka" %% "akka-discovery" % Versions.akka
 
     val akkaGrpcCodegen = "com.lightbend.akka.grpc" %% "akka-grpc-codegen" % Versions.akkaGrpc // Apache V2
     val akkaGrpcRuntime = "com.lightbend.akka.grpc" %% "akka-grpc-runtime" % Versions.akkaGrpc // Apache V2
