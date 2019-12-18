@@ -9,7 +9,7 @@ import akka.grpc.GrpcClientSettings;
 import play.api.test.RunningServer;
 import play.core.server.ServerEndpoint;
 import play.core.server.ServerEndpoints;
-
+import play.api.http.HttpProtocol;
 import javax.net.ssl.SSLContext;
 
 /** Helpers to test Java Akka gRPC clients with Play. */
@@ -31,7 +31,7 @@ public final class JavaAkkaGrpcClientHelpers {
     final scala.collection.Iterable<ServerEndpoint> possibleEndpoints =
         serverEndpoints
             .endpoints()
-            .filter(e -> e.expectedHttpVersions().contains("2"))
+            .filter(e -> e.protocols().contains(HttpProtocol.HTTP_2_0))
             .toIterable();
     if (possibleEndpoints.size() == 0) {
       throw new IllegalArgumentException(
