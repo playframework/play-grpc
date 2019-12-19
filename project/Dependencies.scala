@@ -24,7 +24,7 @@ object Dependencies {
   object Compile {
     val grpcStub = "io.grpc" % "grpc-stub" % Versions.grpc
 
-    val akkaStream = "com.typesafe.akka" %% "akka-stream" % Versions.akka
+    val akkaStream    = "com.typesafe.akka" %% "akka-stream"    % Versions.akka
     val akkaDiscovery = "com.typesafe.akka" %% "akka-discovery" % Versions.akka
 
     val akkaGrpcCodegen = "com.lightbend.akka.grpc" %% "akka-grpc-codegen" % Versions.akkaGrpc // Apache V2

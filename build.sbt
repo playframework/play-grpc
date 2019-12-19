@@ -106,7 +106,7 @@ val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
     libraryDependencies ++= Seq(
       Dependencies.Compile.playSpecs2,
       Dependencies.Compile.akkaDiscovery,
-    )
+    ),
   )
   .pluginTestingSettings
 
