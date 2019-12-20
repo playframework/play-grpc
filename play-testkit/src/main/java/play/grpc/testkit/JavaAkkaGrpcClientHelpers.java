@@ -9,7 +9,7 @@ import akka.grpc.GrpcClientSettings;
 import play.api.test.RunningServer;
 import play.core.server.ServerEndpoint;
 import play.core.server.ServerEndpoints;
-
+import play.api.http.HttpProtocol;
 import javax.net.ssl.SSLContext;
 
 /** Helpers to test Java Akka gRPC clients with Play. */
@@ -31,7 +31,7 @@ public final class JavaAkkaGrpcClientHelpers {
     final scala.collection.Iterable<ServerEndpoint> possibleEndpoints =
         serverEndpoints
             .endpoints()
-            .filter(e -> e.expectedHttpVersions().contains("2"))
+            .filter(e -> e.protocols().contains("HTTP/2.0" /* Play's HttpProtocol.HTTP_2_0 */))
             .toIterable();
     if (possibleEndpoints.size() == 0) {
       throw new IllegalArgumentException(
@@ -54,7 +54,7 @@ public final class JavaAkkaGrpcClientHelpers {
   public static GrpcClientSettings grpcClientSettings(
       final ServerEndpoint http2Endpoint, final ActorSystem actorSystem) {
 
-    final ServerEndpoint.ClientSsl clientSsl =
+    final SSLContext sslContext =
         http2Endpoint
             .ssl()
             .getOrElse(
@@ -63,7 +63,7 @@ public final class JavaAkkaGrpcClientHelpers {
                       "GrpcClientSettings requires a server endpoint with ssl, but non provided");
                 });
 
-    return grpcClientSettings(http2Endpoint, clientSsl.sslContext(), actorSystem);
+    return grpcClientSettings(http2Endpoint, sslContext, actorSystem);
   }
 
   public static GrpcClientSettings grpcClientSettings(
