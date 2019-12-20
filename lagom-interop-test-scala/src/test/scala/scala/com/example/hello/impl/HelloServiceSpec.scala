@@ -23,13 +23,13 @@ class HelloServiceSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAl
     new HelloApplication(ctx) with LocalServiceLocator
   }
 
+  implicit val mat: Materializer = server.materializer
+
   val client: HelloService = server.serviceClient.implement[HelloService]
   val grpcClient: GreeterServiceClient = AkkaGrpcClientHelpers.grpcClient(
     server,
     GreeterServiceClient.apply,
   )
-
-  implicit val mat: Materializer = server.materializer
 
   protected override def afterAll(): Unit = {
     grpcClient.close()
