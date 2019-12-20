@@ -11,9 +11,9 @@ import com.lightbend.lagom.scaladsl.grpc.interop.test.HelloService
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
 import com.lightbend.lagom.scaladsl.testkit.ServiceTest
 import com.lightbend.lagom.scaladsl.testkit.grpc.AkkaGrpcClientHelpers
-import org.scalatest.AsyncWordSpec
 import org.scalatest.BeforeAndAfterAll
-import org.scalatest.Matchers
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AsyncWordSpec
 
 class HelloServiceSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll {
 
@@ -23,13 +23,13 @@ class HelloServiceSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAl
     new HelloApplication(ctx) with LocalServiceLocator
   }
 
+  implicit val mat: Materializer = server.materializer
+
   val client: HelloService = server.serviceClient.implement[HelloService]
   val grpcClient: GreeterServiceClient = AkkaGrpcClientHelpers.grpcClient(
     server,
     GreeterServiceClient.apply,
   )
-
-  implicit val mat: Materializer = server.materializer
 
   protected override def afterAll(): Unit = {
     grpcClient.close()

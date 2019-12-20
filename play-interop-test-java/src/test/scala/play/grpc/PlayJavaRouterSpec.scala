@@ -26,8 +26,6 @@ import example.myapp.helloworld.grpc.HelloReply
 import example.myapp.helloworld.grpc.HelloRequest
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.BeforeAndAfterAll
-import org.scalatest.Matchers
-import org.scalatest.WordSpec
 import play.api.libs.typedmap.TypedMap
 import play.api.mvc.Headers
 import play.api.mvc.RequestHeader
@@ -38,8 +36,10 @@ import play.api.mvc.request.RequestTarget
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class PlayJavaRouterSpec extends WordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
+class PlayJavaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
   implicit val sys      = ActorSystem()
   implicit val mat      = ActorMaterializer()
   implicit val ec       = sys.dispatcher

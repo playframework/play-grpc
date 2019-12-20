@@ -52,6 +52,7 @@ val playRuntime = Project("play-grpc-runtime", file("play-runtime"))
       Dependencies.Compile.akkaGrpcRuntime,
       Dependencies.Compile.play,
       Dependencies.Compile.playAkkaHttpServer,
+      Dependencies.Compile.akkaDiscovery,
     ),
   )
 
@@ -72,6 +73,7 @@ val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
       Dependencies.Compile.grpcStub,
       Dependencies.Compile.playAkkaHttpServer,
       Dependencies.Compile.playAkkaHttp2Support,
+      Dependencies.Compile.akkaDiscovery,
     ),
   )
   .pluginTestingSettings
@@ -93,13 +95,19 @@ val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
       Dependencies.Compile.play,
       Dependencies.Compile.playTest,
       Dependencies.Test.playAhcWs,
+      Dependencies.Compile.akkaDiscovery,
     ),
   )
   .pluginTestingSettings
 
 val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
   .dependsOn(playTestkit, playTestkit % "test->test")
-  .settings(libraryDependencies += Dependencies.Compile.playSpecs2)
+  .settings(
+    libraryDependencies ++= Seq(
+      Dependencies.Compile.playSpecs2,
+      Dependencies.Compile.akkaDiscovery,
+    ),
+  )
   .pluginTestingSettings
 
 val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
@@ -111,6 +119,7 @@ val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
       orig || "NewGuiceOneServerPerTest.scala" || "NewServerProvider.scala" || "NewBaseOneServerPerTest.scala"
     },
     libraryDependencies += Dependencies.Compile.scalaTestPlusPlay,
+    libraryDependencies += Dependencies.Compile.akkaDiscovery,
   )
   .pluginTestingSettings
 
@@ -129,6 +138,7 @@ val playInteropTestScala = Project("play-grpc-interop-test-scala", file("play-in
       Dependencies.Compile.playGuice,
       Dependencies.Compile.playAkkaHttpServer,
       Dependencies.Compile.playAkkaHttp2Support,
+      Dependencies.Compile.akkaDiscovery,
       Dependencies.Test.junit,
       Dependencies.Test.playSpecs2,
       Dependencies.Test.scalaTest,
@@ -153,6 +163,7 @@ val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-inte
       Dependencies.Compile.playAkkaHttpServer,
       Dependencies.Compile.playAkkaHttp2Support,
       Dependencies.Compile.playJava,
+      Dependencies.Compile.akkaDiscovery,
       Dependencies.Test.junit,
       Dependencies.Test.scalaTest,
     ),
@@ -163,12 +174,14 @@ val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-inte
 val lagomJavadslGrpcTestKit = Project("lagom-javadsl-grpc-testkit", file("lagom-javadsl-grpc-testkit"))
   .settings(
     libraryDependencies += Dependencies.Compile.lagomJavadslTestKit,
+    libraryDependencies += Dependencies.Compile.akkaDiscovery,
   )
   .pluginTestingSettings
 
 val lagomScaladslGrpcTestKit = Project("lagom-scaladsl-grpc-testkit", file("lagom-scaladsl-grpc-testkit"))
   .settings(
     libraryDependencies += Dependencies.Compile.lagomScaladslTestKit,
+    libraryDependencies += Dependencies.Compile.akkaDiscovery,
   )
   .pluginTestingSettings
 
