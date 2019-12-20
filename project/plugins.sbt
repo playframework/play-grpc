@@ -18,7 +18,7 @@ addSbtPlugin(
     // because it breaks the PB.targets hack in ReflectionCodeGen
     .exclude("com.thesamet", "sbt-protoc"),
 )
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.25")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.27")
 
 addSbtPlugin("com.lightbend.akka" % "sbt-akka-version-check" % "0.1")
 
