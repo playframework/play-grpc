@@ -82,6 +82,10 @@ object AkkaGrpcClientHelpers {
     implicit val sys: ActorSystem                   = app.actorSystem
     implicit val materializer: Materializer         = app.materializer
     implicit val executionContext: ExecutionContext = sys.dispatcher
-    AkkaGrpcClientFactory.configure[T](JavaAkkaGrpcClientHelpers.grpcClientSettings(serverEndpoint, sys))
+    AkkaGrpcClientFactory.configure[T](
+      JavaAkkaGrpcClientHelpers
+        .grpcClientSettings(serverEndpoint, sys)
+        .withOverrideAuthority("localhost"),
+    )
   }
 }

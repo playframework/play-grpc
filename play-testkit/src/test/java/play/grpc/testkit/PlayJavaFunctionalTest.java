@@ -81,9 +81,13 @@ public final class PlayJavaFunctionalTest {
 
   @Test
   public void worksWithAGrpcClient() throws Exception {
+
     final HelloRequest req = HelloRequest.newBuilder().setName("Alice").build();
+
     final GrpcClientSettings grpcClientSettings =
-        JavaAkkaGrpcClientHelpers.grpcClientSettings(runningServer);
+        JavaAkkaGrpcClientHelpers.grpcClientSettings(runningServer)
+            .withOverrideAuthority("localhost");
+
     final GreeterServiceClient greeterServiceClient =
         GreeterServiceClient.create(
             grpcClientSettings,
