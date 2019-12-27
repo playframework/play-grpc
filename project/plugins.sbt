@@ -8,7 +8,7 @@ addSbtPlugin("com.lightbend.sbt"  % "sbt-javaagent"    % "0.1.4")
 addSbtPlugin("com.typesafe.sbt"   % "sbt-git"          % "1.0.0")
 addSbtPlugin("com.typesafe.sbt"   % "sbt-twirl"        % "1.5.0")
 addSbtPlugin("de.heikoseeberger"  % "sbt-header"       % "5.3.1")
-addSbtPlugin("org.foundweekends"  % "sbt-bintray"      % "0.5.5")
+addSbtPlugin("org.foundweekends"  % "sbt-bintray"      % "0.5.6")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.0")
 
