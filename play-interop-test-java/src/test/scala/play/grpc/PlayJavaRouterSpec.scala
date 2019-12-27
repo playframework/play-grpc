@@ -75,8 +75,8 @@ class PlayJavaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAl
       codec: Codec,
       system: ActorSystem,
   ): ToResponseMarshaller[Source[T, NotUsed]] =
-    Marshaller.opaque(
-      (response: Source[T, NotUsed]) ⇒ GrpcMarshalling.marshalStream(response)(serializer, mat, codec, system),
+    Marshaller.opaque((response: Source[T, NotUsed]) ⇒
+      GrpcMarshalling.marshalStream(response)(serializer, mat, codec, system),
     )
 
   val router = new GreeterServiceImpl(mat, sys)

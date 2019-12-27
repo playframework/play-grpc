@@ -53,10 +53,9 @@ class PlayScalaClientCodeGenerator extends ScalaCodeGenerator {
     if (allServices.forall(_.packageName == allServices.head.packageName)) allServices.head.packageName
     else {
       // try to find longest common prefix
-      allServices.tail.foldLeft(allServices.head.packageName)(
-        (packageName, service) =>
-          if (packageName == service.packageName) packageName
-          else commonPackage(packageName, service.packageName),
+      allServices.tail.foldLeft(allServices.head.packageName)((packageName, service) =>
+        if (packageName == service.packageName) packageName
+        else commonPackage(packageName, service.packageName),
       )
     }
 
