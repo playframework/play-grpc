@@ -16,7 +16,7 @@ import scala.concurrent.Future
 
 /** User implementation, with support for dependency injection etc */
 @Singleton
-class GreeterServiceImpl @Inject()(implicit mat: Materializer, actorSystem: ActorSystem)
+class GreeterServiceImpl @Inject() (implicit mat: Materializer, actorSystem: ActorSystem)
     extends AbstractGreeterServiceRouter(mat, actorSystem) {
 
   override def sayHello(in: HelloRequest): Future[HelloReply] = Future.successful(HelloReply(s"Hello, ${in.name}!"))
