@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) 2019-2020 Lightbend Inc. <https://www.lightbend.com>
  */
 // #service-impl
 package com.lightbend.lagom.javadsl.grpc.interop.test.api;
