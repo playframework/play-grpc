@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) Lightbend Inc. <https://www.lightbend.com>
  */
 // #service-impl
 package controllers;
