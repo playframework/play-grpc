@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) Lightbend Inc. <https://www.lightbend.com>
  */
 // #service-additional-router
 import com.google.inject.AbstractModule;
