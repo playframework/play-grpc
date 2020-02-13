@@ -13,7 +13,7 @@ object Dependencies {
     val play  = "2.8.0"
     val lagom = "1.6.0"
 
-    val grpc = "1.27.0" // needs to be in sync with akkaGrpc version?
+    val grpc = "1.27.1" // needs to be in sync with akkaGrpc version?
 
     val scalaTest         = "3.1.0"
     val scalaTestPlusPlay = "4.0.3"
