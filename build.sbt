@@ -58,6 +58,7 @@ val playRuntime = Project("play-grpc-runtime", file("play-runtime"))
 
 val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
   .dependsOn(playRuntime)
+  .pluginTestingSettings
   .settings(
     scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
     javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
@@ -76,7 +77,6 @@ val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
       Dependencies.Compile.akkaDiscovery,
     ),
   )
-  .pluginTestingSettings
   .enablePlugins(build.play.grpc.NoPublish)
 
 val playGenerators = Project("play-grpc-generators", file("play-generators"))
