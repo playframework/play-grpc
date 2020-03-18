@@ -6,7 +6,7 @@ import sbt.Keys._
 object Dependencies {
 
   object Versions {
-    val akka = "2.6.3"
+    val akka = "2.6.4"
 
     val akkaGrpc = "0.7.3" // TODO: obtain via sbt-akka-grpc?
 
