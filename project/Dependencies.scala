@@ -24,6 +24,7 @@ object Dependencies {
   object Compile {
     val grpcStub = "io.grpc" % "grpc-stub" % Versions.grpc
 
+    val akkaActorTyped           = "com.typesafe.akka" %% "akka-actor-typed"            % Versions.akka
     val akkaClusterShardingTyped = "com.typesafe.akka" %% "akka-cluster-sharding-typed" % Versions.akka
     val akkaStream               = "com.typesafe.akka" %% "akka-stream"                 % Versions.akka
     val akkaDiscovery            = "com.typesafe.akka" %% "akka-discovery"              % Versions.akka
