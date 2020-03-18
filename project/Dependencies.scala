@@ -6,11 +6,11 @@ import sbt.Keys._
 object Dependencies {
 
   object Versions {
-    val akka = "2.6.1"
+    val akka = "2.6.3"
 
     val akkaGrpc = "0.7.3" // TODO: obtain via sbt-akka-grpc?
 
-    val play  = "2.8.0"
+    val play  = "2.8.1"
     val lagom = "1.6.1"
 
     val grpc = "1.28.0" // needs to be in sync with akkaGrpc version?
@@ -24,8 +24,11 @@ object Dependencies {
   object Compile {
     val grpcStub = "io.grpc" % "grpc-stub" % Versions.grpc
 
-    val akkaStream    = "com.typesafe.akka" %% "akka-stream"    % Versions.akka
-    val akkaDiscovery = "com.typesafe.akka" %% "akka-discovery" % Versions.akka
+    val akkaClusterShardingTyped = "com.typesafe.akka" %% "akka-cluster-sharding-typed" % Versions.akka
+    val akkaStream               = "com.typesafe.akka" %% "akka-stream"                 % Versions.akka
+    val akkaDiscovery            = "com.typesafe.akka" %% "akka-discovery"              % Versions.akka
+    val akkaPersistenceTyped     = "com.typesafe.akka" %% "akka-persistence-typed"      % Versions.akka
+    val akkaPersistenceQuery     = "com.typesafe.akka" %% "akka-persistence-query"      % Versions.akka
 
     val akkaGrpcCodegen = "com.lightbend.akka.grpc" %% "akka-grpc-codegen" % Versions.akkaGrpc // Apache V2
     val akkaGrpcRuntime = "com.lightbend.akka.grpc" %% "akka-grpc-runtime" % Versions.akkaGrpc // Apache V2
@@ -49,6 +52,9 @@ object Dependencies {
 
   object Test {
     final val Test = sbt.Test
+
+    val akkaActorTestkitTyped = "com.typesafe.akka" %% "akka-actor-testkit-typed" % Versions.akka
+    val akkaStreamTestkit     = "com.typesafe.akka" %% "akka-stream-testkit"      % Versions.akka
 
     val junit             = "junit"                   % "junit" % "4.13" % Test // Common Public License 1.0
     val playAhcWs         = "com.typesafe.play"       %% "play-ahc-ws" % Versions.play % Test // Apache V2
