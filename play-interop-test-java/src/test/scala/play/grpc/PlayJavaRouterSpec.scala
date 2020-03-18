@@ -117,7 +117,11 @@ class PlayJavaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAl
         uri = uri,
         entity = HttpEntity.Chunked(
           GrpcProtocolNative.contentType,
-          Source.single(msg).map(serializer.serialize).map(DataFrame(_)).via(GrpcProtocolNative.newWriter(Identity).frameEncoder),
+          Source
+            .single(msg)
+            .map(serializer.serialize)
+            .map(DataFrame(_))
+            .via(GrpcProtocolNative.newWriter(Identity).frameEncoder),
         ),
       )
     }

@@ -44,18 +44,26 @@ class PlaySpecs2Spec extends ForServer with ServerGrpcClient with PlaySpecificat
       val result = await(wsUrl(s"/${GreeterService.name}/FooBar").get)
       result.status must ===(415) // Maybe should be a 426, see #396
     }
-    "give a grpc UNIMPLEMENTED when routing a non-existent gRPC method" >> {
-      implicit rs: RunningServer =>
-        val result = await(wsUrl(s"/${GreeterService.name}/FooBar").addHttpHeaders("Content-Type" -> GrpcProtocolNative.contentType.toString).get)
-        result.status must ===(200) // Maybe should be a 426, see #396
-        result.header("grpc-status") must beSome(Status.Code.UNIMPLEMENTED.value().toString)
-    }
-    "give a grpc INVALID_ARGUMENT error when routing an empty request to a gRPC method" >> { implicit rs: RunningServer =>
-      val result = await(wsUrl(s"/${GreeterService.name}/SayHello").addHttpHeaders("Content-Type" -> GrpcProtocolNative.contentType.toString).get)
+    "give a grpc UNIMPLEMENTED when routing a non-existent gRPC method" >> { implicit rs: RunningServer =>
+      val result = await(
+        wsUrl(s"/${GreeterService.name}/FooBar")
+          .addHttpHeaders("Content-Type" -> GrpcProtocolNative.contentType.toString)
+          .get,
+      )
       result.status must ===(200) // Maybe should be a 426, see #396
+      result.header("grpc-status") must beSome(Status.Code.UNIMPLEMENTED.value().toString)
+    }
+    "give a grpc INVALID_ARGUMENT error when routing an empty request to a gRPC method" >> {
+      implicit rs: RunningServer =>
+        val result = await(
+          wsUrl(s"/${GreeterService.name}/SayHello")
+            .addHttpHeaders("Content-Type" -> GrpcProtocolNative.contentType.toString)
+            .get,
+        )
+        result.status must ===(200) // Maybe should be a 426, see #396
 
-      // grpc-status 3 means INVALID_ARGUMENT error. See https://developers.google.com/maps-booking/reference/grpc-api/status_codes
-      result.header("grpc-status") must beSome(Status.Code.INVALID_ARGUMENT.value().toString)
+        // grpc-status 3 means INVALID_ARGUMENT error. See https://developers.google.com/maps-booking/reference/grpc-api/status_codes
+        result.header("grpc-status") must beSome(Status.Code.INVALID_ARGUMENT.value().toString)
     }
     "work with a gRPC client" >> { implicit rs: RunningServer =>
       withGrpcClient[GreeterServiceClient] { client: GreeterServiceClient =>

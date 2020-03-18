@@ -50,14 +50,16 @@ class PlayScalaTestSpec
     "give a grpc 'unimplemented' error when routing a non-existent gRPC method" in {
       val result = wsUrl(s"/${GreeterService.name}/FooBar")
         .addHttpHeaders("Content-Type" -> GrpcProtocolNative.contentType.toString)
-        .get.futureValue
+        .get
+        .futureValue
       result.status must be(200) // Maybe should be a 426, see #396
       result.header("grpc-status") mustEqual Some(Status.Code.UNIMPLEMENTED.value().toString)
     }
     "give a grpc 'invalid argument' error when routing an empty request to a gRPC method" in {
       val result = wsUrl(s"/${GreeterService.name}/SayHello")
         .addHttpHeaders("Content-Type" -> GrpcProtocolNative.contentType.toString)
-        .get.futureValue
+        .get
+        .futureValue
       result.status must be(200)
       result.header("grpc-status") mustEqual Some(Status.Code.INVALID_ARGUMENT.value().toString)
     }
