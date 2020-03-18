@@ -6,18 +6,19 @@ package play.grpc
 import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.grpc.scaladsl.GrpcMarshalling
-import akka.grpc.Codec
-import akka.grpc.Grpc
 import akka.grpc.ProtobufSerializer
+import akka.grpc.GrpcProtocol.DataFrame
+import akka.grpc.GrpcProtocol.GrpcProtocolWriter
+import akka.grpc.internal.GrpcProtocolNative
+import akka.grpc.internal.Identity
 import akka.http.scaladsl.marshalling.Marshaller
 import akka.http.scaladsl.marshalling.ToResponseMarshaller
-import akka.http.scaladsl.model.HttpEntity.Chunk
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.FromRequestUnmarshaller
 import akka.http.scaladsl.unmarshalling.Unmarshaller
 import akka.stream.scaladsl.Sink
 import akka.stream.scaladsl.Source
-import akka.stream.ActorMaterializer
+import akka.stream.SystemMaterializer
 import akka.stream.Materializer
 import akka.util.ByteString
 import controllers.GreeterServiceImpl
@@ -41,7 +42,7 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class PlayJavaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
   implicit val sys      = ActorSystem()
-  implicit val mat      = ActorMaterializer()
+  implicit val mat      = SystemMaterializer(sys).materializer
   implicit val ec       = sys.dispatcher
   implicit val patience = PatienceConfig(timeout = 3.seconds, interval = 15.milliseconds)
 
@@ -63,20 +64,18 @@ class PlayJavaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAl
 
   implicit def marshaller[T](
       implicit serializer: ProtobufSerializer[T],
-      mat: Materializer,
-      codec: Codec,
+      writer: GrpcProtocolWriter,
       system: ActorSystem,
   ): ToResponseMarshaller[T] =
-    Marshaller.opaque((response: T) ⇒ GrpcMarshalling.marshal(response)(serializer, mat, codec, system))
+    Marshaller.opaque((response: T) ⇒ GrpcMarshalling.marshal(response)(serializer, writer, system))
 
   implicit def fromSourceMarshaller[T](
       implicit serializer: ProtobufSerializer[T],
-      mat: Materializer,
-      codec: Codec,
+      writer: GrpcProtocolWriter,
       system: ActorSystem,
   ): ToResponseMarshaller[Source[T, NotUsed]] =
     Marshaller.opaque((response: Source[T, NotUsed]) ⇒
-      GrpcMarshalling.marshalStream(response)(serializer, mat, codec, system),
+      GrpcMarshalling.marshalStream(response)(serializer, writer, system),
     )
 
   val router = new GreeterServiceImpl(mat, sys)
@@ -117,14 +116,14 @@ class PlayJavaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAl
       HttpRequest(
         uri = uri,
         entity = HttpEntity.Chunked(
-          Grpc.contentType,
-          Source.single(msg).map(serializer.serialize).via(Grpc.grpcFramingEncoder).map(Chunk(_)),
+          GrpcProtocolNative.contentType,
+          Source.single(msg).map(serializer.serialize).map(DataFrame(_)).via(GrpcProtocolNative.newWriter(Identity).frameEncoder),
         ),
       )
     }
     def akkaHttpResponse[T](response: HttpResponse)(implicit deserializer: ProtobufSerializer[T]) =
       response.entity.dataBytes
-        .via(Grpc.grpcFramingDecoder)
+        .via(GrpcProtocolNative.newReader(Identity).dataFrameDecoder)
         .runWith(Sink.reduce[ByteString](_ ++ _))
         .map(deserializer.deserialize)
 

@@ -13,15 +13,15 @@ class PlayScalaClientCodeGeneratorSpec extends AnyWordSpec with Matchers {
 
     "choose the single package name" in {
       PlayScalaClientCodeGenerator
-        .packageForSharedModuleFile(Seq(Service("a.b", "MyService", "???", Nil, false, false))) should ===("a.b")
+        .packageForSharedModuleFile(Seq(Service("descriptor", "a.b", "MyService", "???", Nil, false, false))) should ===("a.b")
     }
 
     "choose the longest common package name" in {
       PlayScalaClientCodeGenerator
         .packageForSharedModuleFile(
           Seq(
-            Service("a.b.c", "MyService", "???", Nil, false, false),
-            Service("a.b.e", "OtherService", "???", Nil, false, false),
+            Service("descriptor", "a.b.c", "MyService", "???", Nil, false, false),
+            Service("descriptor", "a.b.e", "OtherService", "???", Nil, false, false),
           ),
         ) should ===("a.b")
     }
@@ -30,8 +30,8 @@ class PlayScalaClientCodeGeneratorSpec extends AnyWordSpec with Matchers {
       PlayScalaClientCodeGenerator
         .packageForSharedModuleFile(
           Seq(
-            Service("a.b.c", "MyService", "???", Nil, false, false),
-            Service("c.d.e", "OtherService", "???", Nil, false, false),
+            Service("descriptor", "a.b.c", "MyService", "???", Nil, false, false),
+            Service("descriptor", "c.d.e", "OtherService", "???", Nil, false, false),
           ),
         ) should ===("")
     }

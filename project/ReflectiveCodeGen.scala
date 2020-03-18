@@ -110,7 +110,7 @@ object ReflectiveCodeGen extends AutoPlugin {
          |
          |(targetPath: java.io.File, settings: Seq[String]) => {
          |  val generators =
-         |    AkkaGrpcPlugin.generatorsFor(sources, languages, generatorSettings, scalaBinaryVersion, logger) ++
+         |    AkkaGrpcPlugin.generatorsFor(sources, languages, scalaBinaryVersion, logger) ++
          |    Seq($extraGenerators).map(gen => AkkaGrpcPlugin.toGenerator(gen, scalaBinaryVersion, akka.grpc.gen.StdoutLogger))
          |  AkkaGrpcPlugin.targetsFor(targetPath, settings, generators)
          |}
