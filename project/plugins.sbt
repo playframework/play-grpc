@@ -10,7 +10,7 @@ addSbtPlugin("com.typesafe.sbt"   % "sbt-twirl"        % "1.5.0")
 addSbtPlugin("de.heikoseeberger"  % "sbt-header"       % "5.4.0")
 addSbtPlugin("org.foundweekends"  % "sbt-bintray"      % "0.5.6")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.1")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.2")
 
 addSbtPlugin(
   ("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "0.7.3")
