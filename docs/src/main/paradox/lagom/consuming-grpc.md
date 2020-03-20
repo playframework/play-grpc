@@ -20,10 +20,10 @@ by adding it to the enabled modules in the `application.conf`.
 You can then put the following `helloworld.proto` file in `app/protobuf`:
 
 Scala
-:   @@snip[helloworld.proto](/lagom-interop-test-scala/src/main/protobuf/helloworld.proto) { #protoSources }
+:   @@snip[helloworld.proto](/lagom-interop-test-scala/src/main/proto/helloworld.proto) { #protoSources }
 
 Java
-:   @@snip[helloworld.proto](/lagom-interop-test-java/src/main/protobuf/helloworld.proto) { #protoSources }
+:   @@snip[helloworld.proto](/lagom-interop-test-java/src/main/proto/helloworld.proto) { #protoSources }
 
 
 @@@ div { .group-scala }
