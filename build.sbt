@@ -96,6 +96,8 @@ val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
       Dependencies.Compile.playTest,
       Dependencies.Test.playAhcWs,
       Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.akkaActorTyped,
+      Dependencies.Compile.akkaStream,
     ),
   )
   .pluginTestingSettings
@@ -106,6 +108,8 @@ val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
     libraryDependencies ++= Seq(
       Dependencies.Compile.playSpecs2,
       Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.akkaActorTyped,
+      Dependencies.Compile.akkaStream,
     ),
   )
   .pluginTestingSettings
@@ -118,8 +122,12 @@ val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
       // The following files have a different license
       orig || "NewGuiceOneServerPerTest.scala" || "NewServerProvider.scala" || "NewBaseOneServerPerTest.scala"
     },
-    libraryDependencies += Dependencies.Compile.scalaTestPlusPlay,
-    libraryDependencies += Dependencies.Compile.akkaDiscovery,
+    libraryDependencies ++= Seq(
+      Dependencies.Compile.scalaTestPlusPlay,
+      Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.akkaActorTyped,
+      Dependencies.Compile.akkaStream,
+    ),
   )
   .pluginTestingSettings
 
