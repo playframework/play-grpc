@@ -13,7 +13,7 @@ addSbtPlugin("org.foundweekends"  % "sbt-bintray"      % "0.5.6")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.2")
 
 addSbtPlugin(
-  ("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "0.7.3")
+  ("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "0.8.1")
     // we need to exclude the sbt-protoc brought by akka-grpc (v0.99.26)
     // because it breaks the PB.targets hack in ReflectionCodeGen
     .exclude("com.thesamet", "sbt-protoc"),
