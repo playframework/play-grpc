@@ -5,13 +5,18 @@ package play.grpc.specs2
 
 import org.junit.runner.RunWith
 import org.specs2.runner.JUnitRunner
+
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.ws.WSClient
 import play.api.libs.ws.WSRequest
 import play.api.routing.Router
 import play.api.test._
+
+import akka.grpc.internal.GrpcProtocolNative
+
 import example.myapp.helloworld.grpc.helloworld._
+
 import io.grpc.Status
 
 /**
@@ -35,18 +40,30 @@ class PlaySpecs2Spec extends ForServer with ServerGrpcClient with PlaySpecificat
       val result = await(wsUrl("/").get)
       result.status must ===(404) // Maybe should be a 426, see #396
     }
-    "give an Ok header (and hopefully a not implemented trailer) when routing a non-existent gRPC method" >> {
-      implicit rs: RunningServer =>
-        val result = await(wsUrl(s"/${GreeterService.name}/FooBar").get)
-        result.status must ===(200) // Maybe should be a 426, see #396
-      // TODO: Test that trailer has a not implemented status
+    "give a 415 error when not using a gRPC content-type" >> { implicit rs: RunningServer =>
+      val result = await(wsUrl(s"/${GreeterService.name}/FooBar").get)
+      result.status must ===(415) // Maybe should be a 426, see #396
     }
-    "give a grpc-status 13 when routing an empty request to a gRPC method" >> { implicit rs: RunningServer =>
-      val result = await(wsUrl(s"/${GreeterService.name}/SayHello").get)
+    "give a grpc UNIMPLEMENTED when routing a non-existent gRPC method" >> { implicit rs: RunningServer =>
+      val result = await(
+        wsUrl(s"/${GreeterService.name}/FooBar")
+          .addHttpHeaders("Content-Type" -> GrpcProtocolNative.contentType.toString)
+          .get,
+      )
       result.status must ===(200) // Maybe should be a 426, see #396
+      result.header("grpc-status") must beSome(Status.Code.UNIMPLEMENTED.value().toString)
+    }
+    "give a grpc INVALID_ARGUMENT error when routing an empty request to a gRPC method" >> {
+      implicit rs: RunningServer =>
+        val result = await(
+          wsUrl(s"/${GreeterService.name}/SayHello")
+            .addHttpHeaders("Content-Type" -> GrpcProtocolNative.contentType.toString)
+            .get,
+        )
+        result.status must ===(200) // Maybe should be a 426, see #396
 
-      // grpc-status 13 means INTERNAL error. See https://developers.google.com/maps-booking/reference/grpc-api/status_codes
-      result.header("grpc-status") must beSome(Status.Code.INTERNAL.value().toString)
+        // grpc-status 3 means INVALID_ARGUMENT error. See https://developers.google.com/maps-booking/reference/grpc-api/status_codes
+        result.header("grpc-status") must beSome(Status.Code.INVALID_ARGUMENT.value().toString)
     }
     "work with a gRPC client" >> { implicit rs: RunningServer =>
       withGrpcClient[GreeterServiceClient] { client: GreeterServiceClient =>
