@@ -18,7 +18,7 @@ addSbtPlugin(
     // because it breaks the PB.targets hack in ReflectionCodeGen
     .exclude("com.thesamet", "sbt-protoc"),
 )
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.25")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.29")
 
 // Only needed for akka, akka-grpc ,...  snapshots
 // See also build.sbt
