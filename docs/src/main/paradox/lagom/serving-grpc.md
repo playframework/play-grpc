@@ -19,10 +19,10 @@ The plugin will look for `.proto` service descriptors in `src/main/protobuf` and
 that you then implement, so for example for the following protobuf descriptor:
 
 Scala
-:   @@snip[helloworld.proto](/lagom-interop-test-scala/src/main/protobuf/helloworld.proto) { #protoSources }
+:   @@snip[helloworld.proto](/lagom-interop-test-scala/src/main/proto/helloworld.proto) { #protoSources }
 
 Java
-:   @@snip[helloworld.proto](/lagom-interop-test-java/src/main/protobuf/helloworld.proto) { #protoSources }
+:   @@snip[helloworld.proto](/lagom-interop-test-java/src/main/proto/helloworld.proto) { #protoSources }
 
 You will get an abstract class named @scala[`com.lightbend.lagom.scaladsl.grpc.interop.AbstractGreeterServiceRouter`]
 @java[`com.lightbend.lagom.javadsl.grpc.interop.AbstractGreeterServiceRouter`]. Create a concrete subclass implementing this 
