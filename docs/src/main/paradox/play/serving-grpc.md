@@ -45,7 +45,7 @@ Java
 The plugin will look for `.proto` service descriptors in `app/protobuf` and output an abstract class per service
 that you then implement, so for example for the following protobuf descriptor:
 
-@@snip[helloworld.proto](/play-interop-test-scala/src/main/protobuf/helloworld.proto) { #protoSources }
+@@snip[helloworld.proto](/play-interop-test-scala/src/main/proto/helloworld.proto) { #protoSources }
 
 You will get an abstract class named @scala[`example.myapp.helloworld.grpc.helloworld.AbstractGreeterServiceRouter`]
 @java[`example.myapp.helloworld.grpc.AbstractGreeterServiceRouter`]Create a concrete subclass implementing this 
