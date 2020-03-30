@@ -2,7 +2,8 @@ package build.play.grpc
 
 import sbt._
 import sbt.Keys._
-import Dependencies.Versions.{ scala212, scala213 }
+import Dependencies.Versions.scala212
+import Dependencies.Versions.scala213
 
 // WORKAROUND https://github.com/sbt/sbt/issues/2899
 object CommonPlugin extends AutoPlugin {
