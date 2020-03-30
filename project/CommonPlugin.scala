@@ -16,7 +16,6 @@ object CommonPlugin extends AutoPlugin {
       else
         Nil
     },
-    javacOptions in doc += "--ignore-source-errors",
     javacOptions in doc --= Seq("-Xlint:unchecked", "-Xlint:deprecation"),
     crossScalaVersions := Seq(scala212, scala213),
   )
