@@ -47,7 +47,9 @@ public final class JavaAkkaGrpcClientHelpers {
       // `akka.grpc.client."".use-tls` to false for gRPC so this should return the non-TLS HTTP/2
       // endpoint on the list.
       final scala.collection.Iterable<ServerEndpoint> sslEndpoints =
-          possibleEndpoints.filter(endpoint -> endpoint.ssl().isDefined());
+          possibleEndpoints
+	    .filter(endpoint -> endpoint.ssl().isDefined())
+            .toIterable();
       return sslEndpoints.head();
     }
   }
