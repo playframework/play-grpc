@@ -1,5 +1,8 @@
+package build.play.grpc
+
 import sbt._
 import sbt.Keys._
+import Dependencies.Versions.{ scala212, scala213 }
 
 // WORKAROUND https://github.com/sbt/sbt/issues/2899
 object CommonPlugin extends AutoPlugin {
@@ -12,6 +15,9 @@ object CommonPlugin extends AutoPlugin {
       else
         Nil
     },
+    javacOptions in doc += "--ignore-source-errors",
+    javacOptions in doc --= Seq("-Xlint:unchecked", "-Xlint:deprecation"),
+    crossScalaVersions := Seq(scala212, scala213),
   )
 
   val scalaVersionNumber = Def.setting(VersionNumber(scalaVersion.value))
