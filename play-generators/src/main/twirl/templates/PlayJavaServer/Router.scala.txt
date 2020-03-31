@@ -32,7 +32,7 @@ import play.grpc.internal.PlayRouter;
     public Abstract@{serviceName}Router(Materializer mat, ActorSystem system, Function<ActorSystem, Function<Throwable, akka.grpc.Trailers>> eHandler) {
       super(@{service.name}.name);
       this.respond = play.grpc.internal.PlayRouterHelper.handlerFor(
-        @{serviceName}HandlerFactory.create(this, serviceName(), mat, eHandler, system),
+        @{serviceName}HandlerFactory.create(this, serviceName(), eHandler, system),
         mat.executionContext()
       );
     }
