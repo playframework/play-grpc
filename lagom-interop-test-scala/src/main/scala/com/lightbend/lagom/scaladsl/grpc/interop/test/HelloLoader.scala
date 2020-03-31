@@ -29,7 +29,7 @@ abstract class HelloApplication(context: LagomApplicationContext)
   // #service-client-conf
   // Implicits required by GrpcClientSettings
   private implicit val dispatcher: ExecutionContextExecutor = actorSystem.dispatcher
-  private implicit val sys: ActorSystem                     = actorSystem
+  private implicit lazy val sys: ActorSystem                = actorSystem
 
   private lazy val settings = GrpcClientSettings
     .usingServiceDiscovery(GreeterService.name)
