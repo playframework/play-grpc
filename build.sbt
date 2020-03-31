@@ -1,4 +1,5 @@
 import build.play.grpc.Dependencies
+import build.play.grpc.Dependencies.Versions.scala212
 import build.play.grpc.ProjectExtensions.AddPluginTest
 
 ThisBuild / organization := "com.lightbend.play"
@@ -86,6 +87,8 @@ val playGenerators = Project("play-grpc-generators", file("play-generators"))
       Dependencies.Compile.akkaGrpcCodegen,
       Dependencies.Test.scalaTest,
     ),
+    // Only used in build tools (like sbt), so only 2.12 is needed:
+    crossScalaVersions := Seq(scala212),
   )
 
 val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
