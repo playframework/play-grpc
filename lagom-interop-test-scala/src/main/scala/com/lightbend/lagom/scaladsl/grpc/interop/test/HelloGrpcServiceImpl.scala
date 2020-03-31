@@ -12,7 +12,7 @@ import com.lightbend.lagom.scaladsl.grpc.interop.helloworld.HelloRequest
 
 import scala.concurrent.Future
 
-class HelloGrpcServiceImpl(mat: Materializer, sys: ActorSystem) extends AbstractGreeterServiceRouter(mat, sys) {
+class HelloGrpcServiceImpl(sys: ActorSystem) extends AbstractGreeterServiceRouter(sys) {
   override def sayHello(in: HelloRequest): Future[HelloReply] =
     Future.successful(HelloReply(s"Hi ${in.name}! (gRPC)"))
 }
