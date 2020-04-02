@@ -10,11 +10,6 @@ env:
     - TRAVIS_JDK=8
     - TRAVIS_JDK=11
 
-matrix:
-  fast_finish: true
-  allow_failures:
-    - env: TRAVIS_JDK=adopt@1.11.0-2 # not fully supported but allows problem discovery
-
 before_install: curl -Ls https://git.io/jabba | bash && . ~/.jabba/jabba.sh
 install: jabba install "adopt@~1.$TRAVIS_JDK.0-0" && jabba use "$_" && java -Xmx32m -version
 script: sbt headerCheck test:headerCheck scalafmtCheckAll scalafmtSbtCheck test paradox ++2.13.1 test
