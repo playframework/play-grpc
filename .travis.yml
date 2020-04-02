@@ -1,5 +1,5 @@
 language: scala
-scala: 2.12.8
+scala: 2.12.11
 
 # make sure to fetch enough commits, so that git describe still works
 git:
@@ -17,7 +17,7 @@ script: sbt headerCheck test:headerCheck scalafmtCheckAll scalafmtSbtCheck test 
 jobs:
   include:
     - stage: publish
-      script: sbt ++2.12.8 publish ++2.13.1 publish
+      script: sbt ++2.12.11 publish ++2.13.1 publish
     - stage: techhub-ping
       script: curl -I https://ci.lightbend.com/job/techhub-publisher/build?token=$TECH_HUB_TOKEN
 #   - stage: whitesource

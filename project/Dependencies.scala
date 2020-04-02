@@ -6,7 +6,7 @@ import sbt.Keys._
 object Dependencies {
 
   object Versions {
-    val scala212 = "2.12.8"
+    val scala212 = "2.12.11"
     val scala213 = "2.13.1"
 
     val akka = "2.6.4"
