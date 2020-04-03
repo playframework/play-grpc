@@ -17,7 +17,7 @@ script: sbt headerCheck test:headerCheck scalafmtCheckAll scalafmtSbtCheck test 
 jobs:
   include:
     - stage: publish
-      script: sbt ++2.12.11 publish ++2.13.1 publish
+      script: sbt ++2.12.11 publish ++2.13.1 "project play-grpc-generators; set publish/skip := true; project play-grpc" publish
     - stage: techhub-ping
       script: curl -I https://ci.lightbend.com/job/techhub-publisher/build?token=$TECH_HUB_TOKEN
 #   - stage: whitesource
