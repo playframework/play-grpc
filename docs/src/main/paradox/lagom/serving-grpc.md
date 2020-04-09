@@ -1,7 +1,7 @@
 ## Serving gRPC from Lagom
 
-To be able to serve gRPC from a Lagom application you must enable [Play HTTP/2 Support](https://www.playframework.com/documentation/2.7.x/AkkaHttpServer#HTTP%2F2-support-%28experimental%29)
-with HTTPS and the ALPN agent. This is still somewhat involved and we hope to simplify it.
+To be able to serve gRPC from a Lagom application you must enable [Play HTTP/2 Support](https://www.playframework.com/documentation/2.8.x/AkkaHttpServer#HTTP%2F2-support-%28experimental%29)
+with [HTTPS](https://www.playframework.com/documentation/2.8.x/ConfiguringHttps) and the ALPN agent.
 
 After @ref[adding Akka gRPC sbt plugin](overview.md) you need to enable the Play server side code generator in `build.sbt`:
 
