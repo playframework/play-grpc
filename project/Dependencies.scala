@@ -14,7 +14,7 @@ object Dependencies {
     // This version must be in sync with the version of "sbt-akka-grpc" in "project/plugins.sbt"
     val akkaGrpc = "0.8.4" // TODO: obtain via sbt-akka-grpc?
 
-    val play  = "2.8.1"
+    val play  = "2.8.2"
     val lagom = "1.6.2"
 
     val grpc = "1.29.0" // needs to be in sync with akkaGrpc version?
