@@ -18,7 +18,7 @@ object ProjectExtensions {
       project
         .enablePlugins(JavaAgent)
         .settings(
-          javaAgents += "org.mortbay.jetty.alpn" % "jetty-alpn-agent" % "2.0.9" % Test,
+          javaAgents += "org.mortbay.jetty.alpn" % "jetty-alpn-agent" % "2.0.10" % Test,
           libraryDependencies += Dependencies.Compile.akkaGrpcRuntime,
         )
         .enablePlugins(ReflectiveCodeGen)
