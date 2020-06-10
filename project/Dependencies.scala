@@ -9,15 +9,15 @@ object Dependencies {
     val scala212 = "2.12.11"
     val scala213 = "2.13.1"
 
-    val akka = "2.6.5"
+    val akka     = "2.6.5"
+    val akkaHttp = "10.1.12"
 
     // This version must be in sync with the version of "sbt-akka-grpc" in "project/plugins.sbt"
-    val akkaGrpc = "0.8.4" // TODO: obtain via sbt-akka-grpc?
+    val akkaGrpc = "0.8.4"  // TODO: obtain via sbt-akka-grpc?
+    val grpc     = "1.29.0" // needs to be in sync with akkaGrpc version?
 
     val play  = "2.8.1"
     val lagom = "1.6.2"
-
-    val grpc = "1.29.0" // needs to be in sync with akkaGrpc version?
 
     val scalaTest         = "3.1.1"
     val scalaTestPlusPlay = "5.1.0"
@@ -34,6 +34,10 @@ object Dependencies {
     val akkaDiscovery            = "com.typesafe.akka" %% "akka-discovery"              % Versions.akka
     val akkaPersistenceTyped     = "com.typesafe.akka" %% "akka-persistence-typed"      % Versions.akka
     val akkaPersistenceQuery     = "com.typesafe.akka" %% "akka-persistence-query"      % Versions.akka
+
+    val akkaHttp          = "com.typesafe.akka" %% "akka-http"            % Versions.akkaHttp
+    val akkaHttpSprayJson = "com.typesafe.akka" %% "akka-http-spray-json" % Versions.akkaHttp
+    val akkaHttp2Support  = "com.typesafe.akka" %% "akka-http2-support"   % Versions.akkaHttp
 
     val akkaGrpcCodegen = "com.lightbend.akka.grpc" %% "akka-grpc-codegen" % Versions.akkaGrpc // Apache V2
     val akkaGrpcRuntime = "com.lightbend.akka.grpc" %% "akka-grpc-runtime" % Versions.akkaGrpc // Apache V2
