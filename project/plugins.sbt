@@ -13,7 +13,7 @@ addSbtPlugin("org.foundweekends"  % "sbt-bintray"      % "0.5.6")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.4")
 
 // This version must be in sync with the version of "akkaGrpc" in "project/Dependencies.scala"
-addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "0.8.4")
+addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "1.0.0")
 
 // Only needed for akka, akka-grpc ,...  snapshots
 // See also build.sbt
