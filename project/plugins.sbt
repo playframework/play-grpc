@@ -1,6 +1,6 @@
 addSbtPlugin("com.dwijnand"       % "sbt-dynver"       % "4.0.0")
 addSbtPlugin("com.dwijnand"       % "sbt-travisci"     % "1.2.0")
-addSbtPlugin("com.eed3si9n"       % "sbt-assembly"     % "0.14.10")
+addSbtPlugin("com.eed3si9n"       % "sbt-assembly"     % "0.15.0")
 addSbtPlugin("com.eed3si9n"       % "sbt-buildinfo"    % "0.9.0")
 addSbtPlugin("com.lightbend"      % "sbt-whitesource"  % "0.1.18")
 addSbtPlugin("com.lightbend.akka" % "sbt-paradox-akka" % "0.33")
