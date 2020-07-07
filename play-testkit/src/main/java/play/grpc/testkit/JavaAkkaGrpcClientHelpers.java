@@ -76,6 +76,6 @@ public final class JavaAkkaGrpcClientHelpers {
       final ActorSystem actorSystem) {
     return GrpcClientSettings.connectToServiceAt(
             http2Endpoint.host(), http2Endpoint.port(), actorSystem)
-        .withSSLContext(sslContext);
+        .withSslContext(sslContext);
   }
 }

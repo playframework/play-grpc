@@ -3,7 +3,7 @@
  */
 package scala.com.example.hello.impl
 
-import akka.stream.Materializer
+import akka.actor.ActorSystem
 import com.lightbend.lagom.scaladsl.grpc.interop.helloworld.GreeterServiceClient
 import com.lightbend.lagom.scaladsl.grpc.interop.helloworld.HelloRequest
 import com.lightbend.lagom.scaladsl.grpc.interop.test.HelloApplication
@@ -23,7 +23,7 @@ class HelloServiceSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAl
     new HelloApplication(ctx) with LocalServiceLocator
   }
 
-  implicit val mat: Materializer = server.materializer
+  implicit val sys: ActorSystem = server.actorSystem
 
   val client: HelloService = server.serviceClient.implement[HelloService]
   val grpcClient: GreeterServiceClient = AkkaGrpcClientHelpers.grpcClient(

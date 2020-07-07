@@ -73,7 +73,7 @@ object AkkaGrpcClientHelpers {
 
     val settings = GrpcClientSettings
       .connectToServiceAt("127.0.0.1", httpsPort)(server.actorSystem)
-      .withSSLContext(server.clientSslContext.get)
+      .withSslContext(server.clientSslContext.get)
       // the authority must match the value of the SSL certificate used in
       // the ServiceTest.TestServer (if/when that changes or is configurable)
       // this value will have to be configurable
