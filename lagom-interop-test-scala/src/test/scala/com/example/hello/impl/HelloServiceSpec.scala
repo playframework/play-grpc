@@ -25,7 +25,7 @@ class HelloServiceAsyncSpec extends AsyncWordSpec with Matchers with BeforeAndAf
   }
 
   implicit val sys: ActorSystem = server.actorSystem
-  val client: HelloService       = server.serviceClient.implement[HelloService]
+  val client: HelloService      = server.serviceClient.implement[HelloService]
 
   // #unmanaged-client
   val grpcClient: GreeterServiceClient = AkkaGrpcClientHelpers.grpcClient(
@@ -71,8 +71,8 @@ class HelloServiceSpec extends AnyWordSpec with Matchers with BeforeAndAfterAll 
   }
 
   implicit val sys: ActorSystem = server.actorSystem
-  implicit val ctx               = server.executionContext
-  val client: HelloService       = server.serviceClient.implement[HelloService]
+  implicit val ctx              = server.executionContext
+  val client: HelloService      = server.serviceClient.implement[HelloService]
 
   protected override def afterAll(): Unit = {
     server.stop()
