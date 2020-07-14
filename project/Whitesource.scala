@@ -2,15 +2,17 @@
  * Copyright (C) Lightbend Inc. <https://www.lightbend.com>
  */
 
-package build.play.grpc
+import sys.process.Process
 
 import sbt._
 import sbt.Keys._
 import sbtwhitesource.WhiteSourcePlugin.autoImport._
 import sbtwhitesource._
-import com.typesafe.sbt.SbtGit.GitKeys._
 
 object Whitesource extends AutoPlugin {
+  lazy val gitCurrentBranch =
+    Process("git rev-parse --abbrev-ref HEAD").!!.replaceAll("\\s", "")
+
   override def requires = WhiteSourcePlugin
 
   override def trigger = allRequirements
@@ -21,7 +23,7 @@ object Whitesource extends AutoPlugin {
     whitesourceAggregateProjectName := {
       val projectName = (moduleName in LocalRootProject).value.replace("-root", "")
       projectName + "-" + (if (isSnapshot.value)
-                             if (gitCurrentBranch.value == "master") "master"
+                             if (gitCurrentBranch == "master") "master"
                              else "adhoc"
                            else
                              CrossVersion
