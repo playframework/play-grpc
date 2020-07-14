@@ -2,6 +2,8 @@
  * Copyright (C) Lightbend Inc. <https://www.lightbend.com>
  */
 
+package build.play.grpc
+
 import sys.process.Process
 
 import sbt._
