@@ -95,7 +95,7 @@ val playGenerators = Project("play-grpc-generators", file("play-generators"))
   )
 
 val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
-  .dependsOn(playTestdata % "test")
+  .dependsOn(playRuntime, playTestdata % "test")
   .settings(
     libraryDependencies ++= Seq(
       Dependencies.Compile.play,
@@ -109,7 +109,7 @@ val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
   .pluginTestingSettings
 
 val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
-  .dependsOn(playTestkit, playTestkit % "test->test")
+  .dependsOn(playRuntime, playTestkit, playTestkit % "test->test")
   .settings(
     libraryDependencies ++= Seq(
       Dependencies.Compile.playSpecs2,

@@ -6,7 +6,7 @@ package play.grpc.testkit
 import java.util.concurrent.TimeUnit
 
 import akka.actor.ActorSystem
-import akka.grpc.internal.AkkaGrpcClientFactory
+import play.grpc.internal.AkkaGrpcClientFactory
 import akka.grpc.scaladsl.AkkaGrpcClient
 import akka.stream.Materializer
 import play.api.Application

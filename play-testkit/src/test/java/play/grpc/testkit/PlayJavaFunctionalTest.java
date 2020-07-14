@@ -92,8 +92,7 @@ public final class PlayJavaFunctionalTest {
     final GreeterServiceClient greeterServiceClient =
         GreeterServiceClient.create(
             grpcClientSettings,
-            app.asScala().materializer(),
-            app.asScala().actorSystem().dispatcher());
+            app.asScala().actorSystem());
     try {
       final HelloReply helloReply = greeterServiceClient.sayHello(req).toCompletableFuture().get();
       assertEquals("Hello, Alice!", helloReply.getMessage());

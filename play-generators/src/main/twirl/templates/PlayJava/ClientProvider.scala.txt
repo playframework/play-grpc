@@ -12,7 +12,7 @@ import scala.concurrent.ExecutionContext;
 
 import play.api.inject.ApplicationLifecycle;
 
-import akka.actor.ActorSystem;
+import akka.actor.ClassicActorSystemProvider;
 import akka.grpc.GrpcClientSettings;
 import akka.stream.Materializer;
 
@@ -23,16 +23,14 @@ import akka.stream.Materializer;
 @@Singleton
 public class @{service.name}ClientProvider implements Provider<@{service.name}Client> {
 
-  private final ActorSystem sys;
-  private final Materializer mat;
+  private final ClassicActorSystemProvider sys;
 
   @@Inject
-  public @{service.name}ClientProvider(ActorSystem sys, Materializer mat) {
+  public @{service.name}ClientProvider(ClassicActorSystemProvider sys) {
     this.sys = sys;
-    this.mat = mat;
   }
 
   public @{service.name}Client get() {
-    return @{service.name}Client.create(GrpcClientSettings.fromConfig(@{service.name}.name, sys), mat, sys.dispatcher());
+    return @{service.name}Client.create(GrpcClientSettings.fromConfig(@{service.name}.name, sys), sys);
   }
 }

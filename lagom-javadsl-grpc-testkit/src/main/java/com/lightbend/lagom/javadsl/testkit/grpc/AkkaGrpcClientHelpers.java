@@ -3,13 +3,14 @@
  */
 package com.lightbend.lagom.javadsl.testkit.grpc;
 
+import akka.actor.ClassicActorSystemProvider;
 import akka.annotation.ApiMayChange;
 import akka.grpc.GrpcClientSettings;
 import akka.grpc.javadsl.AkkaGrpcClient;
 import akka.japi.function.Function;
+import akka.japi.function.Function2;
 import akka.japi.function.Function3;
 import akka.japi.function.Procedure;
-import akka.stream.Materializer;
 import com.lightbend.lagom.javadsl.testkit.ServiceTest;
 import scala.concurrent.ExecutionContext;
 
@@ -30,7 +31,7 @@ public class AkkaGrpcClientHelpers {
   public static <T extends AkkaGrpcClient> void withGrpcClient(
       ServiceTest.TestServer server,
       // TODO: replace with AkkaGrpcClientFactory
-      Function3<GrpcClientSettings, Materializer, ExecutionContext, T> clientFactory,
+      Function2<GrpcClientSettings, ClassicActorSystemProvider, T> clientFactory,
       Procedure<T> block)
       throws Exception {
     Function<T, Void> f =
@@ -54,7 +55,7 @@ public class AkkaGrpcClientHelpers {
   public static <T extends AkkaGrpcClient, Result> Result withGrpcClient(
       ServiceTest.TestServer server,
       // TODO: replace with AkkaGrpcClientFactory
-      Function3<GrpcClientSettings, Materializer, ExecutionContext, T> clientFactory,
+      Function2<GrpcClientSettings, ClassicActorSystemProvider, T> clientFactory,
       Function<T, Result> block)
       throws Exception {
     T grpcClient = null;
@@ -87,7 +88,7 @@ public class AkkaGrpcClientHelpers {
   public static <T extends AkkaGrpcClient> T grpcClient(
       ServiceTest.TestServer server,
       // TODO: replace with AkkaGrpcClientFactory
-      Function3<GrpcClientSettings, Materializer, ExecutionContext, T> clientFactory)
+      Function2<GrpcClientSettings, ClassicActorSystemProvider, T> clientFactory)
       throws Exception {
 
     if (!server.portSsl().isPresent())
@@ -98,12 +99,12 @@ public class AkkaGrpcClientHelpers {
 
     GrpcClientSettings settings =
         GrpcClientSettings.connectToServiceAt("127.0.0.1", sslPort, server.system())
-            .withSSLContext(server.clientSslContext().get())
+            .withSslContext(server.clientSslContext().get())
             // the authority must match the value of the SSL certificate used in
             // the ServiceTest.TestServer (if/when that changes or is configurable)
             // this value will have to be configurable
             .withOverrideAuthority("localhost");
 
-    return clientFactory.apply(settings, server.materializer(), server.system().dispatcher());
+    return clientFactory.apply(settings, server.system());
   }
 }

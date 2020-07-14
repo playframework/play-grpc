@@ -4,7 +4,7 @@
 package play.grpc.specs2
 
 import scala.reflect.ClassTag
-import akka.grpc.internal.AkkaGrpcClientFactory
+import play.grpc.internal.AkkaGrpcClientFactory
 import akka.grpc.scaladsl.AkkaGrpcClient
 import play.api.test.RunningServer
 import play.grpc.testkit.AkkaGrpcClientHelpers
