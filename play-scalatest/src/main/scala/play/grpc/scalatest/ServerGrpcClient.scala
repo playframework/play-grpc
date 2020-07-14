@@ -3,7 +3,7 @@
  */
 package play.grpc.scalatest
 
-import akka.grpc.internal.AkkaGrpcClientFactory
+import play.grpc.internal.AkkaGrpcClientFactory
 import akka.grpc.scaladsl.AkkaGrpcClient
 import play.api.Application
 import play.api.test.DefaultTestServerFactory
