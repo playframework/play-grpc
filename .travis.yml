@@ -37,7 +37,7 @@ stages:
   - name: techhub-ping
     if: repo = playframework/play-grpc AND tag =~ ^v
   - name: whitesource
-    if: repo = playframework/akka-grpc AND ((branch = master AND type != pull_request) OR tag =~ ^v)
+    if: repo = playframework/play-grpc AND ((branch = master AND type != pull_request) OR tag =~ ^v)
 
 cache:
   directories:
