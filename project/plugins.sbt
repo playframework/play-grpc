@@ -9,7 +9,7 @@ addSbtPlugin("com.typesafe.sbt"   % "sbt-twirl"        % "1.5.0")
 addSbtPlugin("de.heikoseeberger"  % "sbt-header"       % "5.6.0")
 addSbtPlugin("org.foundweekends"  % "sbt-bintray"      % "0.5.6")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.4")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")
 
 // This version must be in sync with the version of "akkaGrpc" in "project/Dependencies.scala"
 addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "1.0.0")
