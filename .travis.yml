@@ -17,7 +17,7 @@ matrix:
 
 before_install: curl -Ls https://git.io/jabba | bash && . ~/.jabba/jabba.sh
 install: jabba install "adopt@~1.$TRAVIS_JDK.0-0" && jabba use "$_" && java -Xmx32m -version
-script: sbt test:headerCheck scalafmtCheckAll scalafmtSbtCheck test paradox 
+script: sbt scalafmtCheckAll scalafmtSbtCheck test paradox 
 
 jobs:
   include:
