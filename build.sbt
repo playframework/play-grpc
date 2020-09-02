@@ -1,4 +1,5 @@
 import build.play.grpc.Dependencies
+import build.play.grpc.Dependencies.Versions.scala212
 import build.play.grpc.ProjectExtensions.AddPluginTest
 
 ThisBuild / organization := "com.lightbend.play"
@@ -23,7 +24,7 @@ ThisBuild / javacOptions ++= List(
 
 // Only needed for akka, akka-grpc ,...  snapshots
 // See also projects/plugins.sbt
-ThisBuild / resolvers += Resolver.bintrayRepo("akka", "maven")
+//ThisBuild / resolvers += Resolver.bintrayRepo("akka", "maven")
 
 val playGrpc = Project("play-grpc", file("."))
 aggregateProjects(
@@ -58,6 +59,7 @@ val playRuntime = Project("play-grpc-runtime", file("play-runtime"))
 
 val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
   .dependsOn(playRuntime)
+  .pluginTestingSettings
   .settings(
     scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
     javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
@@ -76,7 +78,6 @@ val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
       Dependencies.Compile.akkaDiscovery,
     ),
   )
-  .pluginTestingSettings
   .enablePlugins(build.play.grpc.NoPublish)
 
 val playActionsTestData = Project("play-grpc-actions-testdata", file("play-actions-testdata"))
@@ -106,6 +107,8 @@ val playGenerators = Project("play-grpc-generators", file("play-generators"))
       Dependencies.Compile.akkaGrpcCodegen,
       Dependencies.Test.scalaTest,
     ),
+    // Only used in build tools (like sbt), so only 2.12 is needed:
+    crossScalaVersions := Seq(scala212),
   )
 
 val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
@@ -116,6 +119,8 @@ val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
       Dependencies.Compile.playTest,
       Dependencies.Test.playAhcWs,
       Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.akkaActorTyped,
+      Dependencies.Compile.akkaStream,
     ),
   )
   .pluginTestingSettings
@@ -126,6 +131,8 @@ val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
     libraryDependencies ++= Seq(
       Dependencies.Compile.playSpecs2,
       Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.akkaActorTyped,
+      Dependencies.Compile.akkaStream,
     ),
   )
   .pluginTestingSettings
@@ -138,8 +145,12 @@ val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
       // The following files have a different license
       orig || "NewGuiceOneServerPerTest.scala" || "NewServerProvider.scala" || "NewBaseOneServerPerTest.scala"
     },
-    libraryDependencies += Dependencies.Compile.scalaTestPlusPlay,
-    libraryDependencies += Dependencies.Compile.akkaDiscovery,
+    libraryDependencies ++= Seq(
+      Dependencies.Compile.scalaTestPlusPlay,
+      Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.akkaActorTyped,
+      Dependencies.Compile.akkaStream,
+    ),
   )
   .pluginTestingSettings
 
@@ -222,7 +233,12 @@ val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom
       Dependencies.Compile.playAkkaHttp2Support,
       Dependencies.Compile.macwire,
       // Used to force the akka version
+      Dependencies.Compile.akkaClusterShardingTyped,
+      Dependencies.Compile.akkaPersistenceQuery,
+      Dependencies.Compile.akkaPersistenceTyped,
       Dependencies.Compile.akkaStream,
+      Dependencies.Test.akkaActorTestkitTyped,
+      Dependencies.Test.akkaStreamTestkit,
       Dependencies.Test.junit,
       Dependencies.Test.scalaTest,
     ),
@@ -245,7 +261,12 @@ val lagomInteropTestJava = Project("lagom-grpc-interop-test-java", file("lagom-i
       Dependencies.Compile.playAkkaHttpServer,
       Dependencies.Compile.playAkkaHttp2Support,
       // Used to force the akka version
+      Dependencies.Compile.akkaClusterShardingTyped,
+      Dependencies.Compile.akkaPersistenceQuery,
+      Dependencies.Compile.akkaPersistenceTyped,
       Dependencies.Compile.akkaStream,
+      Dependencies.Test.akkaActorTestkitTyped,
+      Dependencies.Test.akkaStreamTestkit,
       Dependencies.Test.junit,
       Dependencies.Test.junitInterface,
       Dependencies.Test.scalaTest,

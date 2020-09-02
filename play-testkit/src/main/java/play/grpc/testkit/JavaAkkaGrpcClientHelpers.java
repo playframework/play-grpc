@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) Lightbend Inc. <https://www.lightbend.com>
  */
 package play.grpc.testkit;
 
@@ -46,7 +46,11 @@ public final class JavaAkkaGrpcClientHelpers {
       // the user set
       // `akka.grpc.client."".use-tls` to false for gRPC so this should return the non-TLS HTTP/2
       // endpoint on the list.
-      return possibleEndpoints.filter(endpoint -> endpoint.ssl().isDefined()).head();
+      final scala.collection.Iterable<ServerEndpoint> sslEndpoints =
+          possibleEndpoints
+	    .filter(endpoint -> endpoint.ssl().isDefined())
+            .toIterable();
+      return sslEndpoints.head();
     }
   }
 

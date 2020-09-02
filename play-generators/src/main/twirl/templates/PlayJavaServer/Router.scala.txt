@@ -1,5 +1,5 @@
 @*
- * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) Lightbend Inc. <https://www.lightbend.com>
  *@
 @(service: akka.grpc.gen.javadsl.Service, powerApis: Boolean)
 
@@ -18,8 +18,6 @@ import akka.stream.Materializer;
 
 import play.grpc.internal.PlayRouter;
 
-import io.grpc.Status;
-
 @defining(if (powerApis) service.name + "PowerApi" else service.name) { serviceName =>
   /**
    * Abstract base class for implementing @serviceName in Java and using as a play Router
@@ -31,10 +29,10 @@ import io.grpc.Status;
       this(mat, system, GrpcExceptionHandler.defaultMapper());
     }
 
-    public Abstract@{serviceName}Router(Materializer mat, ActorSystem system, Function<ActorSystem, Function<Throwable, Status>> eHandler) {
+    public Abstract@{serviceName}Router(Materializer mat, ActorSystem system, Function<ActorSystem, Function<Throwable, akka.grpc.Trailers>> eHandler) {
       super(@{service.name}.name);
       this.respond = play.grpc.internal.PlayRouterHelper.handlerFor(
-        @{serviceName}HandlerFactory.create(this, serviceName(), mat, eHandler, system),
+        @{serviceName}HandlerFactory.create(this, serviceName(), eHandler, system),
         mat.executionContext()
       );
     }

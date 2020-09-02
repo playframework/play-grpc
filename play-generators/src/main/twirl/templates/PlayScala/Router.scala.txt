@@ -1,5 +1,5 @@
 @*
- * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) Lightbend Inc. <https://www.lightbend.com>
  *@
 @(service: akka.grpc.gen.scaladsl.Service, powerApis: Boolean)
 
@@ -13,16 +13,15 @@ import akka.actor.ActorSystem
 import akka.stream.Materializer
 import akka.grpc.scaladsl.GrpcExceptionHandler.defaultMapper
 import play.grpc.internal.PlayRouter
-import io.grpc.Status
 
 @defining(if (powerApis) service.name + "PowerApi" else service.name) { serviceName =>
   /**
    * Abstract base class for implementing @serviceName and using as a play Router
    */
-  abstract class Abstract@{serviceName}Router(mat: Materializer, system: ActorSystem, eHandler: ActorSystem => PartialFunction[Throwable, Status] = defaultMapper)
+  abstract class Abstract@{serviceName}Router(system: ActorSystem, eHandler: ActorSystem => PartialFunction[Throwable, akka.grpc.Trailers] = defaultMapper)
     extends PlayRouter(@{service.name}.name)
     with @{serviceName} {
 
-    override protected val respond = @{serviceName}Handler(this, @{service.name}.name, eHandler)(mat, system)
+    override protected val respond = @{serviceName}Handler(this, @{service.name}.name, eHandler)(system)
   }
 }

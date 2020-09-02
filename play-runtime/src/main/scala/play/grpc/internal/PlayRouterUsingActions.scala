@@ -1,10 +1,10 @@
 /*
- * Copyright (C) 2009-2019 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) Lightbend Inc. <https://www.lightbend.com>
  */
 package play.grpc.internal
 
 import akka.annotation.InternalApi
-import akka.grpc.Grpc
+import akka.grpc.internal.GrpcProtocolNative
 import akka.http.scaladsl.model.HttpHeader.ParsingResult
 import akka.http.scaladsl.model._
 import akka.stream.Materializer
@@ -86,9 +86,8 @@ import scala.concurrent.Future
   }
 
   def playToAkkaRequest(request: Request[ByteString]): HttpRequest = {
-    val method = HttpMethods.getForKey(request.method.toUpperCase)
     val entity =
-      HttpEntity.Chunked.fromData(Grpc.contentType, chunks = Source.single(request.body))
+      HttpEntity.Chunked.fromData(GrpcProtocolNative.contentType, chunks = Source.single(request.body))
     HttpRequest(
       method = HttpMethods.getForKey(request.method.toUpperCase).get,
       uri = Uri(request.uri),
@@ -99,9 +98,8 @@ import scala.concurrent.Future
   }
 
   def playToAkkaRequestStream(request: Request[Source[ByteString, _]]): HttpRequest = {
-    val method = HttpMethods.getForKey(request.method.toUpperCase)
     val entity =
-      HttpEntity.Chunked.fromData(Grpc.contentType, chunks = request.body)
+      HttpEntity.Chunked.fromData(GrpcProtocolNative.contentType, chunks = request.body)
     HttpRequest(
       method = HttpMethods.getForKey(request.method.toUpperCase).get,
       uri = Uri(request.uri),

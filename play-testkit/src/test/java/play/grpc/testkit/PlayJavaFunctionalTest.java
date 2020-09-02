@@ -1,11 +1,12 @@
 /*
- * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) Lightbend Inc. <https://www.lightbend.com>
  */
 package play.grpc.testkit;
 
 import io.grpc.Status;
 
 import akka.grpc.GrpcClientSettings;
+import akka.grpc.internal.GrpcProtocolNative;
 
 import example.myapp.helloworld.grpc.*;
 
@@ -54,7 +55,7 @@ public final class PlayJavaFunctionalTest {
   private WSResponse wsGet(final String path) throws Exception {
     final WSClient wsClient = app.injector().instanceOf(WSClient.class);
     final String url = runningServer.endpoints().httpEndpoint().get().pathUrl(path);
-    return wsClient.url(url).get().toCompletableFuture().get();
+    return wsClient.url(url).addHeader("Content-Type", GrpcProtocolNative.contentType().toString()).get().toCompletableFuture().get();
   }
 
   @Test
@@ -72,11 +73,11 @@ public final class PlayJavaFunctionalTest {
   }
 
   @Test
-  public void returnsGrpcInternalErrorOnEmptyRequestToAGrpcMethod() throws Exception {
+  public void returnsGrpcInvalidArgumentErrorOnEmptyRequestToAGrpcMethod() throws Exception {
     final WSResponse rsp = wsGet("/" + GreeterService.name + "/SayHello");
     assertEquals(200, rsp.getStatus());
     assertEquals(
-        Integer.toString(Status.Code.INTERNAL.value()), rsp.getSingleHeader("grpc-status").get());
+        Integer.toString(Status.Code.INVALID_ARGUMENT.value()), rsp.getSingleHeader("grpc-status").get());
   }
 
   @Test

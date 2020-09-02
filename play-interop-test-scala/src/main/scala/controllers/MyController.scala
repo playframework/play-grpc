@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2019 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) Lightbend Inc. <https://www.lightbend.com>
  */
 // #using-client
 package controllers
@@ -14,7 +14,7 @@ import play.api.mvc.ControllerComponents
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class MyController @Inject()(
+class MyController @Inject() (
     implicit greeterClient: GreeterServiceClient,
     cc: ControllerComponents,
     exec: ExecutionContext,

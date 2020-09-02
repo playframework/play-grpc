@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) Lightbend Inc. <https://www.lightbend.com>
  */
 package example.myapp.helloworld.grpc.helloworld
 
@@ -12,8 +12,8 @@ import scala.concurrent.Future
 
 /** User implementation, with support for dependency injection etc */
 @Singleton
-class GreeterServiceImpl @Inject()(implicit mat: Materializer, actorSystem: ActorSystem)
-    extends AbstractGreeterServiceRouter(mat, actorSystem) {
+class GreeterServiceImpl @Inject() (implicit actorSystem: ActorSystem)
+    extends AbstractGreeterServiceRouter(actorSystem) {
 
   override def sayHello(in: HelloRequest): Future[HelloReply] = {
     actorSystem.log.error("Saying hello!")

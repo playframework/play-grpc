@@ -27,7 +27,7 @@ by adding it to the enabled modules in the `application.conf`.
 
 You can then put the following `helloworld.proto` file in `app/protobuf`:
 
-@@snip[helloworld.proto](/play-interop-test-scala/src/main/protobuf/helloworld.proto) { #protoSources }
+@@snip[helloworld.proto](/play-interop-test-scala/src/main/proto/helloworld.proto) { #protoSources }
 
 The module file is generated in @scala[`example.myapp.helloworld.grpc.helloworld.AkkaGrpcClientModule` by default for Scala]
 @java[`example.myapp.helloworld.grpc.AkkaGrpcClientModule` by default for Java], which corresponds to the default value

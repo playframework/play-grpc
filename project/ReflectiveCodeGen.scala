@@ -21,6 +21,9 @@ object ReflectiveCodeGen extends AutoPlugin {
   val extraGenerators       = SettingKey[Seq[String]]("reflectiveGrpcExtraGenerators")
   val codeGeneratorSettings = settingKey[Seq[String]]("reflectiveGrpcCodeGeneratorSettings")
 
+  // needed to be able to override the PB.generate task reliably
+  override def requires = ProtocPlugin
+
   override def projectSettings: Seq[Def.Setting[_]] =
     inConfig(Compile)(
       Seq(
@@ -110,7 +113,7 @@ object ReflectiveCodeGen extends AutoPlugin {
          |
          |(targetPath: java.io.File, settings: Seq[String]) => {
          |  val generators =
-         |    AkkaGrpcPlugin.generatorsFor(sources, languages, generatorSettings, scalaBinaryVersion, logger) ++
+         |    AkkaGrpcPlugin.generatorsFor(sources, languages, scalaBinaryVersion, logger) ++
          |    Seq($extraGenerators).map(gen => AkkaGrpcPlugin.toGenerator(gen, scalaBinaryVersion, akka.grpc.gen.StdoutLogger))
          |  AkkaGrpcPlugin.targetsFor(targetPath, settings, generators)
          |}
@@ -122,12 +125,11 @@ object ReflectiveCodeGen extends AutoPlugin {
     targets ++= generators.asInstanceOf[Seq[Target]]
   }
 
-  def generateTaskFromProtocPlugin: Def.Initialize[Task[Seq[File]]] = {
+  def generateTaskFromProtocPlugin: Def.Initialize[Task[Seq[File]]] =
     // lookup and return `PB.generate := ...` setting from ProtocPlugin
     ProtocPlugin.projectSettings
       .find(_.key.key == PB.generate.key)
       .get
       .init
       .asInstanceOf[Def.Initialize[Task[Seq[File]]]]
-  }
 }

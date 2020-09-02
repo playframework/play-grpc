@@ -1,12 +1,12 @@
 /*
- * Copyright (C) 2018-2019 Lightbend Inc. <https://www.lightbend.com>
+ * Copyright (C) Lightbend Inc. <https://www.lightbend.com>
  */
 package play.grpc
 
 import scala.concurrent.duration._
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model._
-import akka.stream.ActorMaterializer
+import akka.stream.SystemMaterializer
 import play.api.libs.typedmap.TypedMap
 import play.api.mvc.akkahttp.AkkaHttpHandler
 import play.api.mvc.Headers
@@ -16,9 +16,10 @@ import play.api.mvc.request.RequestTarget
 import controllers.GreeterServiceImpl
 import example.myapp.helloworld.grpc.helloworld._
 import GreeterServiceMarshallers._
-import akka.grpc.Grpc
+import akka.grpc.GrpcProtocol.DataFrame
+import akka.grpc.internal.GrpcProtocolNative
+import akka.grpc.internal.Identity
 import akka.grpc.ProtobufSerializer
-import akka.http.scaladsl.model.HttpEntity.Chunk
 import akka.stream.scaladsl.Sink
 import akka.stream.scaladsl.Source
 import akka.util.ByteString
@@ -29,7 +30,7 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class PlayScalaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
   implicit val sys      = ActorSystem()
-  implicit val mat      = ActorMaterializer()
+  implicit val mat      = SystemMaterializer(sys).materializer
   implicit val ec       = sys.dispatcher
   implicit val patience = PatienceConfig(timeout = 3.seconds, interval = 15.milliseconds)
 
@@ -71,14 +72,18 @@ class PlayScalaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterA
       HttpRequest(
         uri = uri,
         entity = HttpEntity.Chunked(
-          Grpc.contentType,
-          Source.single(msg).map(serializer.serialize).via(Grpc.grpcFramingEncoder).map(Chunk(_)),
+          GrpcProtocolNative.contentType,
+          Source
+            .single(msg)
+            .map(serializer.serialize)
+            .map(DataFrame(_))
+            .via(GrpcProtocolNative.newWriter(Identity).frameEncoder),
         ),
       )
     }
     def akkaHttpResponse[T](response: HttpResponse)(implicit deserializer: ProtobufSerializer[T]) =
       response.entity.dataBytes
-        .via(Grpc.grpcFramingDecoder)
+        .via(GrpcProtocolNative.newReader(Identity).dataFrameDecoder)
         .runWith(Sink.reduce[ByteString](_ ++ _))
         .map(deserializer.deserialize)
 
