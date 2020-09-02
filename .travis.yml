@@ -7,11 +7,13 @@ git:
 
 env:
   matrix:
-    - TRAVIS_JDK=8
-    - TRAVIS_JDK=11
+    ## See https://github.com/playframework/play-grpc/issues/253
+    - TRAVIS_JDK=adopt@1.8.0-242
+    - TRAVIS_JDK=adopt@1.11-0
+
 
 before_install: curl -Ls https://git.io/jabba | bash && . ~/.jabba/jabba.sh
-install: jabba install "adopt@~1.$TRAVIS_JDK.0-0" && jabba use "$_" && java -Xmx32m -version
+install: jabba install "$TRAVIS_JDK" && jabba use "$_" && java -Xmx32m -version
 script: sbt scalafmtCheckAll scalafmtSbtCheck test paradox ++2.13.1 test
 
 jobs:
