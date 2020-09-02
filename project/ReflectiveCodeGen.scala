@@ -19,7 +19,7 @@ object ReflectiveCodeGen extends AutoPlugin {
   val generatedLanguages    = SettingKey[Seq[AkkaGrpc.Language]]("reflectiveGrpcGeneratedLanguages")
   val generatedSources      = SettingKey[Seq[AkkaGrpc.GeneratedSource]]("reflectiveGrpcGeneratedSources")
   val extraGenerators       = SettingKey[Seq[String]]("reflectiveGrpcExtraGenerators")
-  val codeGeneratorSettings = settingKey[Seq[String]]("Code generator settings")
+  val codeGeneratorSettings = settingKey[Seq[String]]("reflectiveGrpcCodeGeneratorSettings")
 
   override def projectSettings: Seq[Def.Setting[_]] =
     inConfig(Compile)(
