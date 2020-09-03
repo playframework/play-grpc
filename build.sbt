@@ -83,7 +83,7 @@ val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
   )
   .enablePlugins(build.play.grpc.NoPublish)
 
-val playActionsTestData= Project("play-grpc-actions-testdata", file("play-actions-testdata"))
+val playActionsTestData = Project("play-grpc-actions-testdata", file("play-actions-testdata"))
   .dependsOn(playRuntime)
   .settings(
     scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
