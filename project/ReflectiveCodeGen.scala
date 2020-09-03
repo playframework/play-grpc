@@ -19,7 +19,7 @@ object ReflectiveCodeGen extends AutoPlugin {
   val generatedLanguages    = SettingKey[Seq[AkkaGrpc.Language]]("reflectiveGrpcGeneratedLanguages")
   val generatedSources      = SettingKey[Seq[AkkaGrpc.GeneratedSource]]("reflectiveGrpcGeneratedSources")
   val extraGenerators       = SettingKey[Seq[String]]("reflectiveGrpcExtraGenerators")
-  val codeGeneratorSettings = settingKey[Seq[String]]("Code generator settings")
+  val codeGeneratorSettings = settingKey[Seq[String]]("reflectiveGrpcCodeGeneratorSettings")
 
   // needed to be able to override the PB.generate task reliably
   override def requires = ProtocPlugin
