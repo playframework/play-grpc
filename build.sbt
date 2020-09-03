@@ -83,6 +83,26 @@ val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
   )
   .enablePlugins(build.play.grpc.NoPublish)
 
+val playActionsTestData= Project("play-grpc-actions-testdata", file("play-actions-testdata"))
+  .dependsOn(playRuntime)
+  .settings(
+    scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
+    javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
+    ReflectiveCodeGen.extraGenerators ++= List(
+      "play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator",
+    ),
+    ReflectiveCodeGen.codeGeneratorSettings += "use_play_actions",
+    libraryDependencies ++= Seq(
+      Dependencies.Compile.play,
+      Dependencies.Compile.grpcStub,
+      Dependencies.Compile.playAkkaHttpServer,
+      Dependencies.Compile.playAkkaHttp2Support,
+      Dependencies.Compile.akkaDiscovery,
+    ),
+  )
+  .pluginTestingSettings
+  .enablePlugins(build.play.grpc.NoPublish)
+
 val playGenerators = Project("play-grpc-generators", file("play-generators"))
   .enablePlugins(SbtTwirl, BuildInfoPlugin)
   .settings(
@@ -95,7 +115,7 @@ val playGenerators = Project("play-grpc-generators", file("play-generators"))
   )
 
 val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
-  .dependsOn(playRuntime, playTestdata % "test")
+  .dependsOn(playRuntime, playTestdata % "test", playActionsTestData % "test")
   .settings(
     libraryDependencies ++= Seq(
       Dependencies.Compile.play,
