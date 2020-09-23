@@ -2,6 +2,7 @@ package build.play.grpc
 
 import sbt._
 import sbt.Keys._
+import akka.grpc.gen.{ BuildInfo => AkkaGrpcBuildInfo }
 
 object Dependencies {
 
@@ -12,9 +13,8 @@ object Dependencies {
     val akka     = "2.6.5"
     val akkaHttp = "10.1.12"
 
-    // This version must be in sync with the version of "sbt-akka-grpc" in "project/plugins.sbt"
-    val akkaGrpc = "1.0.0"  // TODO: obtain via sbt-akka-grpc?
-    val grpc     = "1.30.2" // needs to be in sync with akkaGrpc version?
+    val akkaGrpc = AkkaGrpcBuildInfo.version
+    val grpc     = AkkaGrpcBuildInfo.grpcVersion
 
     val play  = "2.8.2"
     val lagom = "1.6.3"

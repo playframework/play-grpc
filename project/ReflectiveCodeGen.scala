@@ -111,10 +111,28 @@ object ReflectiveCodeGen extends AutoPlugin {
          |
          |val logger = akka.grpc.gen.StdoutLogger
          |
+         |class ProtocBridgeSbtPluginCodeGenerator(
+         |      impl: akka.grpc.gen.CodeGenerator,
+         |      scalaBinaryVersion: ScalaBinaryVersion,
+         |      logger: akka.grpc.gen.Logger) extends protocbridge.ProtocCodeGenerator {
+         |          override def run(request: Array[Byte]): Array[Byte] = impl.run(request, logger)
+         |          override def suggestedDependencies: Seq[protocbridge.Artifact] = impl.suggestedDependencies(scalaBinaryVersion)
+         |          override def toString = s"ProtocBridgeSbtPluginCodeGenerator($${impl.name}: $$impl)"
+         |    }
+         |
+         |// this transforms the Akka gRPC API generators to the right protocbridge type
+         |  def toGenerator(
+         |      codeGenerator: akka.grpc.gen.CodeGenerator,
+         |      scalaBinaryVersion: ScalaBinaryVersion,
+         |      logger: akka.grpc.gen.Logger): protocbridge.Generator = {
+         |      val adapter = new ProtocBridgeSbtPluginCodeGenerator(codeGenerator, scalaBinaryVersion, logger)
+         |      protocbridge.JvmGenerator(codeGenerator.name, adapter)
+         |    }
+         |
          |(targetPath: java.io.File, settings: Seq[String]) => {
          |  val generators =
          |    AkkaGrpcPlugin.generatorsFor(sources, languages, scalaBinaryVersion, logger) ++
-         |    Seq($extraGenerators).map(gen => AkkaGrpcPlugin.toGenerator(gen, scalaBinaryVersion, akka.grpc.gen.StdoutLogger))
+         |    Seq($extraGenerators).map(gen => toGenerator(gen, scalaBinaryVersion, akka.grpc.gen.StdoutLogger))
          |  AkkaGrpcPlugin.targetsFor(targetPath, settings, generators)
          |}
         """.stripMargin
