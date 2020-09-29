@@ -7,7 +7,7 @@ with [HTTPS](https://www.playframework.com/documentation/2.8.x/ConfiguringHttps)
   To use gRPC in Play Framework you must enable [HTTP/2 Support](https://www.playframework.com/documentation/2.8.x/AkkaHttpServer#HTTP%2F2-support-%28experimental%29).
 @@@
 
-Generating classes from the gRPC service definition is done by adding the [Akka gRPC plugin to your sbt build](https://developer.lightbend.com/docs/akka-grpc/current/buildtools/sbt.html) along with the Play gRPC generators:
+Generating classes from the gRPC service definition is done by adding the [Akka gRPC plugin to your sbt build](https://doc.akka.io/docs/akka-grpc/current/buildtools/sbt.html) along with the Play gRPC generators:
 
 sbt
 :   @@@vars
