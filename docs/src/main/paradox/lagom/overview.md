@@ -47,7 +47,7 @@ Java
     import play.grpc.gen.javadsl.PlayJavaServerCodeGenerator
 
     lazy val `greeter-service-impl` = (project in file("greeter-impl"))
-        .enablePlugins(LagomScala)
+        .enablePlugins(LagomJava)
         .enablePlugins(AkkaGrpcPlugin)
         // enables serving HTTP/2
         .enablePlugins(PlayAkkaHttp2Support)
