@@ -2,7 +2,7 @@
 
 ## gRPC
 
-[gRPC](https://grpc.io/) is a transport mechanism for request/response and (non-persistent) streaming use cases. See [Akka gRPC documentation for an explanation of why gRPC](https://developer.lightbend.com/docs/akka-grpc/current/whygrpc.html) and when to use it as your transport.
+[gRPC](https://grpc.io/) is a transport mechanism for request/response and (non-persistent) streaming use cases. See [Akka gRPC documentation for an explanation of why gRPC](https://doc.akka.io/docs/akka-grpc/current/whygrpc.html) and when to use it as your transport.
 
 ## How to add the sbt plugin
 
@@ -13,6 +13,7 @@ sbt
     ```scala
     // in project/plugins.sbt:
     addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "$akka.grpc.version$")
+    libraryDependencies += "com.lightbend.play" %% "play-grpc-generators" % "$project.version$"
     ```
     @@@ 
 
@@ -23,6 +24,8 @@ Scala
 :   @@@vars
     ```scala
     // in build.sbt:
+    import play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator
+
     lazy val `greeter-service-impl` = (project in file("greeter-impl"))
         .enablePlugins(LagomScala)
         .enablePlugins(AkkaGrpcPlugin)
@@ -41,6 +44,8 @@ Java
 :   @@@vars
     ```scala
     // in build.sbt:
+    import play.grpc.gen.javadsl.PlayJavaServerCodeGenerator
+
     lazy val `greeter-service-impl` = (project in file("greeter-impl"))
         .enablePlugins(LagomScala)
         .enablePlugins(AkkaGrpcPlugin)
@@ -50,7 +55,7 @@ Java
             // Using Java
             akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Java),
             akkaGrpcGeneratedSources := Seq( AkkaGrpc.Server, AkkaGrpc.Client ),
-            akkaGrpcExtraGenerators in Compile += PlayScalaServerCodeGenerator
+            akkaGrpcExtraGenerators in Compile += PlayJavaServerCodeGenerator
         )
     ```
     @@@

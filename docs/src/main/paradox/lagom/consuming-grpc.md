@@ -1,7 +1,7 @@
 ## Using a gRPC client in Lagom
 
 Akka gRPC has special support to allow for seamless configuration of generated clients in Play. To enable this, you
-need first to enable the gRPC plugin as described in the [client docs](https://developer.lightbend.com/docs/akka-grpc/current/client/walkthrough.html) and then add a
+need first to enable the gRPC plugin as described in the [client docs](https://doc.akka.io/docs/akka-grpc/current/client/walkthrough.html) and then add a
 source generator in `build.sbt`:
 
 Scala
@@ -46,7 +46,7 @@ Scala
 @@@ div { .group-java }
 
 For Java, the module file is generated in @java[`com.lightbend.lagom.javadsl.grpc.interop.AkkaGrpcClientModule` by default], which corresponds to the default value
-of `flat_package` for @java[Java]@scala[Scala]. You can read more about this in [Services](https://developer.lightbend.com/docs/akka-grpc/current/proto.html).
+of `flat_package` for @java[Java]@scala[Scala]. You can read more about this in [Services](https://doc.akka.io/docs/akka-grpc/current/proto.html).
 
 The exact package of the module will be based on the package the proto files are generated in, configured through
 the `java_package` option in the proto-file (if there are multiple different gRPC generated clients the module will
@@ -63,7 +63,7 @@ again, in `application.conf`:
 Java
 :   @@snip[application.conf](/lagom-interop-test-java/src/main/resources/application.conf) { #service-client-conf }
 
-See [Client Configuration](https://developer.lightbend.com/docs/akka-grpc/current/client/configuration.html) for more information on the available options. If the configuration
+See [Client Configuration](https://doc.akka.io/docs/akka-grpc/current/client/configuration.html) for more information on the available options. If the configuration
 is not present for that client and it is used by some other component, the application start will fail with an exception
 when injecting the client (see [#271](https://github.com/akka/akka-grpc/issues/271)).
 
