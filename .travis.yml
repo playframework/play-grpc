@@ -13,6 +13,7 @@ env:
     ## See https://github.com/playframework/play-grpc/issues/253
     - TRAVIS_JDK=adopt@1.8.0-242
     - TRAVIS_JDK=adopt@1.11-0
+    - TRAVIS_JDK=adopt@1.11-0
 
 
 before_install: curl -Ls https://git.io/jabba | bash && . ~/.jabba/jabba.sh
