@@ -10,14 +10,11 @@ env:
   # encrypt with: travis encrypt --com --repo playframework/play-grpc  WHITESOURCE_PASSWORD=...
   - secure: "P+tk+59lSGZSWcsY/O6jeEKpZlXWawy3tLfGxAqs0nw/mf7OMrBVkTMnt7tcnb9ggMHIThO5CQiu+dZ4PwSY1hFFua22XVeqBQb6SWwc36ea5GY4hSHE/nHq51nShX45f3wjaHZ5rjT/jwRYmRBwvmIVFUsAExABv8YoG/I+EeIJ+JRBSAmGNPuxQ/+OUk7qAz1VrP0cUW7t68Cs66c5J+iDvQ8/UKb7u9XU43i7eoB3SnCJdyFCvAXzGkHOf3Yph0rn2dmEFIIZIxoLBx81DYQh+5efNT8pcyK5kviWIGB0XeQMTfIY3NTbaS8K8E7OLZ37Hd75c29ZHIX/7cIQOZRnnhlI2z1mCvBj6IuYnFpL3EJO+mccvTKMKuNhHmCWzTKV85wLk+1JB31ZH+mV9+hjiMY4ChiwFIbJZvBLRrHL/NqwQ0GPRQf/6GrBVydEvv2uWIB31KOnhwnie25Lwq0ptxXAzUPiwQnNJTFkbWHnrhxkabgVAKE6128SNUzUWK64c/tCjLEK8WS9WEPxVaQq1jXIYPbDadaz8yB6n9kDkg1jLkCwKCZsMumQGb/JQbhPNkYBpZG3A5WlGrAqqRU5KGbvXSlzsXi3/n06xSMaJBbZAAGY9+F9jnnYta2LxNpMcAyjLet+nXr8d/F/k59WgWcqSCuzuBjMbNtoQGI="
   matrix:
-    ## See https://github.com/playframework/play-grpc/issues/253
-    - TRAVIS_JDK=adopt@1.8.0-242
-    - TRAVIS_JDK=adopt@1.11-0
-    - TRAVIS_JDK=adopt@1.11-0
-
+    - TRAVIS_JDK=8
+    - TRAVIS_JDK=11
 
 before_install: curl -Ls https://git.io/jabba | bash && . ~/.jabba/jabba.sh
-install: jabba install "$TRAVIS_JDK" && jabba use "$_" && java -Xmx32m -version
+install: jabba install "adopt@~1.$TRAVIS_JDK.0-0" && jabba use "$_" && java -Xmx32m -version
 script: sbt headerCheck test:headerCheck scalafmtCheckAll scalafmtSbtCheck test paradox ++2.13.1 test
 
 jobs:
