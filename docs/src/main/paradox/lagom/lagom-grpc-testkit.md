@@ -8,14 +8,14 @@ First you have to include the dependency to the testkit extension:
 Scala
 :   @@@vars
     ```scala
-    "com.lightbend.play" %% "lagom-scaladsl-grpc-testkit" % "$project.version$"
+    libraryDependencies += "com.lightbend.play" %% "lagom-scaladsl-grpc-testkit" % "$project.version$" % Test
     ```
     @@@
 
 Java
 :   @@@vars
     ```scala
-    "com.lightbend.play" %% "lagom-javadsl-grpc-testkit" % "$project.version$"
+    libraryDependencies += "com.lightbend.play" %% "lagom-javadsl-grpc-testkit" % "$project.version$" % Test
     ```
     @@@
 
