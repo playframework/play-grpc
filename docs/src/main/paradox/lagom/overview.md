@@ -24,18 +24,17 @@ Scala
 :   @@@vars
     ```scala
     // in build.sbt:
-    import play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator
-
     lazy val `greeter-service-impl` = (project in file("greeter-impl"))
         .enablePlugins(LagomScala)
         .enablePlugins(AkkaGrpcPlugin)
         // enables serving HTTP/2
         .enablePlugins(PlayAkkaHttp2Support)
         .settings(
+            libraryDependencies += "com.lightbend.play" %% "play-grpc-runtime" % "$project.version$",
             // Using Scala
             akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Scala),
-            akkaGrpcGeneratedSources := Seq( AkkaGrpc.Server, AkkaGrpc.Client ),
-            akkaGrpcExtraGenerators in Compile += PlayScalaServerCodeGenerator
+            akkaGrpcGeneratedSources := Seq(AkkaGrpc.Server, AkkaGrpc.Client),
+            akkaGrpcExtraGenerators in Compile += play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator
         )
     ```
     @@@
@@ -44,18 +43,17 @@ Java
 :   @@@vars
     ```scala
     // in build.sbt:
-    import play.grpc.gen.javadsl.PlayJavaServerCodeGenerator
-
     lazy val `greeter-service-impl` = (project in file("greeter-impl"))
         .enablePlugins(LagomJava)
         .enablePlugins(AkkaGrpcPlugin)
         // enables serving HTTP/2
         .enablePlugins(PlayAkkaHttp2Support)
         .settings(
+            libraryDependencies += "com.lightbend.play" %% "play-grpc-runtime" % "$project.version$",
             // Using Java
             akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Java),
-            akkaGrpcGeneratedSources := Seq( AkkaGrpc.Server, AkkaGrpc.Client ),
-            akkaGrpcExtraGenerators in Compile += PlayJavaServerCodeGenerator
+            akkaGrpcGeneratedSources := Seq(AkkaGrpc.Server, AkkaGrpc.Client),
+            akkaGrpcExtraGenerators in Compile += play.grpc.gen.javadsl.PlayJavaServerCodeGenerator
         )
     ```
     @@@
