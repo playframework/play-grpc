@@ -22,7 +22,7 @@ public class AkkaGrpcClientModule extends Module {
   public List<Binding<?>> bindings(play.Environment environment, Config config) {
     return Arrays.<Binding<?>>asList(
         @services.map { service =>
-           bindClass(${service.packageName}.@{service.name}Client.class).toProvider(${service.packageName}.@{service.name}ClientProvider.class)
+           bindClass(@{service.packageName}.@{service.name}Client.class).toProvider(@{service.packageName}.@{service.name}ClientProvider.class)
         }.mkString(",")
     );
   }
