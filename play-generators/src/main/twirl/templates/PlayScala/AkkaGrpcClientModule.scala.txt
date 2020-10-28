@@ -8,10 +8,6 @@
 
 import play.api.inject.Binding
 import play.api.{Configuration, Environment}
-@services.map { service =>
-import @{service.packageName}._
-}
-
 
 /**
  * Add this generated AkkaGrpcClientModule to play.modules.enabled
@@ -21,7 +17,7 @@ class AkkaGrpcClientModule extends play.api.inject.Module {
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
     Seq(
       @services.map { service =>
-        bind[@{service.name}Client].toProvider[@{service.name}ClientProvider]
+        bind[${service.packageName}.@{service.name}Client].toProvider[${service.packageName}.@{service.name}ClientProvider]
       }.mkString(",")
     )
   }
