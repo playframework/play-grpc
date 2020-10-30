@@ -30,6 +30,7 @@ object Dependencies {
 
     val akkaActorTyped           = "com.typesafe.akka" %% "akka-actor-typed"            % Versions.akka
     val akkaClusterShardingTyped = "com.typesafe.akka" %% "akka-cluster-sharding-typed" % Versions.akka
+    val akkaSerializationJackson = "com.typesafe.akka" %% "akka-serialization-jackson"  % Versions.akka
     val akkaStream               = "com.typesafe.akka" %% "akka-stream"                 % Versions.akka
     val akkaDiscovery            = "com.typesafe.akka" %% "akka-discovery"              % Versions.akka
     val akkaPersistenceTyped     = "com.typesafe.akka" %% "akka-persistence-typed"      % Versions.akka

@@ -54,6 +54,7 @@ val playRuntime = Project("play-grpc-runtime", file("play-runtime"))
       Dependencies.Compile.play,
       Dependencies.Compile.playAkkaHttpServer,
       Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.akkaSerializationJackson,
       Dependencies.Compile.akkaHttp,
       Dependencies.Compile.akkaHttp2Support,
       Dependencies.Compile.akkaHttpSprayJson,
