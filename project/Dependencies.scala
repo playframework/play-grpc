@@ -65,7 +65,7 @@ object Dependencies {
     val akkaActorTestkitTyped = "com.typesafe.akka" %% "akka-actor-testkit-typed" % Versions.akka
     val akkaStreamTestkit     = "com.typesafe.akka" %% "akka-stream-testkit"      % Versions.akka
 
-    val junit             = "junit"                   % "junit" % "4.13" % Test // Common Public License 1.0
+    val junit             = "junit"                   % "junit" % "4.13.1" % Test // Common Public License 1.0
     val playAhcWs         = "com.typesafe.play"       %% "play-ahc-ws" % Versions.play % Test // Apache V2
     val playSpecs2        = Compile.playSpecs2        % Test
     val scalaTest         = "org.scalatest"           %% "scalatest" % Versions.scalaTest % Test // Apache V2
