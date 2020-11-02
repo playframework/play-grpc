@@ -5,7 +5,6 @@
 package controllers;
 
 import akka.actor.ActorSystem;
-import akka.stream.Materializer;
 import com.google.inject.Inject;
 import example.myapp.helloworld.grpc.AbstractGreeterServiceRouter;
 import example.myapp.helloworld.grpc.HelloReply;

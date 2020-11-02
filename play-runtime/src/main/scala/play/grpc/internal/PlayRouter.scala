@@ -3,25 +3,18 @@
  */
 package play.grpc.internal
 
-import java.util.Optional
 import java.util.concurrent.CompletionStage
 
 import akka.annotation.InternalApi
-import akka.dispatch.Dispatchers
 import akka.http.scaladsl.model.HttpRequest
 import akka.http.scaladsl.model.HttpResponse
-import akka.stream.Materializer
-import play.api.inject.Injector
-import play.api.mvc.Handler
 import play.api.mvc.akkahttp.AkkaHttpHandler
 import play.api.routing.Router
 import play.api.routing.Router.Routes
-import play.mvc.Http
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.compat.java8.FutureConverters._
-import scala.compat.java8.OptionConverters._
 
 /**
  * INTERNAL API

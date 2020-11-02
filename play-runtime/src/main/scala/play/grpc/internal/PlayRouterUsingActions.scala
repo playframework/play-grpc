@@ -7,7 +7,6 @@ import akka.annotation.InternalApi
 import akka.grpc.internal.GrpcProtocolNative
 import akka.http.scaladsl.model.HttpHeader.ParsingResult
 import akka.http.scaladsl.model._
-import akka.stream.Materializer
 import akka.stream.scaladsl.Source
 import akka.util.ByteString
 import play.api.http.HttpChunk

@@ -3,12 +3,11 @@
  */
 package example.myapp.helloworld.grpc.helloworld
 
+import scala.concurrent.Future
+
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import javax.inject.Inject
 import javax.inject.Singleton
-
-import scala.concurrent.Future
 
 /** User implementation, with support for dependency injection etc */
 @Singleton
