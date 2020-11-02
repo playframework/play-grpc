@@ -10,7 +10,6 @@ import scala.concurrent.Future
 
 import akka.http.scaladsl.model.{ HttpRequest, HttpResponse }
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import akka.grpc.scaladsl.GrpcExceptionHandler.defaultMapper
 import play.grpc.internal.PlayRouter
 

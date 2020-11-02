@@ -20,8 +20,8 @@ import java.util.concurrent.CompletionStage;
 public class GreeterServiceImpl extends AbstractGreeterServiceRouter {
 
   @Inject
-  public GreeterServiceImpl(Materializer mat, ActorSystem actorSystem) {
-    super(mat, actorSystem);
+  public GreeterServiceImpl(ActorSystem actorSystem) {
+    super(actorSystem);
   }
 
   @Override

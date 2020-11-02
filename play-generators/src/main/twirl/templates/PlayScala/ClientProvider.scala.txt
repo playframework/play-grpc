@@ -14,14 +14,13 @@ import play.api.inject.ApplicationLifecycle
 
 import akka.actor.ActorSystem
 import akka.grpc.GrpcClientSettings
-import akka.stream.Materializer
 
 /**
  * Wired into DI by adding the generated AkkaGrpcClientModule to play.modules.enabled
  * in your application.conf
  */
 @@Singleton
-class @{service.name}ClientProvider @@Inject()(implicit sys: ActorSystem, mat: Materializer) extends Provider[@{service.name}Client]() {
+class @{service.name}ClientProvider @@Inject()(implicit sys: ActorSystem) extends Provider[@{service.name}Client]() {
   override def get(): @{service.name}Client = {
     implicit val ec: ExecutionContext = sys.dispatcher
     @{service.name}Client(GrpcClientSettings.fromConfig(@{service.name}.name))

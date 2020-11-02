@@ -14,7 +14,6 @@ import akka.http.scaladsl.model.HttpRequest;
 import akka.http.scaladsl.model.HttpResponse;
 import akka.grpc.javadsl.GrpcExceptionHandler;
 import akka.actor.ActorSystem;
-import akka.stream.Materializer;
 
 import play.grpc.internal.PlayRouter;
 
@@ -25,15 +24,15 @@ import play.grpc.internal.PlayRouter;
   public abstract class Abstract@{serviceName}Router extends PlayRouter implements @{serviceName} {
     private final scala.Function1<HttpRequest, scala.concurrent.Future<HttpResponse>> respond;
 
-    public Abstract@{serviceName}Router(Materializer mat, ActorSystem system) {
-      this(mat, system, GrpcExceptionHandler.defaultMapper());
+    public Abstract@{serviceName}Router(ActorSystem system) {
+      this(system, GrpcExceptionHandler.defaultMapper());
     }
 
-    public Abstract@{serviceName}Router(Materializer mat, ActorSystem system, Function<ActorSystem, Function<Throwable, akka.grpc.Trailers>> eHandler) {
+    public Abstract@{serviceName}Router(ActorSystem system, Function<ActorSystem, Function<Throwable, akka.grpc.Trailers>> eHandler) {
       super(@{service.name}.name);
       this.respond = play.grpc.internal.PlayRouterHelper.handlerFor(
         @{serviceName}HandlerFactory.create(this, serviceName(), eHandler, system),
-        mat.executionContext()
+        system.getDispatcher()
       );
     }
 
