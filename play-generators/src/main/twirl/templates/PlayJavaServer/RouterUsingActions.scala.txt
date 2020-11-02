@@ -15,7 +15,6 @@ import akka.grpc.javadsl.GrpcExceptionHandler;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.japi.Function;
-import akka.stream.Materializer;
 import play.api.mvc.EssentialAction;
 import play.api.mvc.RequestHeader;
 import play.api.mvc.PlayBodyParsers;
@@ -49,12 +48,12 @@ import java.util.concurrent.CompletionStage;
       """
     }
 
-    public Abstract@{serviceName}Router(Materializer mat, ActorSystem system, PlayBodyParsers parsers, ActionBuilder<Request, AnyContent> actionBuilder) {
-      this(mat, system, parsers, actionBuilder, GrpcExceptionHandler.defaultMapper());
+    public Abstract@{serviceName}Router(ActorSystem system, PlayBodyParsers parsers, ActionBuilder<Request, AnyContent> actionBuilder) {
+      this(system, parsers, actionBuilder, GrpcExceptionHandler.defaultMapper());
     }
 
-    public Abstract@{serviceName}Router(Materializer mat, ActorSystem system, PlayBodyParsers parsers, ActionBuilder<Request, AnyContent> actionBuilder, Function<ActorSystem, Function<Throwable, io.grpc.Status>> eHandler) {
-      super(mat, @{service.name}.name, parsers, actionBuilder);
+    public Abstract@{serviceName}Router(ActorSystem system, PlayBodyParsers parsers, ActionBuilder<Request, AnyContent> actionBuilder, Function<ActorSystem, Function<Throwable, io.grpc.Status>> eHandler) {
+      super(system, @{service.name}.name, parsers, actionBuilder);
       this.eHandler = eHandler;
       this.system = system;
       this.parsers = parsers;
@@ -66,9 +65,9 @@ import java.util.concurrent.CompletionStage;
      */
     @@InternalApi
     @@Override
-    final public Function1<RequestHeader, EssentialAction> createHandler(String serviceName, Materializer mat) {
+    final public Function1<RequestHeader, EssentialAction> createHandler(String serviceName) {
       return new Function1<RequestHeader, EssentialAction>() {
-        Function<HttpRequest, CompletionStage<HttpResponse>> handler = @{serviceName}HandlerFactory.create(Abstract@{serviceName}Router.this, serviceName, mat, eHandler, system);
+        Function<HttpRequest, CompletionStage<HttpResponse>> handler = @{serviceName}HandlerFactory.create(Abstract@{serviceName}Router.this, serviceName, eHandler, system);
         public EssentialAction apply(RequestHeader reqOuter) {
           String[] pathSegments = reqOuter.path().split("/");
           if ((pathSegments.length == 3) && (pathSegments[1].equals(serviceName))) {

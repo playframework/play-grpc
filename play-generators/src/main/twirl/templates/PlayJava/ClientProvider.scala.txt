@@ -14,7 +14,6 @@ import play.api.inject.ApplicationLifecycle;
 
 import akka.actor.ClassicActorSystemProvider;
 import akka.grpc.GrpcClientSettings;
-import akka.stream.Materializer;
 
 /**
  * Wired into DI by adding the generated AkkaGrpcClientModule to play.modules.enabled

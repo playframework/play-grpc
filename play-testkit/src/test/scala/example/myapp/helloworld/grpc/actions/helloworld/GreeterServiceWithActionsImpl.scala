@@ -3,14 +3,14 @@
  */
 package example.myapp.helloworld.grpc.actions.helloworld
 
+import scala.concurrent.Future
+
+import akka.actor.ActorSystem
+import akka.stream.Materializer
 import javax.inject.Inject
 import javax.inject.Singleton
-import akka.stream.Materializer
-import akka.actor.ActorSystem
-import play.api.mvc.PlayBodyParsers
 import play.api.mvc.DefaultActionBuilder
-
-import scala.concurrent.Future
+import play.api.mvc.PlayBodyParsers
 
 @Singleton
 class GreeterServiceWithActionsImpl @Inject() (
@@ -20,7 +20,6 @@ class GreeterServiceWithActionsImpl @Inject() (
     parsers: PlayBodyParsers,
     actionBuilder: DefaultActionBuilder,
 ) extends AbstractGreeterServiceRouter(
-      mat,
       actorSystem,
       parsers,
       actionBuilder,

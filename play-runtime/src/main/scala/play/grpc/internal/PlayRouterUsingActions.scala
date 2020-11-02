@@ -7,7 +7,6 @@ import akka.annotation.InternalApi
 import akka.grpc.internal.GrpcProtocolNative
 import akka.http.scaladsl.model.HttpHeader.ParsingResult
 import akka.http.scaladsl.model._
-import akka.stream.Materializer
 import akka.stream.scaladsl.Source
 import akka.util.ByteString
 import play.api.http.HttpChunk
@@ -18,10 +17,11 @@ import play.api.libs.streams.Accumulator
 import play.api.mvc._
 import play.api.routing.Router
 import play.api.routing.Router.Routes
-
 import scala.collection.immutable
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+
+import akka.actor.ActorSystem
 
 /**
  * Boiler plate needed for the generated Play routers allowing for adding a service implementation in a Play app,
@@ -30,7 +30,7 @@ import scala.concurrent.Future
  * INTERNAL API
  */
 @InternalApi abstract class PlayRouterUsingActions(
-    mat: Materializer,
+    system: ActorSystem,
     serviceName: String,
     parsers: PlayBodyParsers,
     actionBuilder: ActionBuilder[Request, AnyContent],
@@ -42,9 +42,9 @@ import scala.concurrent.Future
    * INTERNAL API
    */
   @InternalApi
-  protected def createHandler(serviceName: String, mat: Materializer): RequestHeader => EssentialAction
+  protected def createHandler(serviceName: String, system: ActorSystem): RequestHeader => EssentialAction
 
-  private val handler = createHandler(serviceName, mat)
+  private val handler = createHandler(serviceName, system)
 
   // Scala API
   final override def routes: Routes = {

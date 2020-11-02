@@ -4,15 +4,14 @@
 // #service-impl
 package controllers
 
+import scala.concurrent.Future
+
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import example.myapp.helloworld.grpc.helloworld.AbstractGreeterServiceRouter
 import example.myapp.helloworld.grpc.helloworld.HelloReply
 import example.myapp.helloworld.grpc.helloworld.HelloRequest
 import javax.inject.Inject
 import javax.inject.Singleton
-
-import scala.concurrent.Future
 
 /** User implementation, with support for dependency injection etc */
 @Singleton
