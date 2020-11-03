@@ -15,3 +15,6 @@ addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "1.0.2")
 // Only needed for akka, akka-grpc ,...  snapshots
 // See also build.sbt
 //resolvers += Resolver.bintrayRepo("akka", "maven")
+
+// Depend on Play in the metabuild so we can use PlayVersion in the build
+libraryDependencies += "com.typesafe.play" %% "play" % "2.8.2"

@@ -3,6 +3,7 @@ package build.play.grpc
 import sbt._
 import sbt.Keys._
 import akka.grpc.gen.{ BuildInfo => AkkaGrpcBuildInfo }
+import play.core.PlayVersion
 
 object Dependencies {
 
@@ -10,8 +11,11 @@ object Dependencies {
     val scala212 = "2.12.11"
     val scala213 = "2.13.1"
 
-    val akka     = "2.6.5"
-    val akkaHttp = "10.1.12"
+//    val akka     = AkkaGrpcBuildInfo.akkaVersion
+//    val akkaHttp = AkkaGrpcBuildInfo.akkaHttpVersion
+
+    val akka     = PlayVersion.akkaVersion
+    val akkaHttp = PlayVersion.akkaHttpVersion // doesn't compile, requires Play 2.8.4
 
     val akkaGrpc = AkkaGrpcBuildInfo.version
     val grpc     = AkkaGrpcBuildInfo.grpcVersion
