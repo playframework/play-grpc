@@ -10,13 +10,13 @@ object Dependencies {
     val scala212 = "2.12.11"
     val scala213 = "2.13.1"
 
-    val akka     = "2.6.5"
+    val akka     = "2.6.8"
     val akkaHttp = "10.1.12"
 
     val akkaGrpc = AkkaGrpcBuildInfo.version
     val grpc     = AkkaGrpcBuildInfo.grpcVersion
 
-    val play  = "2.8.2"
+    val play  = "2.8.3"
     val lagom = "1.6.4"
 
     val scalaTest         = "3.1.4"
