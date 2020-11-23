@@ -111,10 +111,7 @@ val playGenerators = Project("play-grpc-generators", file("play-generators"))
       Dependencies.Test.scalaTest,
     ),
     buildInfoKeys ++= Seq[BuildInfoKey](organization, name, version, scalaVersion, sbtVersion),
-    buildInfoKeys += "akkaVersion"     → Dependencies.Versions.akka,
     buildInfoKeys += "akkaGrpcVersion" → Dependencies.Versions.akkaGrpc,
-    buildInfoKeys += "akkaHttpVersion" → Dependencies.Versions.akkaHttp,
-    buildInfoKeys += "grpcVersion"     → Dependencies.Versions.grpc,
     buildInfoPackage := "play.grpc.gen",
     // Only used in build tools (like sbt), so only 2.12 is needed:
     crossScalaVersions := Seq(scala212),
