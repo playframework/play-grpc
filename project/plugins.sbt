@@ -6,7 +6,7 @@ addSbtPlugin("com.lightbend.akka" % "sbt-paradox-akka" % "0.35")
 addSbtPlugin("com.lightbend.sbt"  % "sbt-javaagent"    % "0.1.6")
 addSbtPlugin("com.typesafe.sbt"   % "sbt-twirl"        % "1.5.0")
 addSbtPlugin("de.heikoseeberger"  % "sbt-header"       % "5.6.0")
-addSbtPlugin("org.foundweekends"  % "sbt-bintray"      % "0.6.0")
+addSbtPlugin("org.foundweekends"  % "sbt-bintray"      % "0.6.1")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")
 
