@@ -16,7 +16,7 @@ object Dependencies {
     val akkaGrpc = AkkaGrpcBuildInfo.version
     val grpc     = AkkaGrpcBuildInfo.grpcVersion
 
-    val play  = "2.8.5"
+    val play  = "2.8.7"
     val lagom = "1.6.4"
 
     val scalaTest         = "3.1.4"
