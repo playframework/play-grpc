@@ -7,7 +7,7 @@ import akka.grpc.gen.{ BuildInfo => AkkaGrpcBuildInfo }
 object Dependencies {
 
   object Versions {
-    val scala212 = "2.12.11"
+    val scala212 = "2.12.13"
     val scala213 = "2.13.1"
 
     val akka     = "2.6.10"
