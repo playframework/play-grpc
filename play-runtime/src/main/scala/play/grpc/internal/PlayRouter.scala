@@ -20,6 +20,7 @@ import scala.compat.java8.FutureConverters._
  * INTERNAL API
  */
 @InternalApi private[grpc] object PlayRouterHelper {
+  @deprecated("Prefer handlerFunction(akka.japi.function.Function[])", "0.10.0")
   def handlerFor(
       javaHandler: akka.japi.Function[akka.http.javadsl.model.HttpRequest, CompletionStage[
         akka.http.javadsl.model.HttpResponse,
@@ -33,6 +34,21 @@ import scala.compat.java8.FutureConverters._
         .toScala
         .map(javaResp => javaResp.asInstanceOf[akka.http.scaladsl.model.HttpResponse]),
     )
+
+  def handlerFor(
+      javaHandler: akka.japi.function.Function[akka.http.javadsl.model.HttpRequest, CompletionStage[
+        akka.http.javadsl.model.HttpResponse,
+      ]],
+  )(
+      implicit ec: ExecutionContext,
+  ): HttpRequest => Future[HttpResponse] =
+    AkkaHttpHandler.apply(req =>
+      javaHandler
+        .apply(req.asInstanceOf[akka.http.javadsl.model.HttpRequest])
+        .toScala
+        .map(javaResp => javaResp.asInstanceOf[akka.http.scaladsl.model.HttpResponse]),
+    )
+
 }
 
 /**
