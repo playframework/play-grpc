@@ -21,7 +21,7 @@ object ReflectiveCodeGen extends AutoPlugin {
   val generatedSources      = SettingKey[Seq[AkkaGrpc.GeneratedSource]]("reflectiveGrpcGeneratedSources")
   val extraGenerators       = SettingKey[Seq[String]]("reflectiveGrpcExtraGenerators")
   val codeGeneratorSettings = settingKey[Seq[String]]("Code generator settings")
-  val protocOptions = settingKey[Seq[String]]("Protoc Options.")
+  val protocOptions         = settingKey[Seq[String]]("Protoc Options.")
 
   // needed to be able to override the PB.generate task reliably
   override def requires = ProtocPlugin
@@ -54,7 +54,7 @@ object ReflectiveCodeGen extends AutoPlugin {
         PB.targets := scala.collection.mutable.ListBuffer.empty,
         // Put an artifact resolver that returns the project's classpath for our generators
         PB.artifactResolver := Def.taskDyn {
-          val cp = (fullClasspath in Compile in ProjectRef(file("."), "play-grpc-generators")).value.map(_.data)
+          val cp          = (fullClasspath in Compile in ProjectRef(file("."), "play-grpc-generators")).value.map(_.data)
           val oldResolver = PB.artifactResolver.value
           Def.task { (artifact: BridgeArtifact) =>
             artifact.groupId match {
@@ -74,11 +74,15 @@ object ReflectiveCodeGen extends AutoPlugin {
           sourceManaged.value,
           codeGeneratorSettings.value,
           PB.targets.value.asInstanceOf[ListBuffer[Target]],
-          scalaBinaryVersion.value),
+          scalaBinaryVersion.value,
+        ),
         PB.recompile ~= (_ => true),
         PB.protoSources in Compile := PB.protoSources.value ++ Seq(
           PB.externalIncludePath.value,
-          sourceDirectory.value / "proto"))) ++ Seq(
+          sourceDirectory.value / "proto",
+        ),
+      ),
+    ) ++ Seq(
       codeGeneratorSettings in Global := Nil,
       generatedLanguages in Global := Seq(AkkaGrpc.Scala),
       generatedSources in Global := Seq(AkkaGrpc.Client, AkkaGrpc.Server),
@@ -90,14 +94,15 @@ object ReflectiveCodeGen extends AutoPlugin {
   val setCodeGenerator = taskKey[Unit]("grpc-set-code-generator")
 
   def loadAndSetGenerator(
-                           classpath: Classpath,
-                           languages0: Seq[AkkaGrpc.Language],
-                           sources0: Seq[AkkaGrpc.GeneratedSource],
-                           extraGenerators0: Seq[String],
-                           targetPath: File,
-                           generatorSettings: Seq[String],
-                           targets: ListBuffer[Target],
-                           scalaBinaryVersion: String): Unit = {
+      classpath: Classpath,
+      languages0: Seq[AkkaGrpc.Language],
+      sources0: Seq[AkkaGrpc.GeneratedSource],
+      extraGenerators0: Seq[String],
+      targetPath: File,
+      generatorSettings: Seq[String],
+      targets: ListBuffer[Target],
+      scalaBinaryVersion: String,
+  ): Unit = {
     val languages       = languages0.mkString(", ")
     val sources         = sources0.mkString(", ")
     val extraGenerators = extraGenerators0.mkString(", ")
