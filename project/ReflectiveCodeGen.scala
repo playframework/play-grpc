@@ -13,6 +13,7 @@ import sbt.internal.inc.classpath.ClasspathUtilities
 import akka.grpc.sbt.AkkaGrpcPlugin.autoImport._
 
 import scala.collection.mutable.ListBuffer
+import protocbridge.{ Artifact => BridgeArtifact }
 
 /** A plugin that allows to use a code generator compiled in one subproject to be used in a test project */
 object ReflectiveCodeGen extends AutoPlugin {
@@ -20,6 +21,7 @@ object ReflectiveCodeGen extends AutoPlugin {
   val generatedSources      = SettingKey[Seq[AkkaGrpc.GeneratedSource]]("reflectiveGrpcGeneratedSources")
   val extraGenerators       = SettingKey[Seq[String]]("reflectiveGrpcExtraGenerators")
   val codeGeneratorSettings = settingKey[Seq[String]]("Code generator settings")
+  val protocOptions         = settingKey[Seq[String]]("Protoc Options.")
 
   // needed to be able to override the PB.generate task reliably
   override def requires = ProtocPlugin
@@ -27,6 +29,7 @@ object ReflectiveCodeGen extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[_]] =
     inConfig(Compile)(
       Seq(
+        PB.protocOptions := protocOptions.value,
         PB.generate :=
           // almost the same as `Def.sequential` but will return the "middle" value, ie. the result of the generation
           // Defines three steps:
@@ -49,6 +52,19 @@ object ReflectiveCodeGen extends AutoPlugin {
           }.value,
         // HACK: make the targets mutable, so we can fill them while running the above PB.generate
         PB.targets := scala.collection.mutable.ListBuffer.empty,
+        // Put an artifact resolver that returns the project's classpath for our generators
+        PB.artifactResolver := Def.taskDyn {
+          val cp          = (fullClasspath in Compile in ProjectRef(file("."), "play-grpc-generators")).value.map(_.data)
+          val oldResolver = PB.artifactResolver.value
+          Def.task { (artifact: BridgeArtifact) =>
+            artifact.groupId match {
+              case "com.lightbend.akka.grpc" =>
+                cp
+              case _ =>
+                oldResolver(artifact)
+            }
+          }
+        }.value,
         setCodeGenerator := loadAndSetGenerator(
           // the magic sauce: use the output classpath from the the sbt-plugin project and instantiate generators from there
           (fullClasspath in Compile in ProjectRef(file("."), "play-grpc-generators")).value,
@@ -61,13 +77,17 @@ object ReflectiveCodeGen extends AutoPlugin {
           scalaBinaryVersion.value,
         ),
         PB.recompile ~= (_ => true),
-        PB.protoSources in Compile := Seq(PB.externalIncludePath.value, sourceDirectory.value / "proto"),
+        PB.protoSources in Compile := PB.protoSources.value ++ Seq(
+          PB.externalIncludePath.value,
+          sourceDirectory.value / "proto",
+        ),
       ),
     ) ++ Seq(
       codeGeneratorSettings in Global := Nil,
       generatedLanguages in Global := Seq(AkkaGrpc.Scala),
       generatedSources in Global := Seq(AkkaGrpc.Client, AkkaGrpc.Server),
       extraGenerators in Global := Seq.empty,
+      protocOptions in Global := Seq.empty,
       watchSources ++= (watchSources in ProjectRef(file("."), "play-grpc-generators")).value,
     )
 
@@ -83,10 +103,9 @@ object ReflectiveCodeGen extends AutoPlugin {
       targets: ListBuffer[Target],
       scalaBinaryVersion: String,
   ): Unit = {
-    val languages          = languages0.mkString(", ")
-    val sources            = sources0.mkString(", ")
-    val extraGenerators    = extraGenerators0.mkString(", ")
-    val generatorSettings1 = generatorSettings.mkString("\"", "\", \"", "\"")
+    val languages       = languages0.mkString(", ")
+    val sources         = sources0.mkString(", ")
+    val extraGenerators = extraGenerators0.mkString(", ")
 
     val cp = classpath.map(_.data)
     // ensure to set right parent classloader, so that protocbridge.ProtocCodeGenerator etc are
@@ -98,6 +117,7 @@ object ReflectiveCodeGen extends AutoPlugin {
     val tb = universe.runtimeMirror(loader).mkToolBox()
     val source =
       s"""import akka.grpc.sbt.AkkaGrpcPlugin
+         |import akka.grpc.sbt.GeneratorBridge
          |import AkkaGrpcPlugin.autoImport._
          |import AkkaGrpc._
          |import akka.grpc.gen.scaladsl._
@@ -107,32 +127,13 @@ object ReflectiveCodeGen extends AutoPlugin {
          |val languages: Seq[AkkaGrpc.Language] = Seq($languages)
          |val sources: Seq[AkkaGrpc.GeneratedSource] = Seq($sources)
          |val scalaBinaryVersion = ScalaBinaryVersion("$scalaBinaryVersion")
-         |val generatorSettings: Seq[String] = Seq($generatorSettings1)
          |
          |val logger = akka.grpc.gen.StdoutLogger
-         |
-         |class ProtocBridgeSbtPluginCodeGenerator(
-         |      impl: akka.grpc.gen.CodeGenerator,
-         |      scalaBinaryVersion: ScalaBinaryVersion,
-         |      logger: akka.grpc.gen.Logger) extends protocbridge.ProtocCodeGenerator {
-         |          override def run(request: Array[Byte]): Array[Byte] = impl.run(request, logger)
-         |          override def suggestedDependencies: Seq[protocbridge.Artifact] = impl.suggestedDependencies(scalaBinaryVersion)
-         |          override def toString = s"ProtocBridgeSbtPluginCodeGenerator($${impl.name}: $$impl)"
-         |    }
-         |
-         |// this transforms the Akka gRPC API generators to the right protocbridge type
-         |  def toGenerator(
-         |      codeGenerator: akka.grpc.gen.CodeGenerator,
-         |      scalaBinaryVersion: ScalaBinaryVersion,
-         |      logger: akka.grpc.gen.Logger): protocbridge.Generator = {
-         |      val adapter = new ProtocBridgeSbtPluginCodeGenerator(codeGenerator, scalaBinaryVersion, logger)
-         |      protocbridge.JvmGenerator(codeGenerator.name, adapter)
-         |    }
          |
          |(targetPath: java.io.File, settings: Seq[String]) => {
          |  val generators =
          |    AkkaGrpcPlugin.generatorsFor(sources, languages, scalaBinaryVersion, logger) ++
-         |    Seq($extraGenerators).map(gen => toGenerator(gen, scalaBinaryVersion, akka.grpc.gen.StdoutLogger))
+         |    Seq($extraGenerators).map(gen => GeneratorBridge.sandboxedGenerator(gen, scalaBinaryVersion, akka.grpc.gen.StdoutLogger))
          |  AkkaGrpcPlugin.targetsFor(targetPath, settings, generators)
          |}
         """.stripMargin
