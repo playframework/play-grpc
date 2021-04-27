@@ -68,7 +68,7 @@ import scala.compat.java8.FutureConverters._
    */
   protected val respond: HttpRequest => Future[HttpResponse]
 
-  private val handler = new AkkaHttpHandler {
+  val handler = new AkkaHttpHandler {
     override def apply(request: HttpRequest): Future[HttpResponse] = respond(request)
   }
 
