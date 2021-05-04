@@ -28,14 +28,14 @@ ThisBuild / javacOptions ++= List(
 
 val playGrpc = Project("play-grpc", file("."))
 aggregateProjects(
+  playRuntime,
   playGenerators,
+  playTestdata,
   playInteropTestJava,
   playInteropTestScala,
-  playRuntime,
   playTestkit,
   playSpecs2,
   playScalaTest,
-  playTestdata,
   lagomScaladslGrpcTestKit,
   lagomJavadslGrpcTestKit,
   lagomInteropTestJava,
@@ -62,7 +62,6 @@ val playRuntime = Project("play-grpc-runtime", file("play-runtime"))
 
 val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
   .dependsOn(playRuntime)
-  .pluginTestingSettings
   .settings(
     scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
     javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
@@ -82,6 +81,7 @@ val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
     ),
   )
   .enablePlugins(build.play.grpc.NoPublish)
+  .pluginTestingSettings
 
 val playActionsTestData = Project("play-grpc-actions-testdata", file("play-actions-testdata"))
   .dependsOn(playRuntime)
@@ -91,7 +91,6 @@ val playActionsTestData = Project("play-grpc-actions-testdata", file("play-actio
     ReflectiveCodeGen.extraGenerators ++= List(
       "play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator",
     ),
-    ReflectiveCodeGen.codeGeneratorSettings += "use_play_actions",
     libraryDependencies ++= Seq(
       Dependencies.Compile.play,
       Dependencies.Compile.grpcStub,
@@ -100,10 +99,11 @@ val playActionsTestData = Project("play-grpc-actions-testdata", file("play-actio
       Dependencies.Compile.akkaDiscovery,
     ),
   )
-  .pluginTestingSettings
   .enablePlugins(build.play.grpc.NoPublish)
+  .pluginTestingSettings
 
-val playGenerators = Project("play-grpc-generators", file("play-generators"))
+val playGrpcCodegenId = "play-grpc-generators"
+val playGenerators = Project(id = playGrpcCodegenId, file("play-generators"))
   .enablePlugins(SbtTwirl, BuildInfoPlugin)
   .settings(
     libraryDependencies ++= Seq(
