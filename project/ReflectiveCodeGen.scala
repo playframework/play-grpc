@@ -54,7 +54,7 @@ object ReflectiveCodeGen extends AutoPlugin {
         PB.targets := scala.collection.mutable.ListBuffer.empty,
         // Put an artifact resolver that returns the project's classpath for our generators
         PB.artifactResolver := Def.taskDyn {
-          val cp = (ProjectRef(file("."), "play-grpc-generators") / Compile / fullClasspath).value.map(_.data)
+          val cp          = (ProjectRef(file("."), "play-grpc-generators") / Compile / fullClasspath).value.map(_.data)
           val oldResolver = PB.artifactResolver.value
           Def.task { (artifact: BridgeArtifact) =>
             artifact.groupId match {
@@ -74,11 +74,15 @@ object ReflectiveCodeGen extends AutoPlugin {
           sourceManaged.value,
           codeGeneratorSettings.value,
           PB.targets.value.asInstanceOf[ListBuffer[Target]],
-          scalaBinaryVersion.value),
+          scalaBinaryVersion.value,
+        ),
         PB.recompile ~= (_ => true),
-        (Compile / PB.protoSources):= PB.protoSources.value ++ Seq(
+        (Compile / PB.protoSources) := PB.protoSources.value ++ Seq(
           PB.externalIncludePath.value,
-          sourceDirectory.value / "proto"))) ++ Seq(
+          sourceDirectory.value / "proto",
+        ),
+      ),
+    ) ++ Seq(
       (Global / codeGeneratorSettings) := Nil,
       (Global / generatedLanguages) := Seq(AkkaGrpc.Scala),
       (Global / generatedSources) := Seq(AkkaGrpc.Client, AkkaGrpc.Server),
@@ -99,8 +103,8 @@ object ReflectiveCodeGen extends AutoPlugin {
       targets: ListBuffer[Target],
       scalaBinaryVersion: String,
   ): Unit = {
-    val languages       = languages0.mkString(", ")
-    val sources         = sources0.mkString(", ")
+    val languages = languages0.mkString(", ")
+    val sources   = sources0.mkString(", ")
 
     val cp = classpath.map(_.data)
     // ensure to set right parent classloader, so that protocbridge.ProtocCodeGenerator etc are
@@ -134,9 +138,9 @@ object ReflectiveCodeGen extends AutoPlugin {
          |}
         """.stripMargin
     val akkaGeneratorsF = tb.eval(tb.parse(akkaSource)).asInstanceOf[(File, Seq[String]) => Seq[Target]]
-    val akkaGenerators =akkaGeneratorsF(targetPath, generatorSettings)
+    val akkaGenerators  = akkaGeneratorsF(targetPath, generatorSettings)
 
-    def source(singleGenerator:String) =
+    def source(singleGenerator: String) =
       s"""import akka.grpc.sbt.AkkaGrpcPlugin
          |import akka.grpc.sbt.GeneratorBridge
          |import AkkaGrpcPlugin.autoImport._
@@ -152,8 +156,8 @@ object ReflectiveCodeGen extends AutoPlugin {
          |  AkkaGrpcPlugin.targetsFor(targetPath, settings, generators)
          |}
         """.stripMargin
-    val extras = extraGenerators0.flatMap{singleGenerator  =>
-      val generatorsF = tb.eval(tb.parse(source(singleGenerator ))).asInstanceOf[(File, Seq[String]) => Seq[Target]]
+    val extras = extraGenerators0.flatMap { singleGenerator =>
+      val generatorsF = tb.eval(tb.parse(source(singleGenerator))).asInstanceOf[(File, Seq[String]) => Seq[Target]]
       generatorsF(targetPath, generatorSettings)
     }
 

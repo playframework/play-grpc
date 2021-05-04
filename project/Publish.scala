@@ -10,7 +10,7 @@ object NoPublish extends AutoPlugin {
   override def requires = plugins.JvmPlugin
 
   override def projectSettings = Seq(
-    (publish / skip) := true
+    (publish / skip) := true,
   )
 }
 

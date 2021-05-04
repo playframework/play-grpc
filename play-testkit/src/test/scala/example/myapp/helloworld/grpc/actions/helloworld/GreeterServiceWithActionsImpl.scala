@@ -20,7 +20,7 @@ class GreeterServiceWithActionsImpl @Inject() (
     parsers: PlayBodyParsers,
     actionBuilder: DefaultActionBuilder,
 ) extends AbstractGreeterServiceRouter(
-      actorSystem
+      actorSystem,
     ) {
 
   override def sayHello(in: HelloRequest): Future[HelloReply] = {
