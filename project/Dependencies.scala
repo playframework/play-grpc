@@ -8,7 +8,7 @@ object Dependencies {
 
   object Versions {
     val scala212 = "2.12.11"
-    val scala213 = "2.13.1"
+    val scala213 = "2.13.6"
 
     // Don't use AkkaGrpcBuildInfo.akkaHttpVersion or AkkaGrpcBuildInfo.akkaVersion and prioritize
     // aligning with versions transitively brought in via Play.
