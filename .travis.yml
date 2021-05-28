@@ -1,5 +1,5 @@
 language: scala
-scala: 2.12.11
+scala: 2.12.14
 
 # make sure to fetch enough commits, so that git describe still works
 git:
