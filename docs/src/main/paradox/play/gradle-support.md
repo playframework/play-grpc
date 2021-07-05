@@ -9,8 +9,8 @@ akkaGrpc {
   generateClient = true
   generateServer = true
   extraGenerators = [
-    'akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator',
-    'akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator'
+    'play.grpc.gen.javadsl.PlayJavaClientCodeGenerator',
+    'play.grpc.gen.javadsl.PlayJavaServerCodeGenerator'
   ]
 }
 ```

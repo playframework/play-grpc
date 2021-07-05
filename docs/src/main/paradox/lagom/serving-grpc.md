@@ -7,12 +7,12 @@ After @ref[adding Akka gRPC sbt plugin](overview.md) you need to enable the Play
 
 Scala
 :   ```scala
-akkaGrpcExtraGenerators += akka.grpc.gen.scaladsl.play.PlayScalaServerCodeGenerator
+akkaGrpcExtraGenerators += play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator
 ```
 
 Java
 :   ```scala
-akkaGrpcExtraGenerators += akka.grpc.gen.javadsl.play.PlayJavaServerCodeGenerator
+akkaGrpcExtraGenerators += play.grpc.gen.javadsl.PlayJavaServerCodeGenerator
 ```
 
 The plugin will look for `.proto` service descriptors in `src/main/protobuf` and output an abstract class per service
