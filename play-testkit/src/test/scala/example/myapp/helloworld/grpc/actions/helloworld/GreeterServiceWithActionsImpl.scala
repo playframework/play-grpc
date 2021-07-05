@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class GreeterServiceWithActionsImpl @Inject() (
     implicit
     mat: Materializer,
-    actorSystem: ActorSystem
+    actorSystem: ActorSystem,
 ) extends AbstractGreeterServiceRouter(
       actorSystem,
     ) {
