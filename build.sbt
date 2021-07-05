@@ -102,8 +102,7 @@ val playActionsTestData = Project("play-grpc-actions-testdata", file("play-actio
   .enablePlugins(build.play.grpc.NoPublish)
   .pluginTestingSettings
 
-val playGrpcCodegenId = "play-grpc-generators"
-val playGenerators = Project(id = playGrpcCodegenId, file("play-generators"))
+val playGenerators = Project(id = "play-grpc-generators", file("play-generators"))
   .enablePlugins(SbtTwirl, BuildInfoPlugin)
   .settings(
     libraryDependencies ++= Seq(
