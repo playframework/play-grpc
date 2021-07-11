@@ -28,7 +28,7 @@ object CopyrightHeader extends AutoPlugin {
             HeaderFileType.java   -> HeaderCommentStyle.cStyleBlockComment,
             HeaderFileType("txt") -> HeaderCommentStyle.twirlStyleBlockComment,
           ),
-          unmanagedResourceDirectories in headerCreate += baseDirectory.value / "src" / "main" / "twirl",
+          (headerCreate / unmanagedResourceDirectories) += baseDirectory.value / "src" / "main" / "twirl",
         ),
       )
     },
