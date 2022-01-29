@@ -16,7 +16,7 @@ object CommonPlugin extends AutoPlugin {
       else
         Nil
     },
-    javacOptions in doc --= Seq("-Xlint:unchecked", "-Xlint:deprecation"),
+    doc / javacOptions --= Seq("-Xlint:unchecked", "-Xlint:deprecation"),
     crossScalaVersions := Seq(scala212, scala213),
   )
 
