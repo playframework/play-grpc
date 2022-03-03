@@ -88,7 +88,7 @@ object ReflectiveCodeGen extends AutoPlugin {
       (Global / generatedSources) := Seq(AkkaGrpc.Client, AkkaGrpc.Server),
       (Global / extraGenerators) := Seq.empty,
       (Global / protocOptions) := Seq.empty,
-      watchSources ++= (watchSources in ProjectRef(file("."), "play-grpc-generators")).value,
+      watchSources ++= (ProjectRef(file("."), "play-grpc-generators") / watchSources).value,
     )
 
   val setCodeGenerator = taskKey[Unit]("grpc-set-code-generator")

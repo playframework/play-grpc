@@ -14,7 +14,7 @@ object Dependencies {
     // aligning with versions transitively brought in via Play.
     val akka = "2.6.14"
     // bumps Akka HTTP version beyond play's 10.1.x
-    val akkaHttp = "10.2.6"
+    val akkaHttp = "10.2.8"
 
     val akkaGrpc = AkkaGrpcBuildInfo.version
     val grpc     = AkkaGrpcBuildInfo.grpcVersion
@@ -25,7 +25,7 @@ object Dependencies {
     val scalaTest         = "3.1.4"
     val scalaTestPlusPlay = "5.1.0"
 
-    val macwire = "2.3.7"
+    val macwire = "2.5.6"
   }
 
   object Compile {
