@@ -15,12 +15,12 @@ env:
 
 before_install: curl -Ls https://git.io/jabba | bash && . ~/.jabba/jabba.sh
 install: jabba install "adopt@~1.$TRAVIS_JDK.0-0" && jabba use "$_" && java -Xmx32m -version
-script: sbt headerCheck test:headerCheck scalafmtCheckAll scalafmtSbtCheck test paradox ++2.13.1 test
+script: sbt headerCheck test:headerCheck scalafmtCheckAll scalafmtSbtCheck test paradox ++2.13.8 test
 
 jobs:
   include:
     - stage: publish
-      script: sbt ++2.12.11 publish ++2.13.1 "project play-grpc-generators; set publish/skip := true; project play-grpc" publish
+      script: sbt ++2.12.15 publish ++2.13.8 "project play-grpc-generators; set publish/skip := true; project play-grpc" publish
     - stage: techhub-ping
       script: curl -I https://ci.lightbend.com/job/techhub-publisher/build?token=$TECH_HUB_TOKEN
 
