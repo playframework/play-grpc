@@ -6,12 +6,12 @@ source generator in `build.sbt`:
 
 Scala
 :  ```
-akkaGrpcExtraGenerators += akka.grpc.gen.scaladsl.play.PlayScalaClientCodeGenerator
+akkaGrpcExtraGenerators += play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator
 ```
 
 Java
 :  ```
-akkaGrpcExtraGenerators += akka.grpc.gen.javadsl.play.PlayJavaClientCodeGenerator
+akkaGrpcExtraGenerators += play.grpc.gen.javadsl.PlayJavaClientCodeGenerator
 ```
 
 This will generate a Play module that provides all generated clients for injection. The module must be enabled
