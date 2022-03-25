@@ -5,4 +5,4 @@ nav:
   - modules/ROOT/nav.adoc
 asciidoc:
   attributes:
-    akka-grpc-version: 2.1.5 # Sync with `sbt-akka-grpc` in project/plugins.sbt
+    akka-grpc-version: 2.1.6 # Sync with `sbt-akka-grpc` in project/plugins.sbt
