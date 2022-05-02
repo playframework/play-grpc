@@ -37,7 +37,7 @@ jobs:
       java: >-
         [ "11", "8" ]
       scala: >-
-        [ "2.13.8", "3.1.2-RC3" ]
+        [ "2.12.15", "2.13.8" ]
       cmd: sbt ++$SCALA_VERSION 'testOnly -- xonly timefactor 5'
 
   finish:
