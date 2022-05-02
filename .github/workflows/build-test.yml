@@ -26,11 +26,11 @@ jobs:
     with:
       cmd: sbt doc
 
-  check-headers
+  check-headers:
     name: Headers
-  uses: playframework/.github/.github/workflows/sbt.yml@v1
-  with:
-    cmd: sbt headerCheck test:headerCheck
+    uses: playframework/.github/.github/workflows/sbt.yml@v1
+    with:
+      cmd: sbt headerCheck test:headerCheck
 
   tests:
     name: Tests
