@@ -26,6 +26,12 @@ jobs:
     with:
       cmd: sbt doc
 
+  check-headers
+    name: Headers
+  uses: playframework/.github/.github/workflows/sbt.yml@v1
+  with:
+    cmd: sbt headerCheck test:headerCheck
+
   tests:
     name: Tests
     needs: # Waiting more lightweight checks
@@ -38,7 +44,7 @@ jobs:
         [ "11", "8" ]
       scala: >-
         [ "2.12.15", "2.13.8" ]
-      cmd: sbt ++$SCALA_VERSION 'testOnly -- xonly timefactor 5'
+      cmd: sbt ++$SCALA_VERSION test
 
   finish:
     name: Finish
