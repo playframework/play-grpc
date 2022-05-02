@@ -246,6 +246,7 @@ val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom
       Dependencies.Test.akkaStreamTestkit,
       Dependencies.Test.junit,
       Dependencies.Test.scalaTest,
+      Dependencies.Test.logback,
     ),
   )
   .pluginTestingSettings
@@ -275,6 +276,7 @@ val lagomInteropTestJava = Project("lagom-grpc-interop-test-java", file("lagom-i
       Dependencies.Test.junit,
       Dependencies.Test.junitInterface,
       Dependencies.Test.scalaTest,
+      Dependencies.Test.logback,
     ),
   )
   .pluginTestingSettings
