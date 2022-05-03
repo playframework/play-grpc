@@ -17,7 +17,7 @@ jobs:
     name: Code Style
     uses: playframework/.github/.github/workflows/sbt.yml@v1
     with:
-      cmd: sbt scalafmtCheckAll scalafmtSbtCheck
+      cmd: sbt scalafmtCheckAll scalafmtSbtCheck headerCheckAll
 
 #  MiMa is not enabled yet, since this library is marked as "API may change".
 #  check-binary-compatibility:
@@ -29,12 +29,6 @@ jobs:
     uses: playframework/.github/.github/workflows/sbt.yml@v1
     with:
       cmd: sbt paradox
-
-  check-headers:
-    name: Headers
-    uses: playframework/.github/.github/workflows/sbt.yml@v1
-    with:
-      cmd: sbt headerCheckAll
 
   tests:
     name: Tests
