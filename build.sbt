@@ -103,7 +103,7 @@ val playActionsTestData = Project("play-grpc-actions-testdata", file("play-actio
   .pluginTestingSettings
 
 val playGenerators = Project(id = "play-grpc-generators", file("play-generators"))
-  .enablePlugins(SbtTwirl, BuildInfoPlugin)
+  .enablePlugins(SbtTwirl, BuildInfoPlugin, build.play.grpc.NoPublish)
   .settings(
     libraryDependencies ++= Seq(
       Dependencies.Compile.akkaGrpcCodegen,

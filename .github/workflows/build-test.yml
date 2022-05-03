@@ -3,6 +3,10 @@ name: Check
 on:
   pull_request:
 
+  push:
+    branches:
+      - main # Check main branch after merge
+
 concurrency:
   # Only run once for latest commit per ref and cancel other (previous) runs.
   group: ci-${{ github.ref }}
@@ -24,13 +28,13 @@ jobs:
     name: Docs
     uses: playframework/.github/.github/workflows/sbt.yml@v1
     with:
-      cmd: sbt doc
+      cmd: sbt paradox
 
   check-headers:
     name: Headers
     uses: playframework/.github/.github/workflows/sbt.yml@v1
     with:
-      cmd: sbt headerCheck test:headerCheck
+      cmd: sbt headerCheckAll
 
   tests:
     name: Tests
