@@ -15,7 +15,7 @@ concurrency:
 jobs:
   check-code-style:
     name: Code Style
-    uses: playframework/.github/.github/workflows/sbt.yml@v1
+    uses: playframework/.github/.github/workflows/cmd.yml@v2
     with:
       cmd: sbt scalafmtCheckAll scalafmtSbtCheck headerCheckAll
 
