@@ -15,15 +15,10 @@ object NoPublish extends AutoPlugin {
 }
 
 object Publish extends AutoPlugin {
-  import bintray.BintrayPlugin
-  import bintray.BintrayPlugin.autoImport._
 
-  override def trigger  = allRequirements
-  override def requires = BintrayPlugin
+  override def trigger = allRequirements
 
   override def projectSettings = Seq(
-    bintrayOrganization := Some("playframework"),
-    bintrayPackage := "play-grpc",
     homepage := Some(url("https://developer.lightbend.com/docs/play-grpc/current/")),
     scmInfo := Some(
       ScmInfo(url("https://github.com/playframework/play-grpc"), "git@github.com:playframework/play-grpc"),

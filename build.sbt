@@ -2,7 +2,7 @@ import build.play.grpc.Dependencies
 import build.play.grpc.Dependencies.Versions.scala212
 import build.play.grpc.ProjectExtensions.AddPluginTest
 
-ThisBuild / organization := "com.lightbend.play"
+ThisBuild / organization := "com.typesafe.play"
 
 ThisBuild / scalacOptions ++= List(
   "-encoding",
@@ -24,7 +24,7 @@ ThisBuild / javacOptions ++= List(
 
 // Only needed for akka, akka-grpc ,...  snapshots
 // See also projects/plugins.sbt
-//ThisBuild / resolvers += Resolver.bintrayRepo("akka", "maven")
+//ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
 
 val playGrpc = Project("play-grpc", file("."))
 aggregateProjects(
