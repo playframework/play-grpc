@@ -9,7 +9,7 @@ Scala
     ```
     import play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator
     akkaGrpcExtraGenerators += PlayScalaClientCodeGenerator
-    libraryDependencies += "com.lightbend.play" %% "play-grpc-runtime" % "$project.version$"
+    libraryDependencies += "com.typesafe.play" %% "play-grpc-runtime" % "$project.version$"
     ```
     @@@
 
@@ -18,7 +18,7 @@ Java
     ```
     import play.grpc.gen.javadsl.PlayJavaClientCodeGenerator
     akkaGrpcExtraGenerators += PlayJavaClientCodeGenerator
-    libraryDependencies += "com.lightbend.play" %% "play-grpc-runtime" % "$project.version$"
+    libraryDependencies += "com.typesafe.play" %% "play-grpc-runtime" % "$project.version$"
     ```
     @@@
 

@@ -13,7 +13,7 @@ sbt
     ```scala
     // in project/plugins.sbt:
     addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "$akka.grpc.version$")
-    libraryDependencies += "com.lightbend.play" %% "play-grpc-generators" % "$project.version$"
+    libraryDependencies += "com.typesafe.play" %% "play-grpc-generators" % "$project.version$"
     ```
     @@@ 
 
@@ -30,7 +30,7 @@ Scala
         // enables serving HTTP/2
         .enablePlugins(PlayAkkaHttp2Support)
         .settings(
-            libraryDependencies += "com.lightbend.play" %% "play-grpc-runtime" % "$project.version$",
+            libraryDependencies += "com.typesafe.play" %% "play-grpc-runtime" % "$project.version$",
             // Using Scala
             akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Scala),
             akkaGrpcGeneratedSources := Seq(AkkaGrpc.Server, AkkaGrpc.Client),
@@ -49,7 +49,7 @@ Java
         // enables serving HTTP/2
         .enablePlugins(PlayAkkaHttp2Support)
         .settings(
-            libraryDependencies += "com.lightbend.play" %% "play-grpc-runtime" % "$project.version$",
+            libraryDependencies += "com.typesafe.play" %% "play-grpc-runtime" % "$project.version$",
             // Using Java
             akkaGrpcGeneratedLanguages := Seq(AkkaGrpc.Java),
             akkaGrpcGeneratedSources := Seq(AkkaGrpc.Server, AkkaGrpc.Client),
