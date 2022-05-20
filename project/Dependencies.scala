@@ -7,14 +7,14 @@ import akka.grpc.gen.{ BuildInfo => AkkaGrpcBuildInfo }
 object Dependencies {
 
   object Versions {
-    val scala212 = "2.12.11"
-    val scala213 = "2.13.1"
+    val scala212 = "2.12.15"
+    val scala213 = "2.13.8"
 
     // Don't use AkkaGrpcBuildInfo.akkaHttpVersion or AkkaGrpcBuildInfo.akkaVersion and prioritize
     // aligning with versions transitively brought in via Play.
     val akka = "2.6.14"
     // bumps Akka HTTP version beyond play's 10.1.x
-    val akkaHttp = "10.2.6"
+    val akkaHttp = "10.2.9"
 
     val akkaGrpc = AkkaGrpcBuildInfo.version
     val grpc     = AkkaGrpcBuildInfo.grpcVersion
@@ -25,7 +25,7 @@ object Dependencies {
     val scalaTest         = "3.1.4"
     val scalaTestPlusPlay = "5.1.0"
 
-    val macwire = "2.3.7"
+    val macwire = "2.5.6"
   }
 
   object Compile {
@@ -74,7 +74,8 @@ object Dependencies {
     val scalaTest         = "org.scalatest"           %% "scalatest" % Versions.scalaTest % Test // Apache V2
     val scalaTestPlusPlay = Compile.scalaTestPlusPlay % Test
 
-    val junitInterface = "com.novocode" % "junit-interface" % "0.11" % "test"
+    val junitInterface = "com.novocode"   % "junit-interface" % "0.11"   % "test"
+    val logback        = "ch.qos.logback" % "logback-classic" % "1.2.11" % "test"
   }
 
 }

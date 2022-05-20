@@ -2,7 +2,7 @@ import build.play.grpc.Dependencies
 import build.play.grpc.Dependencies.Versions.scala212
 import build.play.grpc.ProjectExtensions.AddPluginTest
 
-ThisBuild / organization := "com.lightbend.play"
+ThisBuild / organization := "com.typesafe.play"
 
 ThisBuild / scalacOptions ++= List(
   "-encoding",
@@ -24,7 +24,7 @@ ThisBuild / javacOptions ++= List(
 
 // Only needed for akka, akka-grpc ,...  snapshots
 // See also projects/plugins.sbt
-//ThisBuild / resolvers += Resolver.bintrayRepo("akka", "maven")
+//ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
 
 val playGrpc = Project("play-grpc", file("."))
 aggregateProjects(
@@ -44,7 +44,7 @@ aggregateProjects(
 )
 
 enablePlugins(build.play.grpc.NoPublish)
-unmanagedSources in (Compile, headerCreate) := ((baseDirectory.value / "project") ** "*.scala").get
+Compile / headerCreate / unmanagedSources := ((baseDirectory.value / "project") ** "*.scala").get
 crossScalaVersions := Nil // https://github.com/sbt/sbt/issues/3465
 
 val playRuntime = Project("play-grpc-runtime", file("play-runtime"))
@@ -145,8 +145,8 @@ val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
 val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
   .dependsOn(playTestkit, playTestkit % "test->test")
   .settings(
-    excludeFilter in (Compile, headerSources) := {
-      val orig = (excludeFilter in (Test, headerSources)).value
+    (Compile / headerSources / excludeFilter) := {
+      val orig = (Test / headerSources / excludeFilter).value
       // The following files have a different license
       orig || "NewGuiceOneServerPerTest.scala" || "NewServerProvider.scala" || "NewBaseOneServerPerTest.scala"
     },
@@ -246,6 +246,7 @@ val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom
       Dependencies.Test.akkaStreamTestkit,
       Dependencies.Test.junit,
       Dependencies.Test.scalaTest,
+      Dependencies.Test.logback,
     ),
   )
   .pluginTestingSettings
@@ -275,6 +276,7 @@ val lagomInteropTestJava = Project("lagom-grpc-interop-test-java", file("lagom-i
       Dependencies.Test.junit,
       Dependencies.Test.junitInterface,
       Dependencies.Test.scalaTest,
+      Dependencies.Test.logback,
     ),
   )
   .pluginTestingSettings
@@ -297,4 +299,4 @@ val docs = Project("play-grpc-docs", file("docs"))
   )
   .enablePlugins(build.play.grpc.NoPublish)
 
-cancelable in Global := true
+Global / cancelable := true

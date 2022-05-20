@@ -14,8 +14,8 @@ sbt
     ```scala
     // in project/plugins.sbt:
     addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "$akka.grpc.version$")
-    resolvers += Resolver.bintrayRepo("playframework", "maven")
-    libraryDependencies += "com.lightbend.play" %% "play-grpc-generators" % "$project.version$"
+    resolvers += Resolver.sonatypeRepo("snapshots")
+    libraryDependencies += "com.typesafe.play" %% "play-grpc-generators" % "$project.version$"
     ```
     @@@
 
@@ -28,7 +28,7 @@ Scala
     enablePlugins(AkkaGrpcPlugin)
     import play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator
     akkaGrpcExtraGenerators += PlayScalaServerCodeGenerator
-    libraryDependencies += "com.lightbend.play" %% "play-grpc-runtime" % "$project.version$"
+    libraryDependencies += "com.typesafe.play" %% "play-grpc-runtime" % "$project.version$"
     ```
     @@@
 
@@ -38,7 +38,7 @@ Java
     enablePlugins(AkkaGrpcPlugin)
     import play.grpc.gen.javadsl.PlayJavaServerCodeGenerator
     akkaGrpcExtraGenerators += PlayJavaServerCodeGenerator
-    libraryDependencies += "com.lightbend.play" %% "play-grpc-runtime" % "$project.version$"
+    libraryDependencies += "com.typesafe.play" %% "play-grpc-runtime" % "$project.version$"
     ```
     @@@
 
