@@ -116,6 +116,7 @@ val playGenerators = Project(id = "play-grpc-generators", file("play-generators"
     buildInfoPackage                  := "play.grpc.gen",
     // Only used in build tools (like sbt), so only 2.12 is needed:
     crossScalaVersions := Seq(scala212),
+    scalaVersion := scala212,
   )
 
 val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
