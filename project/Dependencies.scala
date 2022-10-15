@@ -74,8 +74,8 @@ object Dependencies {
     val scalaTest         = "org.scalatest"           %% "scalatest" % Versions.scalaTest % Test // Apache V2
     val scalaTestPlusPlay = Compile.scalaTestPlusPlay % Test
 
-    val junitInterface = "com.novocode"   % "junit-interface" % "0.11"   % "test"
-    val logback        = "ch.qos.logback" % "logback-classic" % "1.2.11" % "test"
+    val junitInterface = "com.novocode"   % "junit-interface" % "0.11"  % "test"
+    val logback        = "ch.qos.logback" % "logback-classic" % "1.4.4" % "test"
   }
 
 }
