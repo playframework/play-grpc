@@ -74,7 +74,7 @@ object Dependencies {
     val scalaTestPlusPlay = Compile.scalaTestPlusPlay % Test
 
     val junitInterface = "com.github.sbt" % "junit-interface" % "0.13.3" % "test"
-    val logback        = "ch.qos.logback" % "logback-classic" % "1.2.12" % "test"
+    val logback        = "ch.qos.logback" % "logback-classic" % "1.4.4" % "test"
   }
 
 }
