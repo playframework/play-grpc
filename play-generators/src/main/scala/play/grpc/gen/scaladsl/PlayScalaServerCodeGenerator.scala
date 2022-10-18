@@ -25,7 +25,7 @@ class PlayScalaServerCodeGenerator extends ScalaCodeGenerator {
       if (service.usePlayActions) b.setContent(RouterUsingActions(service, powerApis = false).body)
       else b.setContent(Router(service, powerApis = false).body)
 
-      b.setName(s"${service.packageDir}/AbstractRouter.scala")
+      b.setName(s"${service.packageDir}/Abstract${service.name}Router.scala")
       logger.info(s"Generating Play gRPC service play router for ${service.packageName}.${service.name}")
       immutable.Seq(b.build)
     }
