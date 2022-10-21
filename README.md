@@ -22,8 +22,8 @@ This library is ready to be used in production, but APIs are still expected to b
 
 ## Compatibility & support
 
-This project does not yet have to obey the rule of staying binary compatible between releases that is common for Lightbend libraries. Breaking API changes may be introduced without notice as we refine and simplify based on your feedback.
+This project does not yet have to obey the rule of staying binary compatible between releases that is common for libraries under the Play Framework organization. Breaking API changes may be introduced without notice as we refine and simplify based on your feedback.
 
-Play gRPC is currently *[Incubating][]*. The Lightbend subscription does not yet cover support for this project.
+## Releasing a new version
 
-[Incubating]: https://developer.lightbend.com/docs/lightbend-platform/introduction/getting-help/support-terminology.html#incubating
+See https://github.com/playframework/.github/blob/main/RELEASING.md
