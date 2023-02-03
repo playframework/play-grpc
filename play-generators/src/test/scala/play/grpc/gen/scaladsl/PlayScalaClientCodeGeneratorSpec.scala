@@ -14,7 +14,9 @@ class PlayScalaClientCodeGeneratorSpec extends AnyWordSpec with Matchers {
 
     "choose the single package name" in {
       PlayScalaClientCodeGenerator
-        .packageForSharedModuleFile(Seq(Service("descriptor", "a.b", "MyService", "???", Nil, false, false, ServiceOptions.getDefaultInstance))) should ===(
+        .packageForSharedModuleFile(
+          Seq(Service("descriptor", "a.b", "MyService", "???", Nil, false, false, ServiceOptions.getDefaultInstance)),
+        ) should ===(
         "a.b",
       )
     }
