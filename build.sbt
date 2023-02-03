@@ -126,6 +126,7 @@ val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
       Dependencies.Compile.akkaDiscovery,
       Dependencies.Compile.akkaActorTyped,
       Dependencies.Compile.akkaStream,
+      Dependencies.Compile.akkaSerializationJackson,
     ),
   )
   .pluginTestingSettings
@@ -138,6 +139,7 @@ val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
       Dependencies.Compile.akkaDiscovery,
       Dependencies.Compile.akkaActorTyped,
       Dependencies.Compile.akkaStream,
+      Dependencies.Compile.akkaSerializationJackson,
     ),
   )
   .pluginTestingSettings
@@ -242,6 +244,7 @@ val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom
       Dependencies.Compile.akkaPersistenceQuery,
       Dependencies.Compile.akkaPersistenceTyped,
       Dependencies.Compile.akkaStream,
+      Dependencies.Compile.akkaSerializationJackson,
       Dependencies.Test.akkaActorTestkitTyped,
       Dependencies.Test.akkaStreamTestkit,
       Dependencies.Test.junit,
@@ -271,6 +274,7 @@ val lagomInteropTestJava = Project("lagom-grpc-interop-test-java", file("lagom-i
       Dependencies.Compile.akkaPersistenceQuery,
       Dependencies.Compile.akkaPersistenceTyped,
       Dependencies.Compile.akkaStream,
+      Dependencies.Compile.akkaSerializationJackson,
       Dependencies.Test.akkaActorTestkitTyped,
       Dependencies.Test.akkaStreamTestkit,
       Dependencies.Test.junit,
