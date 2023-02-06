@@ -17,6 +17,10 @@ ThisBuild / scalacOptions ++= List(
   "-Ywarn-value-discard",
 )
 
+ThisBuild / libraryDependencySchemes ++= Seq(
+  "org.scala-lang.modules" %% "scala-java8-compat" % VersionScheme.Always
+)
+
 ThisBuild / javacOptions ++= List(
   "-Xlint:unchecked",
   "-Xlint:deprecation",
