@@ -18,7 +18,7 @@ ThisBuild / scalacOptions ++= List(
 )
 
 ThisBuild / libraryDependencySchemes ++= Seq(
-  "org.scala-lang.modules" %% "scala-java8-compat" % VersionScheme.Always
+  "org.scala-lang.modules" %% "scala-java8-compat" % VersionScheme.Always,
 )
 
 ThisBuild / javacOptions ++= List(
