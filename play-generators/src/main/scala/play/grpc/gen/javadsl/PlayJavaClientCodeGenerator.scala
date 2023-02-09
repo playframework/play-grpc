@@ -11,9 +11,7 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import templates.PlayJava.txt.AkkaGrpcClientModule
 import templates.PlayJava.txt.ClientProvider
 
-import scala.annotation.tailrec
 import scala.collection.immutable
-import play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator
 
 object PlayJavaClientCodeGenerator extends PlayJavaClientCodeGenerator
 

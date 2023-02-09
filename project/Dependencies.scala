@@ -12,15 +12,15 @@ object Dependencies {
 
     // Don't use AkkaGrpcBuildInfo.akkaHttpVersion or AkkaGrpcBuildInfo.akkaVersion and prioritize
     // aligning with versions transitively brought in via Play.
-    val akka = "2.6.14"
+    val akka = "2.6.19"
     // bumps Akka HTTP version beyond play's 10.1.x
     val akkaHttp = "10.2.9"
 
     val akkaGrpc = AkkaGrpcBuildInfo.version
     val grpc     = AkkaGrpcBuildInfo.grpcVersion
 
-    val play  = "2.8.8"
-    val lagom = "1.6.5"
+    val play  = "2.8.17"
+    val lagom = "1.6.7"
 
     val scalaTest         = "3.1.4"
     val scalaTestPlusPlay = "5.1.0"
@@ -37,6 +37,7 @@ object Dependencies {
     val akkaDiscovery            = "com.typesafe.akka" %% "akka-discovery"              % Versions.akka
     val akkaPersistenceTyped     = "com.typesafe.akka" %% "akka-persistence-typed"      % Versions.akka
     val akkaPersistenceQuery     = "com.typesafe.akka" %% "akka-persistence-query"      % Versions.akka
+    val akkaSerializationJackson = "com.typesafe.akka" %% "akka-serialization-jackson"  % Versions.akka
 
     val akkaHttp          = "com.typesafe.akka" %% "akka-http"            % Versions.akkaHttp
     val akkaHttpSprayJson = "com.typesafe.akka" %% "akka-http-spray-json" % Versions.akkaHttp
