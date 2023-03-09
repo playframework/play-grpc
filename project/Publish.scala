@@ -25,10 +25,10 @@ object Publish extends AutoPlugin {
     ),
     licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
     developers += Developer(
-      "contributors",
-      "Contributors",
-      "https://gitter.im/playframework/contributors",
-      url("https://github.com/playframework/play-grpc/graphs/contributors"),
+      "playframework",
+      "Play Framework Team",
+      "contact@playframework.com",
+      url("https://github.com/playframework"),
     ),
   )
 }
