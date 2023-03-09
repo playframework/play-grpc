@@ -19,14 +19,16 @@ object Publish extends AutoPlugin {
   override def trigger = allRequirements
 
   override def projectSettings = Seq(
-    homepage := Some(url("https://developer.lightbend.com/docs/play-grpc/current/")),
+    organizationName := "The Play Framework Project",
+    organizationHomepage := Some(url("https://playframework.com")),
+    homepage := Some(url("https://github.com/playframework/play-grpc")),
     scmInfo := Some(
       ScmInfo(url("https://github.com/playframework/play-grpc"), "git@github.com:playframework/play-grpc"),
     ),
     licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
     developers += Developer(
       "playframework",
-      "Play Framework Team",
+      "The Play Framework Contributors",
       "contact@playframework.com",
       url("https://github.com/playframework"),
     ),
