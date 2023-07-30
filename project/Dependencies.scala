@@ -12,14 +12,14 @@ object Dependencies {
 
     // Don't use AkkaGrpcBuildInfo.akkaHttpVersion or AkkaGrpcBuildInfo.akkaVersion and prioritize
     // aligning with versions transitively brought in via Play.
-    val akka = "2.6.19"
+    val akka = "2.6.21"
     // bumps Akka HTTP version beyond play's 10.1.x
     val akkaHttp = "10.2.9"
 
     val akkaGrpc = AkkaGrpcBuildInfo.version
     val grpc     = AkkaGrpcBuildInfo.grpcVersion
 
-    val play = "2.8.17"
+    val play = "2.8.21"
 
     val scalaTest         = "3.1.4"
     val scalaTestPlusPlay = "5.1.0"
