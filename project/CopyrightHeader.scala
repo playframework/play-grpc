@@ -5,10 +5,11 @@
 package build.play.grpc
 
 import sbt._
-import Keys._
+
 import de.heikoseeberger.sbtheader.CommentCreator
 import de.heikoseeberger.sbtheader.CommentStyle
 import de.heikoseeberger.sbtheader.HeaderPlugin
+import Keys._
 
 object CopyrightHeader extends AutoPlugin {
   import HeaderPlugin.autoImport._

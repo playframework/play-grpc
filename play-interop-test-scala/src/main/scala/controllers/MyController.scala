@@ -4,14 +4,15 @@
 // #using-client
 package controllers
 
-import example.myapp.helloworld.grpc.helloworld.GreeterServiceClient
-import example.myapp.helloworld.grpc.helloworld.HelloRequest
 import javax.inject.Inject
 import javax.inject.Singleton
-import play.api.mvc.AbstractController
-import play.api.mvc.ControllerComponents
 
 import scala.concurrent.ExecutionContext
+
+import example.myapp.helloworld.grpc.helloworld.GreeterServiceClient
+import example.myapp.helloworld.grpc.helloworld.HelloRequest
+import play.api.mvc.AbstractController
+import play.api.mvc.ControllerComponents
 
 @Singleton
 class MyController @Inject() (

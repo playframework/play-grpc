@@ -2,6 +2,7 @@ package build.play.grpc
 
 import sbt._
 import sbt.Keys._
+
 import akka.grpc.gen.{ BuildInfo => AkkaGrpcBuildInfo }
 
 object Dependencies {
@@ -45,7 +46,8 @@ object Dependencies {
     val akkaGrpcCodegen = "com.lightbend.akka.grpc" %% "akka-grpc-codegen" % Versions.akkaGrpc // Apache V2
     val akkaGrpcRuntime = "com.lightbend.akka.grpc" %% "akka-grpc-runtime" % Versions.akkaGrpc // Apache V2
 
-    val play = ("com.typesafe.play" %% "play" % Versions.play).exclude("javax.activation", "javax.activation-api") // Apache V2 (exclusion is "either GPL or CDDL")
+    val play = ("com.typesafe.play" %% "play" % Versions.play)
+      .exclude("javax.activation", "javax.activation-api") // Apache V2 (exclusion is "either GPL or CDDL")
 
     val playJava             = "com.typesafe.play" %% "play-java"               % Versions.play // Apache V2
     val playGuice            = "com.typesafe.play" %% "play-guice"              % Versions.play // Apache V2
@@ -65,10 +67,10 @@ object Dependencies {
     val akkaActorTestkitTyped = "com.typesafe.akka" %% "akka-actor-testkit-typed" % Versions.akka
     val akkaStreamTestkit     = "com.typesafe.akka" %% "akka-stream-testkit"      % Versions.akka
 
-    val junit             = "junit"                   % "junit" % "4.13.2" % Test // Common Public License 1.0
-    val playAhcWs         = "com.typesafe.play"       %% "play-ahc-ws" % Versions.play % Test // Apache V2
+    val junit             = "junit"                   % "junit"       % "4.13.2"           % Test // Common Public License 1.0
+    val playAhcWs         = "com.typesafe.play"      %% "play-ahc-ws" % Versions.play      % Test // Apache V2
     val playSpecs2        = Compile.playSpecs2        % Test
-    val scalaTest         = "org.scalatest"           %% "scalatest" % Versions.scalaTest % Test // Apache V2
+    val scalaTest         = "org.scalatest"          %% "scalatest"   % Versions.scalaTest % Test // Apache V2
     val scalaTestPlusPlay = Compile.scalaTestPlusPlay % Test
 
     val junitInterface = "com.github.sbt" % "junit-interface" % "0.13.3" % "test"

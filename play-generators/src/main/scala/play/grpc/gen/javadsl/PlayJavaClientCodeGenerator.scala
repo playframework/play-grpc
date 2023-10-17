@@ -3,15 +3,15 @@
  */
 package play.grpc.gen.javadsl
 
-import akka.grpc.gen.Logger
+import scala.collection.immutable
+
 import akka.grpc.gen.javadsl.JavaCodeGenerator
 import akka.grpc.gen.javadsl.Service
-import play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator
+import akka.grpc.gen.Logger
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
+import play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator
 import templates.PlayJava.txt.AkkaGrpcClientModule
 import templates.PlayJava.txt.ClientProvider
-
-import scala.collection.immutable
 
 object PlayJavaClientCodeGenerator extends PlayJavaClientCodeGenerator
 

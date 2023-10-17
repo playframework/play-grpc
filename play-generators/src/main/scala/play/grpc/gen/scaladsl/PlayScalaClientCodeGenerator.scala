@@ -3,15 +3,15 @@
  */
 package play.grpc.gen.scaladsl
 
+import scala.annotation.tailrec
 import scala.collection.immutable
-import akka.grpc.gen.Logger
+
 import akka.grpc.gen.scaladsl.ScalaCodeGenerator
 import akka.grpc.gen.scaladsl.Service
+import akka.grpc.gen.Logger
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import templates.PlayScala.txt.AkkaGrpcClientModule
 import templates.PlayScala.txt.ClientProvider
-
-import scala.annotation.tailrec
 
 object PlayScalaClientCodeGenerator extends PlayScalaClientCodeGenerator
 

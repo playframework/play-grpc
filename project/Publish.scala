@@ -1,6 +1,7 @@
 package build.play.grpc
 
 import sbt._
+
 import Keys._
 
 /**
@@ -19,9 +20,9 @@ object Publish extends AutoPlugin {
   override def trigger = allRequirements
 
   override def projectSettings = Seq(
-    organizationName := "The Play Framework Project",
+    organizationName     := "The Play Framework Project",
     organizationHomepage := Some(url("https://playframework.com")),
-    homepage := Some(url("https://github.com/playframework/play-grpc")),
+    homepage             := Some(url("https://github.com/playframework/play-grpc")),
     scmInfo := Some(
       ScmInfo(url("https://github.com/playframework/play-grpc"), "git@github.com:playframework/play-grpc"),
     ),

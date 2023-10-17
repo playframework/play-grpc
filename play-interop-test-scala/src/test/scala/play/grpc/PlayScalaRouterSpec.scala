@@ -4,29 +4,30 @@
 package play.grpc
 
 import scala.concurrent.duration._
+
 import akka.actor.ActorSystem
+import akka.grpc.internal.GrpcProtocolNative
+import akka.grpc.internal.Identity
+import akka.grpc.GrpcProtocol.DataFrame
+import akka.grpc.ProtobufSerializer
 import akka.http.scaladsl.model._
+import akka.stream.scaladsl.Sink
+import akka.stream.scaladsl.Source
 import akka.stream.SystemMaterializer
+import akka.util.ByteString
+import controllers.GreeterServiceImpl
+import example.myapp.helloworld.grpc.helloworld._
+import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.BeforeAndAfterAll
 import play.api.libs.typedmap.TypedMap
 import play.api.mvc.akkahttp.AkkaHttpHandler
-import play.api.mvc.Headers
 import play.api.mvc.request.RemoteConnection
 import play.api.mvc.request.RequestFactory
 import play.api.mvc.request.RequestTarget
-import controllers.GreeterServiceImpl
-import example.myapp.helloworld.grpc.helloworld._
+import play.api.mvc.Headers
 import GreeterServiceMarshallers._
-import akka.grpc.GrpcProtocol.DataFrame
-import akka.grpc.internal.GrpcProtocolNative
-import akka.grpc.internal.Identity
-import akka.grpc.ProtobufSerializer
-import akka.stream.scaladsl.Sink
-import akka.stream.scaladsl.Source
-import akka.util.ByteString
-import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.BeforeAndAfterAll
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
 
 class PlayScalaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
   implicit val sys      = ActorSystem()

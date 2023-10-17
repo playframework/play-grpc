@@ -3,12 +3,12 @@
  */
 package play.grpc.internal
 
-import scala.reflect.ClassTag
 import scala.reflect.classTag
+import scala.reflect.ClassTag
 
 import akka.actor.ClassicActorSystemProvider
-import akka.grpc.GrpcClientSettings
 import akka.grpc.scaladsl.AkkaGrpcClient
+import akka.grpc.GrpcClientSettings
 
 object AkkaGrpcClientFactory {
   def create[T <: AkkaGrpcClient: ClassTag](
