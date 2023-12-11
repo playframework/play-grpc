@@ -40,10 +40,6 @@ aggregateProjects(
   playTestkit,
   playSpecs2,
   playScalaTest,
-  lagomScaladslGrpcTestKit,
-  lagomJavadslGrpcTestKit,
-  lagomInteropTestJava,
-  lagomInteropTestScala,
   docs,
 )
 
@@ -212,83 +208,6 @@ val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-inte
   )
   .enablePlugins(build.play.grpc.NoPublish)
   .pluginTestingSettings
-
-val lagomJavadslGrpcTestKit = Project("lagom-javadsl-grpc-testkit", file("lagom-javadsl-grpc-testkit"))
-  .settings(
-    libraryDependencies += Dependencies.Compile.lagomJavadslTestKit,
-    libraryDependencies += Dependencies.Compile.akkaDiscovery,
-  )
-  .pluginTestingSettings
-
-val lagomScaladslGrpcTestKit = Project("lagom-scaladsl-grpc-testkit", file("lagom-scaladsl-grpc-testkit"))
-  .settings(
-    libraryDependencies += Dependencies.Compile.lagomScaladslTestKit,
-    libraryDependencies += Dependencies.Compile.akkaDiscovery,
-  )
-  .pluginTestingSettings
-
-val lagomInteropTestScala = Project("lagom-grpc-interop-test-scala", file("lagom-interop-test-scala"))
-  .dependsOn(playRuntime, lagomScaladslGrpcTestKit % Test)
-  .settings(
-    ReflectiveCodeGen.generatedLanguages := Seq(AkkaGrpc.Scala),
-    ReflectiveCodeGen.extraGenerators ++= List(
-      "akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator",
-      "play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator",
-      "play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator",
-    ),
-    libraryDependencies ++= Seq(
-      // TODO https://github.com/akka/akka-grpc/issues/193
-      Dependencies.Compile.grpcStub,
-      Dependencies.Compile.lagomScaladslTestKit,
-      Dependencies.Compile.playAkkaHttpServer,
-      Dependencies.Compile.playAkkaHttp2Support,
-      Dependencies.Compile.macwire,
-      // Used to force the akka version
-      Dependencies.Compile.akkaClusterShardingTyped,
-      Dependencies.Compile.akkaPersistenceQuery,
-      Dependencies.Compile.akkaPersistenceTyped,
-      Dependencies.Compile.akkaStream,
-      Dependencies.Compile.akkaSerializationJackson,
-      Dependencies.Test.akkaActorTestkitTyped,
-      Dependencies.Test.akkaStreamTestkit,
-      Dependencies.Test.junit,
-      Dependencies.Test.scalaTest,
-      Dependencies.Test.logback,
-    ),
-  )
-  .pluginTestingSettings
-  .enablePlugins(build.play.grpc.NoPublish)
-
-val lagomInteropTestJava = Project("lagom-grpc-interop-test-java", file("lagom-interop-test-java"))
-  .dependsOn(playRuntime, lagomJavadslGrpcTestKit % Test)
-  .settings(
-    ReflectiveCodeGen.generatedLanguages := Seq(AkkaGrpc.Java),
-    ReflectiveCodeGen.extraGenerators ++= List(
-      "play.grpc.gen.javadsl.PlayJavaClientCodeGenerator",
-      "play.grpc.gen.javadsl.PlayJavaServerCodeGenerator",
-    ),
-    libraryDependencies ++= Seq(
-      // TODO https://github.com/akka/akka-grpc/issues/193
-      Dependencies.Compile.grpcStub,
-      Dependencies.Compile.lagomJavadslTestKit,
-      Dependencies.Compile.playAkkaHttpServer,
-      Dependencies.Compile.playAkkaHttp2Support,
-      // Used to force the akka version
-      Dependencies.Compile.akkaClusterShardingTyped,
-      Dependencies.Compile.akkaPersistenceQuery,
-      Dependencies.Compile.akkaPersistenceTyped,
-      Dependencies.Compile.akkaStream,
-      Dependencies.Compile.akkaSerializationJackson,
-      Dependencies.Test.akkaActorTestkitTyped,
-      Dependencies.Test.akkaStreamTestkit,
-      Dependencies.Test.junit,
-      Dependencies.Test.junitInterface,
-      Dependencies.Test.scalaTest,
-      Dependencies.Test.logback,
-    ),
-  )
-  .pluginTestingSettings
-  .enablePlugins(build.play.grpc.NoPublish)
 
 val docs = Project("play-grpc-docs", file("docs"))
   .enablePlugins(AkkaParadoxPlugin)

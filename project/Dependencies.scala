@@ -19,8 +19,7 @@ object Dependencies {
     val akkaGrpc = AkkaGrpcBuildInfo.version
     val grpc     = AkkaGrpcBuildInfo.grpcVersion
 
-    val play  = "2.8.17"
-    val lagom = "1.6.7"
+    val play = "2.8.17"
 
     val scalaTest         = "3.1.4"
     val scalaTestPlusPlay = "5.1.0"
@@ -56,9 +55,6 @@ object Dependencies {
     val playSpecs2           = "com.typesafe.play" %% "play-specs2"             % Versions.play // Apache V2
 
     val scalaTestPlusPlay = "org.scalatestplus.play" %% "scalatestplus-play" % Versions.scalaTestPlusPlay // Apache V2
-
-    val lagomJavadslTestKit  = "com.lightbend.lagom" %% "lagom-javadsl-testkit"  % Versions.lagom
-    val lagomScaladslTestKit = "com.lightbend.lagom" %% "lagom-scaladsl-testkit" % Versions.lagom
 
     val macwire = "com.softwaremill.macwire" %% "macros" % Versions.macwire % "provided"
   }
