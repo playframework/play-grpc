@@ -4,11 +4,10 @@
 package example.myapp.helloworld.grpc;
 
 import akka.actor.ActorSystem;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /** User implementation, with support for dependency injection etc */
 @Singleton

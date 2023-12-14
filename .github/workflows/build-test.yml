@@ -17,7 +17,7 @@ jobs:
     name: Code Style
     uses: playframework/.github/.github/workflows/cmd.yml@v2
     with:
-      cmd: sbt scalafmtCheckAll scalafmtSbtCheck headerCheckAll
+      cmd: sbt scalafmtCheckAll scalafmtSbtCheck javafmtCheckAll headerCheckAll
 
 #  MiMa is not enabled yet, since this library is marked as "API may change".
 #  check-binary-compatibility:

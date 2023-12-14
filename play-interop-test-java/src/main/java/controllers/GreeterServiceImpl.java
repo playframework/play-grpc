@@ -9,10 +9,9 @@ import com.google.inject.Inject;
 import example.myapp.helloworld.grpc.AbstractGreeterServiceRouter;
 import example.myapp.helloworld.grpc.HelloReply;
 import example.myapp.helloworld.grpc.HelloRequest;
-
-import javax.inject.Singleton;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import javax.inject.Singleton;
 
 /** User implementation, with support for dependency injection etc */
 @Singleton

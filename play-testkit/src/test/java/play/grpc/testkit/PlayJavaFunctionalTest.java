@@ -3,25 +3,20 @@
  */
 package play.grpc.testkit;
 
-import io.grpc.Status;
+import static org.junit.Assert.*;
+import static play.inject.Bindings.*;
 
 import akka.grpc.GrpcClientSettings;
 import akka.grpc.internal.GrpcProtocolNative;
-
 import example.myapp.helloworld.grpc.*;
-
+import io.grpc.Status;
+import java.util.concurrent.TimeUnit;
 import org.junit.*;
-
 import play.*;
 import play.api.routing.*;
 import play.api.test.*;
 import play.inject.guice.*;
 import play.libs.ws.*;
-
-import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.*;
-import static play.inject.Bindings.*;
 
 public final class PlayJavaFunctionalTest {
   private final TestServerFactory testServerFactory = new DefaultTestServerFactory();
@@ -55,7 +50,12 @@ public final class PlayJavaFunctionalTest {
   private WSResponse wsGet(final String path) throws Exception {
     final WSClient wsClient = app.injector().instanceOf(WSClient.class);
     final String url = runningServer.endpoints().httpEndpoint().get().pathUrl(path);
-    return wsClient.url(url).addHeader("Content-Type", GrpcProtocolNative.contentType().toString()).get().toCompletableFuture().get();
+    return wsClient
+        .url(url)
+        .addHeader("Content-Type", GrpcProtocolNative.contentType().toString())
+        .get()
+        .toCompletableFuture()
+        .get();
   }
 
   @Test
@@ -77,7 +77,8 @@ public final class PlayJavaFunctionalTest {
     final WSResponse rsp = wsGet("/" + GreeterService.name + "/SayHello");
     assertEquals(200, rsp.getStatus());
     assertEquals(
-        Integer.toString(Status.Code.INVALID_ARGUMENT.value()), rsp.getSingleHeader("grpc-status").get());
+        Integer.toString(Status.Code.INVALID_ARGUMENT.value()),
+        rsp.getSingleHeader("grpc-status").get());
   }
 
   @Test
@@ -90,9 +91,7 @@ public final class PlayJavaFunctionalTest {
             .withOverrideAuthority("localhost");
 
     final GreeterServiceClient greeterServiceClient =
-        GreeterServiceClient.create(
-            grpcClientSettings,
-            app.asScala().actorSystem());
+        GreeterServiceClient.create(grpcClientSettings, app.asScala().actorSystem());
     try {
       final HelloReply helloReply = greeterServiceClient.sayHello(req).toCompletableFuture().get();
       assertEquals("Hello, Alice!", helloReply.getMessage());
