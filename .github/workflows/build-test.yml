@@ -15,14 +15,14 @@ concurrency:
 jobs:
   check-code-style:
     name: Code Style
-    uses: playframework/.github/.github/workflows/cmd.yml@v3
+    uses: playframework/.github/.github/workflows/cmd.yml@v3.4.0
     with:
       cmd: sbt scalafmtCheckAll scalafmtSbtCheck javafmtCheckAll headerCheckAll
 
 #  MiMa is not enabled yet, since this library is marked as "API may change".
 #  check-binary-compatibility:
 #    name: Binary Compatibility
-#    uses: playframework/.github/.github/workflows/binary-check.yml@v3
+#    uses: playframework/.github/.github/workflows/binary-check.yml@v3.4.0
 
   check-docs:
     name: Docs
@@ -36,7 +36,7 @@ jobs:
       - "check-code-style"
       # - "check-binary-compatibility"
       - "check-docs"
-    uses: playframework/.github/.github/workflows/cmd.yml@v3
+    uses: playframework/.github/.github/workflows/cmd.yml@v3.4.0
     with:
       java: 17, 11
       scala: 2.13.x
@@ -47,4 +47,4 @@ jobs:
     if: github.event_name == 'pull_request'
     needs: # Should be last
       - "tests"
-    uses: playframework/.github/.github/workflows/rtm.yml@v3
+    uses: playframework/.github/.github/workflows/rtm.yml@v3.4.0
