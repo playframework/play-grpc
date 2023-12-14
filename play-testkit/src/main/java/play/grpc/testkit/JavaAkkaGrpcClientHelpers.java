@@ -5,12 +5,10 @@ package play.grpc.testkit;
 
 import akka.actor.ActorSystem;
 import akka.grpc.GrpcClientSettings;
-
+import javax.net.ssl.SSLContext;
 import play.api.test.RunningServer;
 import play.core.server.ServerEndpoint;
 import play.core.server.ServerEndpoints;
-import play.api.http.HttpProtocol;
-import javax.net.ssl.SSLContext;
 
 /** Helpers to test Java Akka gRPC clients with Play. */
 public final class JavaAkkaGrpcClientHelpers {
@@ -47,9 +45,7 @@ public final class JavaAkkaGrpcClientHelpers {
       // `akka.grpc.client."".use-tls` to false for gRPC so this should return the non-TLS HTTP/2
       // endpoint on the list.
       final scala.collection.Iterable<ServerEndpoint> sslEndpoints =
-          possibleEndpoints
-	    .filter(endpoint -> endpoint.ssl().isDefined())
-            .toIterable();
+          possibleEndpoints.filter(endpoint -> endpoint.ssl().isDefined()).toIterable();
       return sslEndpoints.head();
     }
   }

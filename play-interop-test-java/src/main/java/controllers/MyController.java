@@ -6,12 +6,11 @@ package controllers;
 
 import example.myapp.helloworld.grpc.GreeterServiceClient;
 import example.myapp.helloworld.grpc.HelloRequest;
-import play.mvc.Controller;
-import play.mvc.Result;
-
+import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.concurrent.CompletionStage;
+import play.mvc.Controller;
+import play.mvc.Result;
 
 @Singleton
 public class MyController extends Controller {
