@@ -3,21 +3,17 @@
  */
 package play.grpc.specs2
 
+import akka.grpc.internal.GrpcProtocolNative
+import example.myapp.helloworld.grpc.helloworld._
+import io.grpc.Status
 import org.junit.runner.RunWith
 import org.specs2.runner.JUnitRunner
-
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.ws.WSClient
 import play.api.libs.ws.WSRequest
 import play.api.routing.Router
 import play.api.test._
-
-import akka.grpc.internal.GrpcProtocolNative
-
-import example.myapp.helloworld.grpc.helloworld._
-
-import io.grpc.Status
 
 /**
  * Test for the Play gRPC Specs2 APIs

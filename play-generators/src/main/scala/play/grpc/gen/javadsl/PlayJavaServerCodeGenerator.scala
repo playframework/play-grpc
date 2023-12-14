@@ -4,9 +4,10 @@
 package play.grpc.gen.javadsl
 
 import scala.collection.immutable
-import akka.grpc.gen.Logger
+
 import akka.grpc.gen.javadsl.JavaCodeGenerator
 import akka.grpc.gen.javadsl.Service
+import akka.grpc.gen.Logger
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import templates.PlayJavaServer.txt.Router
 import templates.PlayJavaServer.txt.RouterUsingActions

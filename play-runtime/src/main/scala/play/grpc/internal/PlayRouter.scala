@@ -5,16 +5,16 @@ package play.grpc.internal
 
 import java.util.concurrent.CompletionStage
 
+import scala.compat.java8.FutureConverters._
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
+
 import akka.annotation.InternalApi
 import akka.http.scaladsl.model.HttpRequest
 import akka.http.scaladsl.model.HttpResponse
 import play.api.mvc.akkahttp.AkkaHttpHandler
 import play.api.routing.Router
 import play.api.routing.Router.Routes
-
-import scala.concurrent.ExecutionContext
-import scala.concurrent.Future
-import scala.compat.java8.FutureConverters._
 
 /**
  * INTERNAL API
@@ -25,9 +25,7 @@ import scala.compat.java8.FutureConverters._
       javaHandler: akka.japi.Function[akka.http.javadsl.model.HttpRequest, CompletionStage[
         akka.http.javadsl.model.HttpResponse,
       ]],
-  )(
-      implicit ec: ExecutionContext,
-  ): HttpRequest => Future[HttpResponse] =
+  )(implicit ec: ExecutionContext): HttpRequest => Future[HttpResponse] =
     AkkaHttpHandler.apply(req =>
       javaHandler
         .apply(req.asInstanceOf[akka.http.javadsl.model.HttpRequest])
@@ -39,9 +37,7 @@ import scala.compat.java8.FutureConverters._
       javaHandler: akka.japi.function.Function[akka.http.javadsl.model.HttpRequest, CompletionStage[
         akka.http.javadsl.model.HttpResponse,
       ]],
-  )(
-      implicit ec: ExecutionContext,
-  ): HttpRequest => Future[HttpResponse] =
+  )(implicit ec: ExecutionContext): HttpRequest => Future[HttpResponse] =
     AkkaHttpHandler.apply(req =>
       javaHandler
         .apply(req.asInstanceOf[akka.http.javadsl.model.HttpRequest])

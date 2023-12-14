@@ -2,6 +2,7 @@ package build.play.grpc
 
 import sbt._
 import sbt.Keys._
+
 import Dependencies.Versions.scala212
 import Dependencies.Versions.scala213
 

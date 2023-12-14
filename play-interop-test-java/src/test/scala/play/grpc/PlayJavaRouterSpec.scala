@@ -3,42 +3,42 @@
  */
 package play.grpc
 
-import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext
 
-import akka.NotUsed
 import akka.actor.ActorSystem
-import akka.grpc.GrpcProtocol.DataFrame
-import akka.grpc.GrpcProtocol.GrpcProtocolWriter
-import akka.grpc.ProtobufSerializer
 import akka.grpc.internal.GrpcProtocolNative
 import akka.grpc.internal.Identity
 import akka.grpc.scaladsl.GrpcMarshalling
+import akka.grpc.GrpcProtocol.DataFrame
+import akka.grpc.GrpcProtocol.GrpcProtocolWriter
+import akka.grpc.ProtobufSerializer
 import akka.http.scaladsl.marshalling.Marshaller
 import akka.http.scaladsl.marshalling.ToResponseMarshaller
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.FromRequestUnmarshaller
 import akka.http.scaladsl.unmarshalling.Unmarshaller
-import akka.stream.Materializer
-import akka.stream.SystemMaterializer
 import akka.stream.scaladsl.Sink
 import akka.stream.scaladsl.Source
+import akka.stream.Materializer
+import akka.stream.SystemMaterializer
 import akka.util.ByteString
+import akka.NotUsed
 import controllers.GreeterServiceImpl
 import example.myapp.helloworld.grpc.GreeterService
 import example.myapp.helloworld.grpc.HelloReply
 import example.myapp.helloworld.grpc.HelloRequest
-import org.scalatest.BeforeAndAfterAll
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.BeforeAndAfterAll
 import play.api.libs.typedmap.TypedMap
-import play.api.mvc.Headers
-import play.api.mvc.RequestHeader
 import play.api.mvc.akkahttp.AkkaHttpHandler
 import play.api.mvc.request.RemoteConnection
 import play.api.mvc.request.RequestFactory
 import play.api.mvc.request.RequestTarget
+import play.api.mvc.Headers
+import play.api.mvc.RequestHeader
 
 class PlayJavaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
   implicit val sys      = ActorSystem()

@@ -3,14 +3,15 @@
  */
 package play.grpc.scalatest
 
-import play.grpc.internal.AkkaGrpcClientFactory
-import akka.grpc.scaladsl.AkkaGrpcClient
-import play.api.Application
-import play.api.test.DefaultTestServerFactory
-import play.api.test.RunningServer
 import scala.reflect.ClassTag
+
+import akka.grpc.scaladsl.AkkaGrpcClient
 import org.scalatest.TestData
 import org.scalatestplus.play.BaseOneServerPerTest
+import play.api.test.DefaultTestServerFactory
+import play.api.test.RunningServer
+import play.api.Application
+import play.grpc.internal.AkkaGrpcClientFactory
 import play.grpc.testkit.AkkaGrpcClientHelpers
 
 /**

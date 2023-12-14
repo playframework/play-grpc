@@ -45,7 +45,7 @@ aggregateProjects(
 
 enablePlugins(build.play.grpc.NoPublish)
 Compile / headerCreate / unmanagedSources := ((baseDirectory.value / "project") ** "*.scala").get
-crossScalaVersions := Nil // https://github.com/sbt/sbt/issues/3465
+crossScalaVersions                        := Nil // https://github.com/sbt/sbt/issues/3465
 
 val playRuntime = Project("play-grpc-runtime", file("play-runtime"))
   .settings(
@@ -111,7 +111,7 @@ val playGenerators = Project(id = "play-grpc-generators", file("play-generators"
     ),
     buildInfoKeys ++= Seq[BuildInfoKey](organization, name, version, scalaVersion, sbtVersion),
     buildInfoKeys += "akkaGrpcVersion" → Dependencies.Versions.akkaGrpc,
-    buildInfoPackage := "play.grpc.gen",
+    buildInfoPackage                  := "play.grpc.gen",
     // Only used in build tools (like sbt), so only 2.12 is needed:
     crossScalaVersions := Seq(scala212),
   )

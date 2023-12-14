@@ -2,18 +2,19 @@ package build.play.grpc
 
 import java.io.File
 
+import scala.collection.mutable.ListBuffer
+
 import sbt._
-import sbt.Keys._
-import sbtprotoc.ProtocPlugin
-import ProtocPlugin.autoImport.PB
-import protocbridge.Target
-import sbt.ProjectRef
 import sbt.file
 import sbt.internal.inc.classpath.ClasspathUtilities
-import akka.grpc.sbt.AkkaGrpcPlugin.autoImport._
+import sbt.Keys._
+import sbt.ProjectRef
 
-import scala.collection.mutable.ListBuffer
+import akka.grpc.sbt.AkkaGrpcPlugin.autoImport._
 import protocbridge.{ Artifact => BridgeArtifact }
+import protocbridge.Target
+import sbtprotoc.ProtocPlugin
+import ProtocPlugin.autoImport.PB
 
 /** A plugin that allows to use a code generator compiled in one subproject to be used in a test project */
 object ReflectiveCodeGen extends AutoPlugin {
@@ -30,7 +31,7 @@ object ReflectiveCodeGen extends AutoPlugin {
     inConfig(Compile)(
       Seq(
         PB.protocOptions := protocOptions.value,
-        PB.generate :=
+        PB.generate      :=
           // almost the same as `Def.sequential` but will return the "middle" value, ie. the result of the generation
           // Defines three steps:
           //   1) dynamically load the current code generator and plug it in the mutable generator
@@ -84,10 +85,10 @@ object ReflectiveCodeGen extends AutoPlugin {
       ),
     ) ++ Seq(
       (Global / codeGeneratorSettings) := Nil,
-      (Global / generatedLanguages) := Seq(AkkaGrpc.Scala),
-      (Global / generatedSources) := Seq(AkkaGrpc.Client, AkkaGrpc.Server),
-      (Global / extraGenerators) := Seq.empty,
-      (Global / protocOptions) := Seq.empty,
+      (Global / generatedLanguages)    := Seq(AkkaGrpc.Scala),
+      (Global / generatedSources)      := Seq(AkkaGrpc.Client, AkkaGrpc.Server),
+      (Global / extraGenerators)       := Seq.empty,
+      (Global / protocOptions)         := Seq.empty,
       watchSources ++= (ProjectRef(file("."), "play-grpc-generators") / watchSources).value,
     )
 

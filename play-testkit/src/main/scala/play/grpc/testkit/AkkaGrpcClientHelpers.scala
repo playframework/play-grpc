@@ -5,18 +5,18 @@ package play.grpc.testkit
 
 import java.util.concurrent.TimeUnit
 
+import scala.concurrent.duration.Duration
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext
+import scala.reflect.ClassTag
+
 import akka.actor.ActorSystem
-import play.grpc.internal.AkkaGrpcClientFactory
 import akka.grpc.scaladsl.AkkaGrpcClient
 import akka.stream.Materializer
 import play.api.Application
 import play.core.server.ServerEndpoint
 import play.core.server.ServerEndpoints
-
-import scala.concurrent.duration.Duration
-import scala.concurrent.Await
-import scala.concurrent.ExecutionContext
-import scala.reflect.ClassTag
+import play.grpc.internal.AkkaGrpcClientFactory
 
 /**
  * Helpers to test gRPC clients with Play. The methods in this class require

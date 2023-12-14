@@ -7,12 +7,12 @@ import java.io.File
 
 import example.myapp.helloworld.grpc.helloworld.GreeterServiceClient
 import example.myapp.helloworld.grpc.helloworld.GreeterServiceClientProvider
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 import play.api.inject.ProviderConstructionTarget
 import play.api.Configuration
 import play.api.Environment
 import play.api.Mode
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
 
 class PlayScalaModuleSpec extends AnyWordSpec with Matchers {
 
@@ -26,7 +26,7 @@ class PlayScalaModuleSpec extends AnyWordSpec with Matchers {
         module.bindings(Environment(new File("./"), getClass.getClassLoader, Mode.Prod), Configuration.empty)
 
       // both clients should be in there
-      bindings should have size (1)
+      bindings should have size 1
 
       bindings.map(_.key.clazz).toSet should ===(Set(classOf[GreeterServiceClient]))
 

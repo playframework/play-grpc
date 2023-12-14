@@ -4,10 +4,11 @@
 package play.grpc.gen.scaladsl
 
 import scala.collection.immutable
-import akka.grpc.gen.Logger
+
 import akka.grpc.gen.scaladsl.ScalaCodeGenerator
 import akka.grpc.gen.scaladsl.ScalaServerCodeGenerator
 import akka.grpc.gen.scaladsl.Service
+import akka.grpc.gen.Logger
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import templates.PlayScala.txt._
 

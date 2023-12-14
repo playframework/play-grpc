@@ -3,19 +3,17 @@
  */
 package example.myapp.helloworld.grpc.actions.helloworld
 
+import javax.inject.Inject
+import javax.inject.Singleton
+
 import scala.concurrent.Future
 
 import akka.actor.ActorSystem
 import akka.stream.Materializer
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
-class GreeterServiceWithActionsImpl @Inject() (
-    implicit
-    mat: Materializer,
-    actorSystem: ActorSystem,
-) extends AbstractGreeterServiceRouter(
+class GreeterServiceWithActionsImpl @Inject() (implicit mat: Materializer, actorSystem: ActorSystem)
+    extends AbstractGreeterServiceRouter(
       actorSystem,
     ) {
 

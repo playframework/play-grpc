@@ -3,19 +3,18 @@
  */
 package play.grpc.scalatest
 
+import akka.grpc.internal.GrpcProtocolNative
+import example.myapp.helloworld.grpc.actions.helloworld._
+import io.grpc.Status
 import org.scalatest.concurrent.IntegrationPatience
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice.GuiceOneServerPerTest
-import play.api.Application
+import org.scalatestplus.play.PlaySpec
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.ws.WSClient
 import play.api.routing.Router
-import io.grpc.Status
-import example.myapp.helloworld.grpc.actions.helloworld._
-
-import akka.grpc.internal.GrpcProtocolNative
+import play.api.Application
 
 /**
  * Test for the Play gRPC ScalaTest APIs
