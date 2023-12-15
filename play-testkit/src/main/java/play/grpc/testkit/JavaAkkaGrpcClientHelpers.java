@@ -31,7 +31,7 @@ public final class JavaAkkaGrpcClientHelpers {
             .endpoints()
             .filter(e -> e.protocols().contains("HTTP/2.0" /* Play's HttpProtocol.HTTP_2_0 */))
             .toIterable();
-    if (possibleEndpoints.size() == 0) {
+    if (possibleEndpoints.isEmpty()) {
       throw new IllegalArgumentException(
           String.format(
               "gRPC client can't automatically find HTTP/2 connection: "
