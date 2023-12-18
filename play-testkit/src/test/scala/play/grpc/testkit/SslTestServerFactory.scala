@@ -4,8 +4,8 @@
 package play.grpc.testkit
 
 import akka.annotation.ApiMayChange
-import play.api.Application
 import play.api.test.DefaultTestServerFactory
+import play.api.Application
 import play.core.server.ServerConfig
 
 /**
