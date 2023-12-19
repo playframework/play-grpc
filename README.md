@@ -14,7 +14,7 @@
 [![Scala Steward badge](https://img.shields.io/badge/Scala_Steward-helping-blue.svg?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAMAAAARSr4IAAAAVFBMVEUAAACHjojlOy5NWlrKzcYRKjGFjIbp293YycuLa3pYY2LSqql4f3pCUFTgSjNodYRmcXUsPD/NTTbjRS+2jomhgnzNc223cGvZS0HaSD0XLjbaSjElhIr+AAAAAXRSTlMAQObYZgAAAHlJREFUCNdNyosOwyAIhWHAQS1Vt7a77/3fcxxdmv0xwmckutAR1nkm4ggbyEcg/wWmlGLDAA3oL50xi6fk5ffZ3E2E3QfZDCcCN2YtbEWZt+Drc6u6rlqv7Uk0LdKqqr5rk2UCRXOk0vmQKGfc94nOJyQjouF9H/wCc9gECEYfONoAAAAASUVORK5CYII=)](https://scala-steward.org)
 [![Mergify Status](https://img.shields.io/endpoint.svg?url=https://api.mergify.com/v1/badges/playframework/play-grpc&style=flat)](https://mergify.com)
 
-Play support for [akka-grpc](https://doc.akka.io/docs/akka-grpc/current/).
+Play support for [akka-grpc](https://doc.akka.io/docs/akka-grpc/current/) and [pekko-grpc](https://pekko.apache.org/docs/pekko-grpc/current/overview.html).
 
 ## Project Status
 
@@ -23,6 +23,19 @@ This library is ready to be used in production, but APIs are still expected to b
 ## Compatibility & support
 
 This project does not yet have to obey the rule of staying binary compatible between releases that is common for libraries under the Play Framework organization. Breaking API changes may be introduced without notice as we refine and simplify based on your feedback.
+
+## Docs
+
+For testing documentation locally use a few next commands (for more details see [Antora workflow](https://github.com/playframework/.github/blob/main/.github/workflows/antora.yml)):
+
+```bash
+cd docs
+npm i -D -E @antora/cli @antora/site-generator @antora/lunr-extension @asciidoctor/tabs
+npx antora local-antora-playbook.yml
+```
+
+Then open in browser generated documentation from `<repo_path>/docs/build/site`.
+
 
 ## Releasing a new version
 
