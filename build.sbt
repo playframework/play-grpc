@@ -2,6 +2,9 @@ import build.play.grpc.Dependencies
 import build.play.grpc.Dependencies.Versions.scala212
 import build.play.grpc.ProjectExtensions.AddPluginTest
 
+// Customise sbt-dynver's behaviour to make it work with tags which aren't v-prefixed
+(ThisBuild / dynverVTagPrefix) := false
+
 ThisBuild / organization := "com.typesafe.play"
 
 ThisBuild / scalacOptions ++= List(
