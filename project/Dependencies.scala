@@ -20,7 +20,7 @@ object Dependencies {
     val akkaGrpc = AkkaGrpcBuildInfo.version
     val grpc     = AkkaGrpcBuildInfo.grpcVersion
 
-    val play  = "2.9.0-M2"
+    val play = "2.9.0-M2"
 
     val scalaTest         = "3.2.14"
     val scalaTestPlusPlay = "6.0.0-M1"
@@ -74,7 +74,7 @@ object Dependencies {
     val scalaTestPlusPlay = Compile.scalaTestPlusPlay % Test
 
     val junitInterface = "com.github.sbt" % "junit-interface" % "0.13.3" % "test"
-    val logback        = "ch.qos.logback" % "logback-classic" % "1.4.4" % "test"
+    val logback        = "ch.qos.logback" % "logback-classic" % "1.4.4"  % "test"
   }
 
 }
