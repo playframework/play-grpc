@@ -1,0 +1,8 @@
+name: play-grpc
+title: Play gRPC
+version: 0.9.x
+nav:
+  - modules/ROOT/nav.adoc
+asciidoc:
+  attributes:
+    akka-grpc-version: 2.1.5 # Sync with `sbt-akka-grpc` in project/plugins.sbt

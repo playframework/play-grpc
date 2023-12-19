@@ -1,0 +1,3 @@
+* xref:serving-grpc.adoc[Serving gRPC]
+* xref:consuming-grpc.adoc[Using a gRPC client]
+* xref:gradle-support.adoc[Gradle support]

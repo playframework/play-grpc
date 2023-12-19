@@ -1,7 +1,7 @@
 /*
  * Copyright (C) from 2022 The Play Framework Contributors <https://github.com/playframework>, 2011-2021 Lightbend Inc. <https://www.lightbend.com>
  */
-// #using-client
+// tag::using-client[]
 package controllers;
 
 import example.myapp.helloworld.grpc.GreeterServiceClient;
@@ -28,4 +28,4 @@ public class MyController extends Controller {
         .thenApply(response -> ok("response: " + response.getMessage()));
   };
 }
-// #using-client
+// end::using-client[]
