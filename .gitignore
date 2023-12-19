@@ -1,3 +1,6 @@
 target
 .bsp/
 .idea/
+node_modules/
+/docs/build/
+/docs/package*.json

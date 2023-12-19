@@ -1,9 +1,10 @@
-## Gradle support in Play
+== Gradle support in Play
 
 To enable the Play support in a Gradle project you need to set the option `generatePlay` to true.
 This will make sure play-specific code is generated in addition to plain Akka gRPC code:
 
-```
+[,groovy]
+----
 akkaGrpc {
   language = "Java"
   generateClient = true
@@ -13,6 +14,6 @@ akkaGrpc {
     'play.grpc.gen.javadsl.PlayJavaServerCodeGenerator'
   ]
 }
-```
+----
 
-See the [Akka gRPC Gradle support docs](https://doc.akka.io/docs/akka-grpc/current/buildtools/gradle.html) for further details.
+See the https://doc.akka.io/docs/akka-grpc/current/buildtools/gradle.html[Akka gRPC Gradle support docs] for further details.
