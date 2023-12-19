@@ -1,6 +1,6 @@
 name: play-grpc
 title: Play gRPC
-version: 0.9.x
+version: 0.11.x
 nav:
   - modules/ROOT/nav.adoc
 asciidoc:
