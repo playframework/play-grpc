@@ -3,10 +3,8 @@ name: Publish
 on:
   push:
     branches: # Snapshots
-      - main
+      - 0.10.x
     tags: ["**"] # Releases
-  release:
-    types: [published]
 
 jobs:
   publish-artifacts:
