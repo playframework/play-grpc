@@ -212,4 +212,23 @@ val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-inte
   .enablePlugins(build.play.grpc.NoPublish)
   .pluginTestingSettings
 
+val docs = Project("play-grpc-docs", file("docs"))
+  .enablePlugins(AkkaParadoxPlugin)
+  .settings(
+    // Make sure code generation is run before paradox:
+    (Compile / paradox) := (Compile / paradox).dependsOn(Compile / compile).value,
+    paradoxGroups := Map(
+      "Language"  -> Seq("Scala", "Java"),
+      "Buildtool" -> Seq("sbt", "Gradle", "Maven"),
+    ),
+    paradoxProperties ++= Map(
+      "grpc.version"      -> Dependencies.Versions.grpc,
+      "akka.grpc.version" -> Dependencies.Versions.akkaGrpc,
+    ),
+    resolvers += Resolver.jcenterRepo,
+  )
+  .enablePlugins(build.play.grpc.NoPublish)
+
+Test / javaOptions ++= Seq("--add-exports=java.base/sun.security.x509=ALL-UNNAMED")
+
 Global / cancelable := true

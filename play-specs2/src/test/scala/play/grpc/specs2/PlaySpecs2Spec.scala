@@ -14,12 +14,15 @@ import play.api.libs.ws.WSClient
 import play.api.libs.ws.WSRequest
 import play.api.routing.Router
 import play.api.test._
+import play.grpc.testkit.SslTestServerFactory
 
 /**
  * Test for the Play gRPC Specs2 APIs
  */
 @RunWith(classOf[JUnitRunner])
 class PlaySpecs2Spec extends ForServer with ServerGrpcClient with PlaySpecification with ApplicationFactories {
+
+  override def testServerFactory = new SslTestServerFactory
 
   protected def applicationFactory: ApplicationFactory =
     withGuiceApp(GuiceApplicationBuilder().overrides(bind[Router].to[GreeterServiceImpl]))

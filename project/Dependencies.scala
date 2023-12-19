@@ -17,8 +17,8 @@ object Dependencies {
     // bumps Akka HTTP version beyond play's 10.1.x
     val akkaHttp = "10.2.10"
 
-    val akkaGrpc = AkkaGrpcBuildInfo.version
-    val grpc     = AkkaGrpcBuildInfo.grpcVersion
+    val akkaGrpc: String = AkkaGrpcBuildInfo.version
+    val grpc: String = AkkaGrpcBuildInfo.grpcVersion
 
     val play = "2.9.1"
 
