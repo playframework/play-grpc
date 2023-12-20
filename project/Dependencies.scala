@@ -20,10 +20,10 @@ object Dependencies {
     val akkaGrpc = AkkaGrpcBuildInfo.version
     val grpc     = AkkaGrpcBuildInfo.grpcVersion
 
-    val play = "2.9.0-M2"
+    val play = "2.9.1"
 
     val scalaTest         = "3.2.14"
-    val scalaTestPlusPlay = "6.0.0-M1"
+    val scalaTestPlusPlay = "6.0.0"
 
     val macwire = "2.5.9"
   }
