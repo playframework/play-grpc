@@ -30,7 +30,7 @@ class PlaySpecs2Spec extends ForServer with ServerGrpcClient with PlaySpecificat
   // RICH: Still need to work out how to make WSClient work properly with endpoints
   def wsUrl(path: String)(implicit running: RunningServer): WSRequest = {
     val ws  = running.app.injector.instanceOf[WSClient]
-    val url = running.endpoints.httpEndpoint.get.pathUrl(path)
+    val url = running.endpoints.httpsEndpoint.get.pathUrl(path)
     ws.url(url)
   }
 
