@@ -5,6 +5,7 @@ package play.grpc
 
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContextExecutor
 
 import akka.actor.ActorSystem
 import akka.grpc.internal.GrpcProtocolNative
@@ -41,14 +42,16 @@ import play.api.mvc.Headers
 import play.api.mvc.RequestHeader
 
 class PlayJavaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
-  implicit val sys      = ActorSystem()
-  implicit val mat      = SystemMaterializer(sys).materializer
-  implicit val ec       = sys.dispatcher
-  implicit val patience = PatienceConfig(timeout = 3.seconds, interval = 15.milliseconds)
+  implicit val sys: ActorSystem             = ActorSystem()
+  implicit val mat: Materializer            = SystemMaterializer(sys).materializer
+  implicit val ec: ExecutionContextExecutor = sys.dispatcher
+  implicit val patience: PatienceConfig     = PatienceConfig(timeout = 3.seconds, interval = 15.milliseconds)
 
   // serializers so we can test the requests
-  implicit val HelloRequestSerializer = example.myapp.helloworld.grpc.GreeterService.Serializers.HelloRequestSerializer
-  implicit val HelloReplySerializer   = example.myapp.helloworld.grpc.GreeterService.Serializers.HelloReplySerializer
+  implicit val HelloRequestSerializer: ProtobufSerializer[HelloRequest] =
+    example.myapp.helloworld.grpc.GreeterService.Serializers.HelloRequestSerializer
+  implicit val HelloReplySerializer: ProtobufSerializer[HelloReply] =
+    example.myapp.helloworld.grpc.GreeterService.Serializers.HelloReplySerializer
 
   implicit def unmarshaller[T](
       implicit serializer: ProtobufSerializer[T],

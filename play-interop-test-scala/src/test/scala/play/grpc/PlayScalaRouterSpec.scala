@@ -4,6 +4,7 @@
 package play.grpc
 
 import scala.concurrent.duration._
+import scala.concurrent.ExecutionContextExecutor
 
 import akka.actor.ActorSystem
 import akka.grpc.internal.GrpcProtocolNative
@@ -13,6 +14,7 @@ import akka.grpc.ProtobufSerializer
 import akka.http.scaladsl.model._
 import akka.stream.scaladsl.Sink
 import akka.stream.scaladsl.Source
+import akka.stream.Materializer
 import akka.stream.SystemMaterializer
 import akka.util.ByteString
 import controllers.GreeterServiceImpl
@@ -30,10 +32,10 @@ import play.api.mvc.Headers
 import GreeterServiceMarshallers._
 
 class PlayScalaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
-  implicit val sys      = ActorSystem()
-  implicit val mat      = SystemMaterializer(sys).materializer
-  implicit val ec       = sys.dispatcher
-  implicit val patience = PatienceConfig(timeout = 3.seconds, interval = 15.milliseconds)
+  implicit val sys: ActorSystem             = ActorSystem()
+  implicit val mat: Materializer            = SystemMaterializer(sys).materializer
+  implicit val ec: ExecutionContextExecutor = sys.dispatcher
+  implicit val patience: PatienceConfig     = PatienceConfig(timeout = 3.seconds, interval = 15.milliseconds)
 
   val router = new GreeterServiceImpl
 
