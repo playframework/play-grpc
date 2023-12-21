@@ -3,16 +3,16 @@
  */
 package play.grpc.testkit;
 
-import akka.actor.ActorSystem;
-import akka.grpc.GrpcClientSettings;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.grpc.GrpcClientSettings;
 import javax.net.ssl.SSLContext;
 import play.api.test.RunningServer;
 import play.core.server.ServerEndpoint;
 import play.core.server.ServerEndpoints;
 
-/** Helpers to test Java Akka gRPC clients with Play. */
-public final class JavaAkkaGrpcClientHelpers {
-  private JavaAkkaGrpcClientHelpers() {}
+/** Helpers to test Java Pekko gRPC clients with Play. */
+public final class JavaPekkoGrpcClientHelpers {
+  private JavaPekkoGrpcClientHelpers() {}
 
   /** Creates a GrpcClientSettings from the given NewTestServer. */
   public static GrpcClientSettings grpcClientSettings(final RunningServer runningServer) {
@@ -42,7 +42,7 @@ public final class JavaAkkaGrpcClientHelpers {
     } else {
       // TODO: the decision on which HTTP/2 endpoint to use should be based on config (e.g. maybe
       // the user set
-      // `akka.grpc.client."".use-tls` to false for gRPC so this should return the non-TLS HTTP/2
+      // `org.apache.pekko.grpc.client."".use-tls` to false for gRPC so this should return the non-TLS HTTP/2
       // endpoint on the list.
       final scala.collection.Iterable<ServerEndpoint> sslEndpoints =
           possibleEndpoints.filter(endpoint -> endpoint.ssl().isDefined()).toIterable();

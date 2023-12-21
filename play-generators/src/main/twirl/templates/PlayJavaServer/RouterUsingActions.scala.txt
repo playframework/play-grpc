@@ -1,20 +1,20 @@
 @*
  * Copyright (C) from 2022 The Play Framework Contributors <https://github.com/playframework>, 2011-2021 Lightbend Inc. <https://www.lightbend.com>
  *@
-@(service: akka.grpc.gen.javadsl.Service, powerApis: Boolean)
+@(service: org.apache.pekko.grpc.gen.javadsl.Service, powerApis: Boolean)
 
-@akka.grpc.gen.Constants.DoNotEditComment
+@org.apache.pekko.grpc.gen.Constants.DoNotEditComment
 package @service.packageName;
 
-import akka.annotation.InternalApi;
-import akka.actor.ActorSystem;
-import akka.grpc.GrpcServiceException;
+import org.apache.pekko.annotation.InternalApi;
+import org.apache.pekko.actor.ActorSystem;
+import org.apache.pekko.grpc.GrpcServiceException;
 import play.grpc.internal.PlayRouterHelper$;
 import play.grpc.internal.PlayRouterUsingActions;
-import akka.grpc.javadsl.GrpcExceptionHandler;
-import akka.http.javadsl.model.HttpRequest;
-import akka.http.javadsl.model.HttpResponse;
-import akka.japi.Function;
+import org.apache.pekko.grpc.javadsl.GrpcExceptionHandler;
+import org.apache.pekko.http.javadsl.model.HttpRequest;
+import org.apache.pekko.http.javadsl.model.HttpResponse;
+import org.apache.pekko.japi.Function;
 import play.api.mvc.EssentialAction;
 import play.api.mvc.RequestHeader;
 import play.api.mvc.PlayBodyParsers;

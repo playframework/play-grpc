@@ -5,24 +5,24 @@ package play.grpc.specs2
 
 import scala.reflect.ClassTag
 
-import akka.grpc.scaladsl.AkkaGrpcClient
+import org.apache.pekko.grpc.scaladsl.PekkoGrpcClient
 import play.api.test.RunningServer
-import play.grpc.internal.AkkaGrpcClientFactory
-import play.grpc.testkit.AkkaGrpcClientHelpers
+import play.grpc.internal.PekkoGrpcClientFactory
+import play.grpc.testkit.PekkoGrpcClientHelpers
 
 /**
  * Helpers to test gRPC clients with Play using Specs2.
  *
- * Mixes a method into [[AkkaGrpcClientHelpers]] that knows how to configure
+ * Mixes a method into [[PekkoGrpcClientHelpers]] that knows how to configure
  * gRPC clients for the running server.
  */
-trait ServerGrpcClient extends AkkaGrpcClientHelpers {
+trait ServerGrpcClient extends PekkoGrpcClientHelpers {
 
   /** Configure the factory by combining the app and the current implicit server information */
-  implicit def configuredAkkaGrpcClientFactory[T <: AkkaGrpcClient: ClassTag](
+  implicit def configuredPekkoGrpcClientFactory[T <: PekkoGrpcClient: ClassTag](
       implicit running: RunningServer,
-  ): AkkaGrpcClientFactory.Configured[T] = {
-    AkkaGrpcClientHelpers.factoryForAppEndpoints(running.app, running.endpoints)
+  ): PekkoGrpcClientFactory.Configured[T] = {
+    PekkoGrpcClientHelpers.factoryForAppEndpoints(running.app, running.endpoints)
   }
 
 }

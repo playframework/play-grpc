@@ -1,5 +1,5 @@
 = Play gRPC
 
-https://doc.akka.io/docs/akka-grpc/current/[Akka gRPC] provides support for building streaming gRPC servers and clients on top of Akka Streams. Play gRPC provides examples and tools on embedding Akka gRPC endpoints on Play applications.
+https://pekko.apache.org/docs/pekko-grpc/current/index.html[Pekko gRPC] provides support for building streaming gRPC servers and clients on top of Pekko Streams. Play gRPC provides examples and tools on embedding Pekko gRPC endpoints on Play applications.
 
-For a full example project see the https://developer.lightbend.com/guides/play-java-grpc-example/[Quickstart Java project] or https://developer.lightbend.com/guides/play-scala-grpc-example/[Quickstart Scala project]
+For a full example project see the https://github.com/playframework/play-samples/tree/3.0.x/play-java-grpc-example[Quickstart Java project] or https://github.com/playframework/play-samples/tree/3.0.x/play-scala-grpc-example[Quickstart Scala project]

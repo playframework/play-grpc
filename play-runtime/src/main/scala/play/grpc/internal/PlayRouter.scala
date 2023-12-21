@@ -5,14 +5,14 @@ package play.grpc.internal
 
 import java.util.concurrent.CompletionStage
 
-import scala.compat.java8.FutureConverters._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import scala.jdk.FutureConverters._
 
-import akka.annotation.InternalApi
-import akka.http.scaladsl.model.HttpRequest
-import akka.http.scaladsl.model.HttpResponse
-import play.api.mvc.akkahttp.AkkaHttpHandler
+import org.apache.pekko.annotation.InternalApi
+import org.apache.pekko.http.scaladsl.model.HttpRequest
+import org.apache.pekko.http.scaladsl.model.HttpResponse
+import play.api.mvc.pekkohttp.PekkoHttpHandler
 import play.api.routing.Router
 import play.api.routing.Router.Routes
 
@@ -20,29 +20,32 @@ import play.api.routing.Router.Routes
  * INTERNAL API
  */
 @InternalApi private[grpc] object PlayRouterHelper {
-  @deprecated("Prefer handlerFunction(akka.japi.function.Function[])", "0.10.0")
+  @deprecated("Prefer handlerFunction(org.apache.pekko.japi.function.Function[])", "0.10.0")
   def handlerFor(
-      javaHandler: akka.japi.Function[akka.http.javadsl.model.HttpRequest, CompletionStage[
-        akka.http.javadsl.model.HttpResponse,
+      javaHandler: org.apache.pekko.japi.Function[org.apache.pekko.http.javadsl.model.HttpRequest, CompletionStage[
+        org.apache.pekko.http.javadsl.model.HttpResponse,
       ]],
   )(implicit ec: ExecutionContext): HttpRequest => Future[HttpResponse] =
-    AkkaHttpHandler.apply(req =>
+    PekkoHttpHandler.apply(req =>
       javaHandler
-        .apply(req.asInstanceOf[akka.http.javadsl.model.HttpRequest])
-        .toScala
-        .map(javaResp => javaResp.asInstanceOf[akka.http.scaladsl.model.HttpResponse]),
+        .apply(req.asInstanceOf[org.apache.pekko.http.javadsl.model.HttpRequest])
+        .asScala
+        .map(javaResp => javaResp.asInstanceOf[org.apache.pekko.http.scaladsl.model.HttpResponse]),
     )
 
   def handlerFor(
-      javaHandler: akka.japi.function.Function[akka.http.javadsl.model.HttpRequest, CompletionStage[
-        akka.http.javadsl.model.HttpResponse,
-      ]],
+      javaHandler: org.apache.pekko.japi.function.Function[
+        org.apache.pekko.http.javadsl.model.HttpRequest,
+        CompletionStage[
+          org.apache.pekko.http.javadsl.model.HttpResponse,
+        ]
+      ],
   )(implicit ec: ExecutionContext): HttpRequest => Future[HttpResponse] =
-    AkkaHttpHandler.apply(req =>
+    PekkoHttpHandler.apply(req =>
       javaHandler
-        .apply(req.asInstanceOf[akka.http.javadsl.model.HttpRequest])
-        .toScala
-        .map(javaResp => javaResp.asInstanceOf[akka.http.scaladsl.model.HttpResponse]),
+        .apply(req.asInstanceOf[org.apache.pekko.http.javadsl.model.HttpRequest])
+        .asScala
+        .map(javaResp => javaResp.asInstanceOf[org.apache.pekko.http.scaladsl.model.HttpResponse]),
     )
 
 }
@@ -64,7 +67,7 @@ import play.api.routing.Router.Routes
    */
   protected val respond: HttpRequest => Future[HttpResponse]
 
-  private val handler = new AkkaHttpHandler {
+  private val handler = new PekkoHttpHandler {
     override def apply(request: HttpRequest): Future[HttpResponse] = respond(request)
   }
 

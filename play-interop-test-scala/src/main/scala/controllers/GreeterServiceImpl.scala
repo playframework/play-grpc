@@ -9,10 +9,10 @@ import javax.inject.Singleton
 
 import scala.concurrent.Future
 
-import akka.actor.ActorSystem
 import example.myapp.helloworld.grpc.helloworld.AbstractGreeterServiceRouter
 import example.myapp.helloworld.grpc.helloworld.HelloReply
 import example.myapp.helloworld.grpc.helloworld.HelloRequest
+import org.apache.pekko.actor.ActorSystem
 
 /** User implementation, with support for dependency injection etc */
 @Singleton

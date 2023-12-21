@@ -7,13 +7,13 @@ import scala.collection.immutable
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-import akka.actor.ActorSystem
-import akka.annotation.InternalApi
-import akka.grpc.internal.GrpcProtocolNative
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.HttpHeader.ParsingResult
-import akka.stream.scaladsl.Source
-import akka.util.ByteString
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.annotation.InternalApi
+import org.apache.pekko.grpc.internal.GrpcProtocolNative
+import org.apache.pekko.http.scaladsl.model._
+import org.apache.pekko.http.scaladsl.model.HttpHeader.ParsingResult
+import org.apache.pekko.stream.scaladsl.Source
+import org.apache.pekko.util.ByteString
 import play.api.http.HttpChunk
 import play.api.http.HttpChunk.Chunk
 import play.api.http.HttpChunk.LastChunk
@@ -71,12 +71,12 @@ import play.api.routing.Router.Routes
       handler: HttpRequest => Future[HttpResponse],
   )(implicit ec: ExecutionContext): EssentialAction =
     actionBuilder.async(streamBodyParser) { req =>
-      handler(playToAkkaRequestStream(req)).map(akkaToPlayResp)
+      handler(playToPekkoRequestStream(req)).map(pekkoToPlayResp)
     }
 
   def createUnaryAction(handler: HttpRequest => Future[HttpResponse])(implicit ec: ExecutionContext): EssentialAction =
     actionBuilder.async(parsers.byteString) { req =>
-      handler(playToAkkaRequest(req)).map(akkaToPlayResp)
+      handler(playToPekkoRequest(req)).map(pekkoToPlayResp)
     }
 
   def streamBodyParser(implicit ec: ExecutionContext): BodyParser[Source[ByteString, _]] = BodyParser("stream") { _ =>
@@ -85,31 +85,31 @@ import play.api.routing.Router.Routes
       .map(Right.apply)
   }
 
-  def playToAkkaRequest(request: Request[ByteString]): HttpRequest = {
+  def playToPekkoRequest(request: Request[ByteString]): HttpRequest = {
     val entity =
       HttpEntity.Chunked.fromData(GrpcProtocolNative.contentType, chunks = Source.single(request.body))
     HttpRequest(
       method = HttpMethods.getForKey(request.method.toUpperCase).get,
       uri = Uri(request.uri),
-      headers = playToAkkaHeaders(request),
+      headers = playToPekkoHeaders(request),
       entity = entity,
       protocol = HttpProtocols.getForKey(request.version.toUpperCase).get,
     )
   }
 
-  def playToAkkaRequestStream(request: Request[Source[ByteString, _]]): HttpRequest = {
+  def playToPekkoRequestStream(request: Request[Source[ByteString, _]]): HttpRequest = {
     val entity =
       HttpEntity.Chunked.fromData(GrpcProtocolNative.contentType, chunks = request.body)
     HttpRequest(
       method = HttpMethods.getForKey(request.method.toUpperCase).get,
       uri = Uri(request.uri),
-      headers = playToAkkaHeaders(request),
+      headers = playToPekkoHeaders(request),
       entity = entity,
       protocol = HttpProtocols.getForKey(request.version.toUpperCase).get,
     )
   }
 
-  def playToAkkaHeaders(req: Request[_]): immutable.Seq[HttpHeader] = {
+  def playToPekkoHeaders(req: Request[_]): immutable.Seq[HttpHeader] = {
     immutable.Seq(req.headers.headers: _*).map { h =>
       HttpHeader.parse(h._1, h._2) match {
         case ParsingResult.Ok(header, errors) => header
@@ -118,28 +118,28 @@ import play.api.routing.Router.Routes
     }
   }
 
-  def akkaToPlayResp(akkaResp: HttpResponse): Result = {
-    val playEntity = akkaResp.entity match {
+  def pekkoToPlayResp(pekkoResp: HttpResponse): Result = {
+    val playEntity = pekkoResp.entity match {
       case HttpEntity.Chunked(ct, chunks) =>
         val playChunks: Source[HttpChunk, Any] = chunks.map {
           case HttpEntity.LastChunk(_, trailer) =>
-            LastChunk(akkaToPlayHeaders(trailer))
+            LastChunk(pekkoToPlayHeaders(trailer))
           case HttpEntity.Chunk(data, ext) => Chunk(data)
         }
         Chunked(playChunks, Some(ct.toString()))
       case e => throw new NotImplementedError(s"Unexpected response entity type: ${e.getClass.getName}")
     }
-    Result(akkaToPlayResponseHeaders(akkaResp), playEntity)
+    Result(pekkoToPlayResponseHeaders(pekkoResp), playEntity)
   }
 
-  def akkaToPlayHeaders(headers: immutable.Seq[HttpHeader]): Headers = {
+  def pekkoToPlayHeaders(headers: immutable.Seq[HttpHeader]): Headers = {
     Headers(headers.map(h => (h.name(), h.value())): _*)
   }
 
-  def akkaToPlayResponseHeaders(resp: HttpResponse): ResponseHeader = {
+  def pekkoToPlayResponseHeaders(resp: HttpResponse): ResponseHeader = {
     ResponseHeader(
       status = play.api.http.Status.OK,
-      headers = akkaToPlayHeaders(resp.headers).toSimpleMap,
+      headers = pekkoToPlayHeaders(resp.headers).toSimpleMap,
     )
   }
 }

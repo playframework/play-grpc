@@ -3,7 +3,7 @@ package build.play.grpc
 import sbt._
 import sbt.Keys._
 
-import akka.grpc.gen.{ BuildInfo => AkkaGrpcBuildInfo }
+import org.apache.pekko.grpc.gen.{ BuildInfo => PekkoGrpcBuildInfo }
 
 object Dependencies {
 
@@ -11,16 +11,15 @@ object Dependencies {
     val scala212 = "2.12.18"
     val scala213 = "2.13.12"
 
-    // Don't use AkkaGrpcBuildInfo.akkaHttpVersion or AkkaGrpcBuildInfo.akkaVersion and prioritize
+    // Don't use PekkoGrpcBuildInfo.pekkoHttpVersion or PekkoGrpcBuildInfo.pekkoVersion and prioritize
     // aligning with versions transitively brought in via Play.
-    val akka = "2.6.21"
-    // bumps Akka HTTP version beyond play's 10.1.x
-    val akkaHttp = "10.2.10"
+    val pekko     = "1.0.2"
+    val pekkoHttp = "1.0.0"
 
-    val akkaGrpc: String = AkkaGrpcBuildInfo.version
-    val grpc: String     = AkkaGrpcBuildInfo.grpcVersion
+    val pekkoGrpc: String = PekkoGrpcBuildInfo.version
+    val grpc: String      = PekkoGrpcBuildInfo.grpcVersion
 
-    val play = "2.9.1"
+    val play = "3.0.1"
 
     val scalaTest         = "3.2.17"
     val scalaTestPlusPlay = "6.0.1"
@@ -31,30 +30,29 @@ object Dependencies {
   object Compile {
     val grpcStub = "io.grpc" % "grpc-stub" % Versions.grpc
 
-    val akkaActorTyped           = "com.typesafe.akka" %% "akka-actor-typed"            % Versions.akka
-    val akkaClusterShardingTyped = "com.typesafe.akka" %% "akka-cluster-sharding-typed" % Versions.akka
-    val akkaStream               = "com.typesafe.akka" %% "akka-stream"                 % Versions.akka
-    val akkaDiscovery            = "com.typesafe.akka" %% "akka-discovery"              % Versions.akka
-    val akkaPersistenceTyped     = "com.typesafe.akka" %% "akka-persistence-typed"      % Versions.akka
-    val akkaPersistenceQuery     = "com.typesafe.akka" %% "akka-persistence-query"      % Versions.akka
-    val akkaSerializationJackson = "com.typesafe.akka" %% "akka-serialization-jackson"  % Versions.akka
+    val pekkoActorTyped           = "org.apache.pekko" %% "pekko-actor-typed"            % Versions.pekko
+    val pekkoClusterShardingTyped = "org.apache.pekko" %% "pekko-cluster-sharding-typed" % Versions.pekko
+    val pekkoStream               = "org.apache.pekko" %% "pekko-stream"                 % Versions.pekko
+    val pekkoDiscovery            = "org.apache.pekko" %% "pekko-discovery"              % Versions.pekko
+    val pekkoPersistenceTyped     = "org.apache.pekko" %% "pekko-persistence-typed"      % Versions.pekko
+    val pekkoPersistenceQuery     = "org.apache.pekko" %% "pekko-persistence-query"      % Versions.pekko
+    val pekkoSerializationJackson = "org.apache.pekko" %% "pekko-serialization-jackson"  % Versions.pekko
 
-    val akkaHttp          = "com.typesafe.akka" %% "akka-http"            % Versions.akkaHttp
-    val akkaHttpSprayJson = "com.typesafe.akka" %% "akka-http-spray-json" % Versions.akkaHttp
-    val akkaHttp2Support  = "com.typesafe.akka" %% "akka-http2-support"   % Versions.akkaHttp
+    val pekkoHttp          = "org.apache.pekko" %% "pekko-http"            % Versions.pekkoHttp
+    val pekkoHttpSprayJson = "org.apache.pekko" %% "pekko-http-spray-json" % Versions.pekkoHttp
 
-    val akkaGrpcCodegen = "com.lightbend.akka.grpc" %% "akka-grpc-codegen" % Versions.akkaGrpc // Apache V2
-    val akkaGrpcRuntime = "com.lightbend.akka.grpc" %% "akka-grpc-runtime" % Versions.akkaGrpc // Apache V2
+    val pekkoGrpcCodegen = "org.apache.pekko" %% "pekko-grpc-codegen" % Versions.pekkoGrpc // Apache V2
+    val pekkoGrpcRuntime = "org.apache.pekko" %% "pekko-grpc-runtime" % Versions.pekkoGrpc // Apache V2
 
-    val play = ("com.typesafe.play" %% "play" % Versions.play)
+    val play = ("org.playframework" %% "play" % Versions.play)
       .exclude("javax.activation", "javax.activation-api") // Apache V2 (exclusion is "either GPL or CDDL")
 
-    val playJava             = "com.typesafe.play" %% "play-java"               % Versions.play // Apache V2
-    val playGuice            = "com.typesafe.play" %% "play-guice"              % Versions.play // Apache V2
-    val playAkkaHttpServer   = "com.typesafe.play" %% "play-akka-http-server"   % Versions.play // Apache V2
-    val playAkkaHttp2Support = "com.typesafe.play" %% "play-akka-http2-support" % Versions.play // Apache V2
-    val playTest             = "com.typesafe.play" %% "play-test"               % Versions.play // Apache V2
-    val playSpecs2           = "com.typesafe.play" %% "play-specs2"             % Versions.play // Apache V2
+    val playJava              = "org.playframework" %% "play-java"                % Versions.play // Apache V2
+    val playGuice             = "org.playframework" %% "play-guice"               % Versions.play // Apache V2
+    val playPekkoHttpServer   = "org.playframework" %% "play-pekko-http-server"   % Versions.play // Apache V2
+    val playPekkoHttp2Support = "org.playframework" %% "play-pekko-http2-support" % Versions.play // Apache V2
+    val playTest              = "org.playframework" %% "play-test"                % Versions.play // Apache V2
+    val playSpecs2            = "org.playframework" %% "play-specs2"              % Versions.play // Apache V2
 
     val scalaTestPlusPlay = "org.scalatestplus.play" %% "scalatestplus-play" % Versions.scalaTestPlusPlay // Apache V2
 
@@ -64,11 +62,11 @@ object Dependencies {
   object Test {
     final val Test = sbt.Test
 
-    val akkaActorTestkitTyped = "com.typesafe.akka" %% "akka-actor-testkit-typed" % Versions.akka
-    val akkaStreamTestkit     = "com.typesafe.akka" %% "akka-stream-testkit"      % Versions.akka
+    val pekkoActorTestkitTyped = "org.apache.pekko" %% "pekko-actor-testkit-typed" % Versions.pekko
+    val pekkoStreamTestkit     = "org.apache.pekko" %% "pekko-stream-testkit"      % Versions.pekko
 
     val junit             = "junit"                   % "junit"       % "4.13.2"           % Test // Common Public License 1.0
-    val playAhcWs         = "com.typesafe.play"      %% "play-ahc-ws" % Versions.play      % Test // Apache V2
+    val playAhcWs         = "org.playframework"      %% "play-ahc-ws" % Versions.play      % Test // Apache V2
     val playSpecs2        = Compile.playSpecs2        % Test
     val scalaTest         = "org.scalatest"          %% "scalatest"   % Versions.scalaTest % Test // Apache V2
     val scalaTestPlusPlay = Compile.scalaTestPlusPlay % Test

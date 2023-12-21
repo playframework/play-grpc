@@ -3,7 +3,7 @@
  */
 package play.grpc.testkit
 
-import akka.annotation.ApiMayChange
+import org.apache.pekko.annotation.ApiMayChange
 import play.api.test.DefaultTestServerFactory
 import play.api.Application
 import play.core.server.ServerConfig

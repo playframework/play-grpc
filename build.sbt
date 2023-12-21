@@ -5,7 +5,7 @@ import build.play.grpc.ProjectExtensions.AddPluginTest
 // Customise sbt-dynver's behaviour to make it work with tags which aren't v-prefixed
 (ThisBuild / dynverVTagPrefix) := false
 
-ThisBuild / organization := "com.typesafe.play"
+ThisBuild / organization := "org.playframework"
 
 ThisBuild / scalacOptions ++= List(
   "-encoding",
@@ -29,7 +29,7 @@ ThisBuild / javacOptions ++= List(
   "-Xlint:deprecation",
 )
 
-// Only needed for akka, akka-grpc ,...  snapshots
+// Only needed for snapshots
 // See also projects/plugins.sbt
 //ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
 
@@ -52,13 +52,12 @@ crossScalaVersions                        := Nil // https://github.com/sbt/sbt/i
 val playRuntime = Project("play-grpc-runtime", file("play-runtime"))
   .settings(
     libraryDependencies ++= Seq(
-      Dependencies.Compile.akkaGrpcRuntime,
+      Dependencies.Compile.pekkoGrpcRuntime,
       Dependencies.Compile.play,
-      Dependencies.Compile.playAkkaHttpServer,
-      Dependencies.Compile.akkaDiscovery,
-      Dependencies.Compile.akkaHttp,
-      Dependencies.Compile.akkaHttp2Support,
-      Dependencies.Compile.akkaHttpSprayJson,
+      Dependencies.Compile.playPekkoHttpServer,
+      Dependencies.Compile.pekkoDiscovery,
+      Dependencies.Compile.pekkoHttp,
+      Dependencies.Compile.pekkoHttpSprayJson,
     ),
   )
 
@@ -68,7 +67,7 @@ val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
     scalacOptions += "-Xlint:-unused,_",  // can't do anything about unused things in generated code
     javacOptions -= "-Xlint:deprecation", // can't do anything about deprecations in generated code
     ReflectiveCodeGen.extraGenerators ++= List(
-      "akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator",
+      "org.apache.pekko.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator",
       "play.grpc.gen.javadsl.PlayJavaClientCodeGenerator",
       "play.grpc.gen.javadsl.PlayJavaServerCodeGenerator",
       "play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator",
@@ -77,9 +76,9 @@ val playTestdata = Project("play-grpc-testdata", file("play-testdata"))
     libraryDependencies ++= Seq(
       Dependencies.Compile.play,
       Dependencies.Compile.grpcStub,
-      Dependencies.Compile.playAkkaHttpServer,
-      Dependencies.Compile.playAkkaHttp2Support,
-      Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.playPekkoHttpServer,
+      Dependencies.Compile.playPekkoHttp2Support,
+      Dependencies.Compile.pekkoDiscovery,
     ),
   )
   .enablePlugins(build.play.grpc.NoPublish)
@@ -96,9 +95,9 @@ val playActionsTestData = Project("play-grpc-actions-testdata", file("play-actio
     libraryDependencies ++= Seq(
       Dependencies.Compile.play,
       Dependencies.Compile.grpcStub,
-      Dependencies.Compile.playAkkaHttpServer,
-      Dependencies.Compile.playAkkaHttp2Support,
-      Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.playPekkoHttpServer,
+      Dependencies.Compile.playPekkoHttp2Support,
+      Dependencies.Compile.pekkoDiscovery,
     ),
   )
   .enablePlugins(build.play.grpc.NoPublish)
@@ -108,12 +107,12 @@ val playGenerators = Project(id = "play-grpc-generators", file("play-generators"
   .enablePlugins(SbtTwirl, BuildInfoPlugin)
   .settings(
     libraryDependencies ++= Seq(
-      Dependencies.Compile.akkaGrpcCodegen,
+      Dependencies.Compile.pekkoGrpcCodegen,
       Dependencies.Test.scalaTest,
     ),
     buildInfoKeys ++= Seq[BuildInfoKey](organization, name, version, scalaVersion, sbtVersion),
-    buildInfoKeys += "akkaGrpcVersion" → Dependencies.Versions.akkaGrpc,
-    buildInfoPackage                  := "play.grpc.gen",
+    buildInfoKeys += "pekkoGrpcVersion" → Dependencies.Versions.pekkoGrpc,
+    buildInfoPackage                   := "play.grpc.gen",
     // Only used in build tools (like sbt), so only 2.12 is needed:
     crossScalaVersions := Seq(scala212),
     scalaVersion       := scala212,
@@ -126,10 +125,10 @@ val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
       Dependencies.Compile.play,
       Dependencies.Compile.playTest,
       Dependencies.Test.playAhcWs,
-      Dependencies.Compile.akkaDiscovery,
-      Dependencies.Compile.akkaActorTyped,
-      Dependencies.Compile.akkaStream,
-      Dependencies.Compile.akkaSerializationJackson,
+      Dependencies.Compile.pekkoDiscovery,
+      Dependencies.Compile.pekkoActorTyped,
+      Dependencies.Compile.pekkoStream,
+      Dependencies.Compile.pekkoSerializationJackson,
     ),
   )
   .pluginTestingSettings
@@ -139,10 +138,10 @@ val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
   .settings(
     libraryDependencies ++= Seq(
       Dependencies.Compile.playSpecs2,
-      Dependencies.Compile.akkaDiscovery,
-      Dependencies.Compile.akkaActorTyped,
-      Dependencies.Compile.akkaStream,
-      Dependencies.Compile.akkaSerializationJackson,
+      Dependencies.Compile.pekkoDiscovery,
+      Dependencies.Compile.pekkoActorTyped,
+      Dependencies.Compile.pekkoStream,
+      Dependencies.Compile.pekkoSerializationJackson,
     ),
   )
   .pluginTestingSettings
@@ -157,9 +156,9 @@ val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
     },
     libraryDependencies ++= Seq(
       Dependencies.Compile.scalaTestPlusPlay,
-      Dependencies.Compile.akkaDiscovery,
-      Dependencies.Compile.akkaActorTyped,
-      Dependencies.Compile.akkaStream,
+      Dependencies.Compile.pekkoDiscovery,
+      Dependencies.Compile.pekkoActorTyped,
+      Dependencies.Compile.pekkoStream,
     ),
   )
   .pluginTestingSettings
@@ -168,7 +167,7 @@ val playInteropTestScala = Project("play-grpc-interop-test-scala", file("play-in
   .dependsOn(playRuntime, playSpecs2 % Test, playScalaTest % Test)
   .settings(
     ReflectiveCodeGen.extraGenerators ++= List(
-      "akka.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator",
+      "org.apache.pekko.grpc.gen.scaladsl.ScalaMarshallersCodeGenerator",
       "play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator",
       "play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator",
     ),
@@ -177,9 +176,9 @@ val playInteropTestScala = Project("play-grpc-interop-test-scala", file("play-in
       Dependencies.Compile.grpcStub,
       Dependencies.Compile.play,
       Dependencies.Compile.playGuice,
-      Dependencies.Compile.playAkkaHttpServer,
-      Dependencies.Compile.playAkkaHttp2Support,
-      Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.playPekkoHttpServer,
+      Dependencies.Compile.playPekkoHttp2Support,
+      Dependencies.Compile.pekkoDiscovery,
       Dependencies.Test.junit,
       Dependencies.Test.playSpecs2,
       Dependencies.Test.scalaTest,
@@ -201,10 +200,10 @@ val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-inte
       Dependencies.Compile.grpcStub,
       Dependencies.Compile.play,
       Dependencies.Compile.playGuice,
-      Dependencies.Compile.playAkkaHttpServer,
-      Dependencies.Compile.playAkkaHttp2Support,
+      Dependencies.Compile.playPekkoHttpServer,
+      Dependencies.Compile.playPekkoHttp2Support,
       Dependencies.Compile.playJava,
-      Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.pekkoDiscovery,
       Dependencies.Test.junit,
       Dependencies.Test.scalaTest,
     ),

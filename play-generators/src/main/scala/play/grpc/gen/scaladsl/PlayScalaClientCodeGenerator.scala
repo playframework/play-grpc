@@ -6,18 +6,18 @@ package play.grpc.gen.scaladsl
 import scala.annotation.tailrec
 import scala.collection.immutable
 
-import akka.grpc.gen.scaladsl.ScalaCodeGenerator
-import akka.grpc.gen.scaladsl.Service
-import akka.grpc.gen.Logger
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
-import templates.PlayScala.txt.AkkaGrpcClientModule
+import org.apache.pekko.grpc.gen.scaladsl.ScalaCodeGenerator
+import org.apache.pekko.grpc.gen.scaladsl.Service
+import org.apache.pekko.grpc.gen.Logger
 import templates.PlayScala.txt.ClientProvider
+import templates.PlayScala.txt.PekkoGrpcClientModule
 
 object PlayScalaClientCodeGenerator extends PlayScalaClientCodeGenerator
 
 class PlayScalaClientCodeGenerator extends ScalaCodeGenerator {
 
-  val ClientModuleName = "AkkaGrpcClientModule"
+  val ClientModuleName = "PekkoGrpcClientModule"
 
   override def name: String = "play-grpc-client-scala"
 
@@ -36,12 +36,12 @@ class PlayScalaClientCodeGenerator extends ScalaCodeGenerator {
     if (allServices.nonEmpty) {
       val packageName = packageForSharedModuleFile(allServices)
       val b           = CodeGeneratorResponse.File.newBuilder()
-      b.setContent(AkkaGrpcClientModule(packageName, allServices).body)
+      b.setContent(PekkoGrpcClientModule(packageName, allServices).body)
       b.setName(s"${packageName.replace('.', '/')}/${ClientModuleName}.scala")
       val set = Set(b.build)
       logger.info(
         s"Generated [${packageName}.${ClientModuleName}] add it to play.modules.enabled and a section " +
-          "with Akka gRPC client config under akka.grpc.client.\"servicepackage.ServiceName\" to be able to inject " +
+          "with Pekko gRPC client config under org.apache.pekko.grpc.client.\"servicepackage.ServiceName\" to be able to inject " +
           "client instances.",
       )
       set

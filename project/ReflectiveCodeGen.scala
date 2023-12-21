@@ -10,7 +10,7 @@ import sbt.internal.inc.classpath.ClasspathUtilities
 import sbt.Keys._
 import sbt.ProjectRef
 
-import akka.grpc.sbt.AkkaGrpcPlugin.autoImport._
+import org.apache.pekko.grpc.sbt.PekkoGrpcPlugin.autoImport._
 import protocbridge.{ Artifact => BridgeArtifact }
 import protocbridge.Target
 import sbtprotoc.ProtocPlugin
@@ -18,8 +18,8 @@ import ProtocPlugin.autoImport.PB
 
 /** A plugin that allows to use a code generator compiled in one subproject to be used in a test project */
 object ReflectiveCodeGen extends AutoPlugin {
-  val generatedLanguages    = SettingKey[Seq[AkkaGrpc.Language]]("reflectiveGrpcGeneratedLanguages")
-  val generatedSources      = SettingKey[Seq[AkkaGrpc.GeneratedSource]]("reflectiveGrpcGeneratedSources")
+  val generatedLanguages    = SettingKey[Seq[PekkoGrpc.Language]]("reflectiveGrpcGeneratedLanguages")
+  val generatedSources      = SettingKey[Seq[PekkoGrpc.GeneratedSource]]("reflectiveGrpcGeneratedSources")
   val extraGenerators       = SettingKey[Seq[String]]("reflectiveGrpcExtraGenerators")
   val codeGeneratorSettings = settingKey[Seq[String]]("Code generator settings")
   val protocOptions         = settingKey[Seq[String]]("Protoc Options.")
@@ -59,7 +59,7 @@ object ReflectiveCodeGen extends AutoPlugin {
           val oldResolver = PB.artifactResolver.value
           Def.task { (artifact: BridgeArtifact) =>
             artifact.groupId match {
-              case "com.lightbend.akka.grpc" =>
+              case "org.apache.pekko" =>
                 cp
               case _ =>
                 oldResolver(artifact)
@@ -85,8 +85,8 @@ object ReflectiveCodeGen extends AutoPlugin {
       ),
     ) ++ Seq(
       (Global / codeGeneratorSettings) := Nil,
-      (Global / generatedLanguages)    := Seq(AkkaGrpc.Scala),
-      (Global / generatedSources)      := Seq(AkkaGrpc.Client, AkkaGrpc.Server),
+      (Global / generatedLanguages)    := Seq(PekkoGrpc.Scala),
+      (Global / generatedSources)      := Seq(PekkoGrpc.Client, PekkoGrpc.Server),
       (Global / extraGenerators)       := Seq.empty,
       (Global / protocOptions)         := Seq.empty,
       watchSources ++= (ProjectRef(file("."), "play-grpc-generators") / watchSources).value,
@@ -96,8 +96,8 @@ object ReflectiveCodeGen extends AutoPlugin {
 
   def loadAndSetGenerator(
       classpath: Classpath,
-      languages0: Seq[AkkaGrpc.Language],
-      sources0: Seq[AkkaGrpc.GeneratedSource],
+      languages0: Seq[PekkoGrpc.Language],
+      sources0: Seq[PekkoGrpc.GeneratedSource],
       extraGenerators0: Seq[String],
       targetPath: File,
       generatorSettings: Seq[String],
@@ -120,41 +120,41 @@ object ReflectiveCodeGen extends AutoPlugin {
     //    recreate it over and over for each generator. Performance-wise it has a negligible impact.
     //    (see also https://github.com/playframework/play-grpc/pull/356#issuecomment-832092996)
     val tb = universe.runtimeMirror(loader).mkToolBox()
-    val akkaSource =
-      s"""import akka.grpc.sbt.AkkaGrpcPlugin
-         |import akka.grpc.sbt.GeneratorBridge
-         |import AkkaGrpcPlugin.autoImport._
-         |import AkkaGrpc._
-         |import akka.grpc.gen.CodeGenerator.ScalaBinaryVersion
+    val pekkoSource =
+      s"""import org.apache.pekko.grpc.sbt.PekkoGrpcPlugin
+         |import org.apache.pekko.grpc.sbt.GeneratorBridge
+         |import PekkoGrpcPlugin.autoImport._
+         |import PekkoGrpc._
+         |import org.apache.pekko.grpc.gen.CodeGenerator.ScalaBinaryVersion
          |
-         |val languages: Seq[AkkaGrpc.Language] = Seq($languages)
-         |val sources: Seq[AkkaGrpc.GeneratedSource] = Seq($sources)
+         |val languages: Seq[PekkoGrpc.Language] = Seq($languages)
+         |val sources: Seq[PekkoGrpc.GeneratedSource] = Seq($sources)
          |val scalaBinaryVersion = ScalaBinaryVersion("$scalaBinaryVersion")
          |
-         |val logger = akka.grpc.gen.StdoutLogger
+         |val logger = org.apache.pekko.grpc.gen.StdoutLogger
          |
          |(targetPath: java.io.File, settings: Seq[String]) => {
-         |  val generators = AkkaGrpcPlugin.generatorsFor(sources, languages, scalaBinaryVersion, logger)
-         |  AkkaGrpcPlugin.targetsFor(targetPath, settings, generators)
+         |  val generators = PekkoGrpcPlugin.generatorsFor(sources, languages, scalaBinaryVersion, logger)
+         |  PekkoGrpcPlugin.targetsFor(targetPath, settings, generators)
          |}
         """.stripMargin
-    val akkaGeneratorsF = tb.eval(tb.parse(akkaSource)).asInstanceOf[(File, Seq[String]) => Seq[Target]]
-    val akkaGenerators  = akkaGeneratorsF(targetPath, generatorSettings)
+    val pekkoGeneratorsF = tb.eval(tb.parse(pekkoSource)).asInstanceOf[(File, Seq[String]) => Seq[Target]]
+    val pekkoGenerators  = pekkoGeneratorsF(targetPath, generatorSettings)
 
     def source(singleGenerator: String) =
-      s"""import akka.grpc.sbt.AkkaGrpcPlugin
-         |import akka.grpc.sbt.GeneratorBridge
-         |import AkkaGrpcPlugin.autoImport._
-         |import AkkaGrpc._
-         |import akka.grpc.gen.CodeGenerator.ScalaBinaryVersion
+      s"""import org.apache.pekko.grpc.sbt.PekkoGrpcPlugin
+         |import org.apache.pekko.grpc.sbt.GeneratorBridge
+         |import PekkoGrpcPlugin.autoImport._
+         |import PekkoGrpc._
+         |import org.apache.pekko.grpc.gen.CodeGenerator.ScalaBinaryVersion
          |
          |val scalaBinaryVersion = ScalaBinaryVersion("$scalaBinaryVersion")
          |
-         |val logger = akka.grpc.gen.StdoutLogger
+         |val logger = org.apache.pekko.grpc.gen.StdoutLogger
          |
          |(targetPath: java.io.File, settings: Seq[String]) => {
-         |  val generators = Seq(GeneratorBridge.sandboxedGenerator($singleGenerator, scalaBinaryVersion, akka.grpc.gen.StdoutLogger))
-         |  AkkaGrpcPlugin.targetsFor(targetPath, settings, generators)
+         |  val generators = Seq(GeneratorBridge.sandboxedGenerator($singleGenerator, scalaBinaryVersion, org.apache.pekko.grpc.gen.StdoutLogger))
+         |  PekkoGrpcPlugin.targetsFor(targetPath, settings, generators)
          |}
         """.stripMargin
     val extras = extraGenerators0.flatMap { singleGenerator =>
@@ -163,7 +163,7 @@ object ReflectiveCodeGen extends AutoPlugin {
     }
 
     targets.clear()
-    targets ++= akkaGenerators
+    targets ++= pekkoGenerators
     targets ++= extras
   }
 

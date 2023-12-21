@@ -8,8 +8,8 @@ import javax.inject.Singleton
 
 import scala.concurrent.Future
 
-import akka.actor.ActorSystem
-import akka.stream.Materializer
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.Materializer
 
 @Singleton
 class GreeterServiceWithActionsImpl @Inject() (implicit mat: Materializer, actorSystem: ActorSystem)
