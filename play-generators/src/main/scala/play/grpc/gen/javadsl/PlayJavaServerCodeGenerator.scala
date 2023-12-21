@@ -5,10 +5,10 @@ package play.grpc.gen.javadsl
 
 import scala.collection.immutable
 
-import akka.grpc.gen.javadsl.JavaCodeGenerator
-import akka.grpc.gen.javadsl.Service
-import akka.grpc.gen.Logger
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
+import org.apache.pekko.grpc.gen.javadsl.JavaCodeGenerator
+import org.apache.pekko.grpc.gen.javadsl.Service
+import org.apache.pekko.grpc.gen.Logger
 import templates.PlayJavaServer.txt.Router
 import templates.PlayJavaServer.txt.RouterUsingActions
 
@@ -38,7 +38,7 @@ class PlayJavaServerCodeGenerator extends JavaCodeGenerator {
         else b.setContent(Router(service, powerApis = true).body)
 
         b.setName(s"${service.packageDir}/Abstract${service.name}PowerApiRouter.java")
-        logger.info(s"Generating Akka gRPC service power API play router for ${service.packageName}.${service.name}")
+        logger.info(s"Generating Pekko gRPC service power API play router for ${service.packageName}.${service.name}")
         immutable.Seq(b.build)
       } else immutable.Seq.empty,
     }

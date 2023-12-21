@@ -1,8 +1,8 @@
 @*
  * Copyright (C) from 2022 The Play Framework Contributors <https://github.com/playframework>, 2011-2021 Lightbend Inc. <https://www.lightbend.com>
  *@
-@(packageName: String, services: Seq[akka.grpc.gen.javadsl.Service])
-@akka.grpc.gen.Constants.DoNotEditComment
+@(packageName: String, services: Seq[org.apache.pekko.grpc.gen.javadsl.Service])
+@org.apache.pekko.grpc.gen.Constants.DoNotEditComment
 @{if (packageName.nonEmpty) s"package $packageName;" else ""}
 
 import com.typesafe.config.Config;
@@ -15,10 +15,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Add this generated AkkaGrpcClientModule to play.modules.enabled
+ * Add this generated PekkoGrpcClientModule to play.modules.enabled
  * in your application.conf to have the available gRPC clients injectable
  */
-public class AkkaGrpcClientModule extends Module {
+public class PekkoGrpcClientModule extends Module {
   public List<Binding<?>> bindings(play.Environment environment, Config config) {
     return Arrays.<Binding<?>>asList(
         @services.map { service =>

@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 import scala.concurrent.Future
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 
 /** User implementation, with support for dependency injection etc */
 @Singleton

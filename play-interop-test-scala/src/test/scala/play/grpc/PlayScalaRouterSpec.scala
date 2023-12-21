@@ -5,24 +5,24 @@ package play.grpc
 
 import scala.concurrent.duration._
 
-import akka.actor.ActorSystem
-import akka.grpc.internal.GrpcProtocolNative
-import akka.grpc.internal.Identity
-import akka.grpc.GrpcProtocol.DataFrame
-import akka.grpc.ProtobufSerializer
-import akka.http.scaladsl.model._
-import akka.stream.scaladsl.Sink
-import akka.stream.scaladsl.Source
-import akka.stream.SystemMaterializer
-import akka.util.ByteString
 import controllers.GreeterServiceImpl
 import example.myapp.helloworld.grpc.helloworld._
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.grpc.internal.GrpcProtocolNative
+import org.apache.pekko.grpc.internal.Identity
+import org.apache.pekko.grpc.GrpcProtocol.DataFrame
+import org.apache.pekko.grpc.ProtobufSerializer
+import org.apache.pekko.http.scaladsl.model._
+import org.apache.pekko.stream.scaladsl.Sink
+import org.apache.pekko.stream.scaladsl.Source
+import org.apache.pekko.stream.SystemMaterializer
+import org.apache.pekko.util.ByteString
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.BeforeAndAfterAll
 import play.api.libs.typedmap.TypedMap
-import play.api.mvc.akkahttp.AkkaHttpHandler
+import play.api.mvc.pekkohttp.PekkoHttpHandler
 import play.api.mvc.request.RemoteConnection
 import play.api.mvc.request.RequestFactory
 import play.api.mvc.request.RequestTarget
@@ -49,12 +49,12 @@ class PlayScalaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterA
 
       val name = "John"
 
-      val handler  = router.routes(playRequestFor(uri)).asInstanceOf[AkkaHttpHandler]
-      val request  = akkaHttpRequestFor(uri, HelloRequest(name))
+      val handler  = router.routes(playRequestFor(uri)).asInstanceOf[PekkoHttpHandler]
+      val request  = pekkoHttpRequestFor(uri, HelloRequest(name))
       val response = handler(request).futureValue
       response.status shouldBe StatusCodes.OK
 
-      val reply = akkaHttpResponse[HelloReply](response).futureValue
+      val reply = pekkoHttpResponse[HelloReply](response).futureValue
       reply.message shouldBe s"Hello, $name!"
     }
 
@@ -69,7 +69,7 @@ class PlayScalaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterA
       }
     }
 
-    def akkaHttpRequestFor[T](uri: Uri, msg: T)(implicit serializer: ProtobufSerializer[T]) = {
+    def pekkoHttpRequestFor[T](uri: Uri, msg: T)(implicit serializer: ProtobufSerializer[T]) = {
       HttpRequest(
         uri = uri,
         entity = HttpEntity.Chunked(
@@ -82,7 +82,7 @@ class PlayScalaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterA
         ),
       )
     }
-    def akkaHttpResponse[T](response: HttpResponse)(implicit deserializer: ProtobufSerializer[T]) =
+    def pekkoHttpResponse[T](response: HttpResponse)(implicit deserializer: ProtobufSerializer[T]) =
       response.entity.dataBytes
         .via(GrpcProtocolNative.newReader(Identity).dataFrameDecoder)
         .runWith(Sink.reduce[ByteString](_ ++ _))

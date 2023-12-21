@@ -20,7 +20,7 @@ class PlayScalaModuleSpec extends AnyWordSpec with Matchers {
 
     "provide all clients" in {
       // module in longest common package for the two services
-      val module = new example.myapp.helloworld.grpc.helloworld.AkkaGrpcClientModule()
+      val module = new example.myapp.helloworld.grpc.helloworld.PekkoGrpcClientModule()
 
       val bindings =
         module.bindings(Environment(new File("./"), getClass.getClassLoader, Mode.Prod), Configuration.empty)

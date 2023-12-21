@@ -1,11 +1,11 @@
 == Serving gRPC from Play
 :tabs-sync-option:
 
-To be able to serve gRPC from a Play Framework app you must enable https://www.playframework.com/documentation/2.9.x/AkkaHttpServer#HTTP/2-support-(incubating)[HTTP/2 Support] with https://www.playframework.com/documentation/latest/ConfiguringHttps[HTTPS] and the ALPN agent.
+To be able to serve gRPC from a Play Framework app you must enable https://www.playframework.com/documentation/2.9.x/PekkoHttpServer#HTTP/2-support-(incubating)[HTTP/2 Support] with https://www.playframework.com/documentation/latest/ConfiguringHttps[HTTPS] and the ALPN agent.
 
-WARNING: To use gRPC in Play Framework you must enable https://www.playframework.com/documentation/2.9.x/AkkaHttpServer#HTTP/2-support-(incubating)[HTTP/2 Support].
+WARNING: To use gRPC in Play Framework you must enable https://www.playframework.com/documentation/2.9.x/PekkoHttpServer#HTTP/2-support-(incubating)[HTTP/2 Support].
 
-Generating classes from the gRPC service definition is done by adding the https://doc.akka.io/docs/akka-grpc/current/buildtools/sbt.html[Akka gRPC plugin to your sbt build] along with the Play gRPC generators:
+Generating classes from the gRPC service definition is done by adding the https://doc.akka.io/docs/akka-grpc/current/buildtools/sbt.html[Pekko gRPC plugin to your sbt build] along with the Play gRPC generators:
 
 [,scala,subs=attributes+]
 ----
@@ -23,7 +23,7 @@ Scala::
 +
 [,scala,subs=attributes+]
 ----
-enablePlugins(AkkaGrpcPlugin)
+enablePlugins(PekkoGrpcPlugin)
 import play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator
 akkaGrpcExtraGenerators += PlayScalaServerCodeGenerator
 libraryDependencies += "com.typesafe.play" %% "play-grpc-runtime" % "{page-component-version}"
@@ -32,7 +32,7 @@ Java::
 +
 [,scala,subs=attributes+]
 ----
-enablePlugins(AkkaGrpcPlugin)
+enablePlugins(PekkoGrpcPlugin)
 import play.grpc.gen.javadsl.PlayJavaServerCodeGenerator
 akkaGrpcExtraGenerators += PlayJavaServerCodeGenerator
 libraryDependencies += "com.typesafe.play" %% "play-grpc-runtime" % "{page-component-version}"

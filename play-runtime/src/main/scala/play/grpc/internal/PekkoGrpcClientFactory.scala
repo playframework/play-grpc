@@ -6,12 +6,12 @@ package play.grpc.internal
 import scala.reflect.classTag
 import scala.reflect.ClassTag
 
-import akka.actor.ClassicActorSystemProvider
-import akka.grpc.scaladsl.AkkaGrpcClient
-import akka.grpc.GrpcClientSettings
+import org.apache.pekko.actor.ClassicActorSystemProvider
+import org.apache.pekko.grpc.scaladsl.PekkoGrpcClient
+import org.apache.pekko.grpc.GrpcClientSettings
 
-object AkkaGrpcClientFactory {
-  def create[T <: AkkaGrpcClient: ClassTag](
+object PekkoGrpcClientFactory {
+  def create[T <: PekkoGrpcClient: ClassTag](
       settings: GrpcClientSettings,
   )(implicit sys: ClassicActorSystemProvider): T = {
     // this reflection requires:
@@ -26,18 +26,18 @@ object AkkaGrpcClientFactory {
   }
 
   /**
-   * A function to create an AkkaGrpcClient, bundling its own configuration.
+   * A function to create an PekkoGrpcClient, bundling its own configuration.
    * These objects are convenient to pass around as implicit values.
    */
-  trait Configured[T <: AkkaGrpcClient] {
+  trait Configured[T <: PekkoGrpcClient] {
 
     /** Create the gRPC client. */
     def create(): T
   }
 
-  /** Bind configuration to a [[AkkaGrpcClientFactory]], creating a [[Configured]]. */
-  def configure[T <: AkkaGrpcClient: ClassTag](
+  /** Bind configuration to a [[PekkoGrpcClientFactory]], creating a [[Configured]]. */
+  def configure[T <: PekkoGrpcClient: ClassTag](
       clientSettings: GrpcClientSettings,
   )(implicit sys: ClassicActorSystemProvider): Configured[T] =
-    () => AkkaGrpcClientFactory.create[T](clientSettings)
+    () => PekkoGrpcClientFactory.create[T](clientSettings)
 }

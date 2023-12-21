@@ -1,19 +1,19 @@
 @*
  * Copyright (C) from 2022 The Play Framework Contributors <https://github.com/playframework>, 2011-2021 Lightbend Inc. <https://www.lightbend.com>
  *@
-@(packageName: String, services: Seq[akka.grpc.gen.scaladsl.Service])
+@(packageName: String, services: Seq[org.apache.pekko.grpc.gen.scaladsl.Service])
 
-@akka.grpc.gen.Constants.DoNotEditComment
+@org.apache.pekko.grpc.gen.Constants.DoNotEditComment
 @{if (packageName.nonEmpty) s"package $packageName" else ""}
 
 import play.api.inject.Binding
 import play.api.{Configuration, Environment}
 
 /**
- * Add this generated AkkaGrpcClientModule to play.modules.enabled
+ * Add this generated PekkoGrpcClientModule to play.modules.enabled
  * in your application.conf to have the available gRPC clients injectable
  */
-class AkkaGrpcClientModule extends play.api.inject.Module {
+class PekkoGrpcClientModule extends play.api.inject.Module {
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = {
     Seq(
       @services.map { service =>

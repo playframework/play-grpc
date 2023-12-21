@@ -3,8 +3,8 @@
  */
 package play.grpc.gen.scaladsl
 
-import akka.grpc.gen.scaladsl.Service
 import com.google.protobuf.DescriptorProtos.ServiceOptions
+import org.apache.pekko.grpc.gen.scaladsl.Service
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 

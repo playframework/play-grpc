@@ -3,9 +3,9 @@
  */
 package play.grpc.scalatest
 
-import akka.grpc.internal.GrpcProtocolNative
 import example.myapp.helloworld.grpc.helloworld._
 import io.grpc.Status
+import org.apache.pekko.grpc.internal.GrpcProtocolNative
 import org.scalatest.concurrent.IntegrationPatience
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatestplus.play.guice.GuiceOneServerPerTest

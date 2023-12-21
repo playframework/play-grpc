@@ -3,9 +3,9 @@
  */
 package play.grpc.specs2
 
-import akka.grpc.internal.GrpcProtocolNative
 import example.myapp.helloworld.grpc.helloworld._
 import io.grpc.Status
+import org.apache.pekko.grpc.internal.GrpcProtocolNative
 import org.junit.runner.RunWith
 import org.specs2.runner.JUnitRunner
 import play.api.inject.bind
