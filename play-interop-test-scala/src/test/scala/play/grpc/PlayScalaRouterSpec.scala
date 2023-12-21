@@ -4,6 +4,7 @@
 package play.grpc
 
 import scala.concurrent.duration._
+import scala.concurrent.ExecutionContextExecutor
 
 import controllers.GreeterServiceImpl
 import example.myapp.helloworld.grpc.helloworld._
@@ -15,6 +16,7 @@ import org.apache.pekko.grpc.ProtobufSerializer
 import org.apache.pekko.http.scaladsl.model._
 import org.apache.pekko.stream.scaladsl.Sink
 import org.apache.pekko.stream.scaladsl.Source
+import org.apache.pekko.stream.Materializer
 import org.apache.pekko.stream.SystemMaterializer
 import org.apache.pekko.util.ByteString
 import org.scalatest.concurrent.ScalaFutures
@@ -30,10 +32,10 @@ import play.api.mvc.Headers
 import GreeterServiceMarshallers._
 
 class PlayScalaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
-  implicit val sys      = ActorSystem()
-  implicit val mat      = SystemMaterializer(sys).materializer
-  implicit val ec       = sys.dispatcher
-  implicit val patience = PatienceConfig(timeout = 3.seconds, interval = 15.milliseconds)
+  implicit val sys: ActorSystem             = ActorSystem()
+  implicit val mat: Materializer            = SystemMaterializer(sys).materializer
+  implicit val ec: ExecutionContextExecutor = sys.dispatcher
+  implicit val patience: PatienceConfig     = PatienceConfig(timeout = 3.seconds, interval = 15.milliseconds)
 
   val router = new GreeterServiceImpl
 
