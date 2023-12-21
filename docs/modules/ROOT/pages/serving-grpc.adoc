@@ -5,14 +5,14 @@ To be able to serve gRPC from a Play Framework app you must enable https://www.p
 
 WARNING: To use gRPC in Play Framework you must enable https://www.playframework.com/documentation/2.9.x/PekkoHttpServer#HTTP/2-support-(incubating)[HTTP/2 Support].
 
-Generating classes from the gRPC service definition is done by adding the https://doc.akka.io/docs/akka-grpc/current/buildtools/sbt.html[Pekko gRPC plugin to your sbt build] along with the Play gRPC generators:
+Generating classes from the gRPC service definition is done by adding the https://pekko.apache.org/docs/pekko-grpc/current/buildtools/sbt.html[Pekko gRPC plugin to your sbt build] along with the Play gRPC generators:
 
 [,scala,subs=attributes+]
 ----
 // in project/plugins.sbt:
-addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "{akka-grpc-version}")
+addSbtPlugin("org.apache.pekko" % "pekko-grpc-sbt-plugin" % "{pekko-grpc-version}")
 resolvers += Resolver.sonatypeRepo("snapshots")
-libraryDependencies += "com.typesafe.play" %% "play-grpc-generators" % "{page-component-version}"
+libraryDependencies += "org.playframework" %% "play-grpc-generators" % "{page-component-version}"
 ----
 
 Then you need to enable the Play server side code generator in `build.sbt`:
@@ -25,8 +25,8 @@ Scala::
 ----
 enablePlugins(PekkoGrpcPlugin)
 import play.grpc.gen.scaladsl.PlayScalaServerCodeGenerator
-akkaGrpcExtraGenerators += PlayScalaServerCodeGenerator
-libraryDependencies += "com.typesafe.play" %% "play-grpc-runtime" % "{page-component-version}"
+pekkoGrpcExtraGenerators += PlayScalaServerCodeGenerator
+libraryDependencies += "org.playframework" %% "play-grpc-runtime" % "{page-component-version}"
 ----
 Java::
 +
@@ -34,8 +34,8 @@ Java::
 ----
 enablePlugins(PekkoGrpcPlugin)
 import play.grpc.gen.javadsl.PlayJavaServerCodeGenerator
-akkaGrpcExtraGenerators += PlayJavaServerCodeGenerator
-libraryDependencies += "com.typesafe.play" %% "play-grpc-runtime" % "{page-component-version}"
+pekkoGrpcExtraGenerators += PlayJavaServerCodeGenerator
+libraryDependencies += "org.playframework" %% "play-grpc-runtime" % "{page-component-version}"
 ----
 ====
 
