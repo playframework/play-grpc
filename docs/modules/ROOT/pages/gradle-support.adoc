@@ -16,4 +16,4 @@ akkaGrpc {
 }
 ----
 
-See the https://doc.akka.io/docs/akka-grpc/current/buildtools/gradle.html[Pekko gRPC Gradle support docs] for further details.
+See the https://pekko.apache.org/docs/pekko-grpc/current/buildtools/gradle.html[Pekko gRPC Gradle support docs] for further details.

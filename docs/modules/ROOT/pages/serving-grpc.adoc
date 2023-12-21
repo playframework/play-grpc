@@ -1,7 +1,7 @@
 == Serving gRPC from Play
 :tabs-sync-option:
 
-To be able to serve gRPC from a Play Framework app you must enable https://www.playframework.com/documentation/2.9.x/PekkoHttpServer#HTTP/2-support-(incubating)[HTTP/2 Support] with https://www.playframework.com/documentation/latest/ConfiguringHttps[HTTPS] and the ALPN agent.
+To be able to serve gRPC from a Play Framework app you must enable https://www.playframework.com/documentation/3.0.x/PekkoHttpServer#HTTP/2-support-(incubating)[HTTP/2 Support] with https://www.playframework.com/documentation/latest/ConfiguringHttps[HTTPS] and the ALPN agent.
 
 WARNING: To use gRPC in Play Framework you must enable https://www.playframework.com/documentation/2.9.x/PekkoHttpServer#HTTP/2-support-(incubating)[HTTP/2 Support].
 
