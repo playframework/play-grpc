@@ -212,6 +212,4 @@ val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-inte
   .enablePlugins(build.play.grpc.NoPublish)
   .pluginTestingSettings
 
-Test / javaOptions ++= Seq("--add-exports=java.base/sun.security.x509=ALL-UNNAMED")
-
 Global / cancelable := true
