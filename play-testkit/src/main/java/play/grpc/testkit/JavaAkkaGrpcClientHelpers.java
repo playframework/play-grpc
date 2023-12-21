@@ -60,7 +60,7 @@ public final class JavaAkkaGrpcClientHelpers {
             .getOrElse(
                 () -> {
                   throw new IllegalArgumentException(
-                      "GrpcClientSettings requires a server endpoint with ssl, but non provided");
+                      "GrpcClientSettings requires a server endpoint with ssl, but none provided");
                 });
 
     return grpcClientSettings(http2Endpoint, sslContext, actorSystem);
