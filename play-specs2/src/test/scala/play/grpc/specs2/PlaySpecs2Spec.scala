@@ -36,18 +36,18 @@ class PlaySpecs2Spec extends ForServer with ServerGrpcClient with PlaySpecificat
 
   "A Play server bound to a gRPC router" should {
     "give a 404 when routing a non-gRPC request" >> { implicit rs: RunningServer =>
-      val result = await(wsUrl("/").get)
+      val result = await(wsUrl("/").get())
       result.status must ===(404) // Maybe should be a 426, see #396
     }
     "give a 415 error when not using a gRPC content-type" >> { implicit rs: RunningServer =>
-      val result = await(wsUrl(s"/${GreeterService.name}/FooBar").get)
+      val result = await(wsUrl(s"/${GreeterService.name}/FooBar").get())
       result.status must ===(415) // Maybe should be a 426, see #396
     }
     "give a grpc UNIMPLEMENTED when routing a non-existent gRPC method" >> { implicit rs: RunningServer =>
       val result = await(
         wsUrl(s"/${GreeterService.name}/FooBar")
           .addHttpHeaders("Content-Type" -> GrpcProtocolNative.contentType.toString)
-          .get,
+          .get(),
       )
       result.status must ===(200) // Maybe should be a 426, see #396
       result.header("grpc-status") must beSome(Status.Code.UNIMPLEMENTED.value().toString)
@@ -57,7 +57,7 @@ class PlaySpecs2Spec extends ForServer with ServerGrpcClient with PlaySpecificat
         val result = await(
           wsUrl(s"/${GreeterService.name}/SayHello")
             .addHttpHeaders("Content-Type" -> GrpcProtocolNative.contentType.toString)
-            .get,
+            .get(),
         )
         result.status must ===(200) // Maybe should be a 426, see #396
 
