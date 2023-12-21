@@ -4,3 +4,4 @@ target
 node_modules/
 /docs/build/
 /docs/package*.json
+logs/
