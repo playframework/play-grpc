@@ -39,7 +39,7 @@ class PlayActionsScalaTestSpec
 
   "A Play server bound to a gRPC router using actions" must {
     "give a 404 when routing a non-gRPC request" in {
-      val result = wsUrl("/").get.futureValue
+      val result = wsUrl("/", true).get.futureValue
       result.status must be(404) // Maybe should be a 426, see #396
     }
     // this test results in a 500
@@ -57,7 +57,7 @@ class PlayActionsScalaTestSpec
     //   result.header("grpc-status") mustEqual Some(Status.Code.UNIMPLEMENTED.value().toString)
     // }
     "give a grpc 'invalid argument' error when routing an empty request to a gRPC method" in {
-      val result = wsUrl(s"/${GreeterService.name}/SayHello")
+      val result = wsUrl(s"/${GreeterService.name}/SayHello", true)
         .addHttpHeaders("Content-Type" -> GrpcProtocolNative.contentType.toString)
         .get
         .futureValue
