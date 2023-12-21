@@ -3,6 +3,7 @@
  */
 package play.grpc.internal
 
+import scala.language.reflectiveCalls
 import scala.reflect.classTag
 import scala.reflect.ClassTag
 
