@@ -15,6 +15,7 @@ import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.ws.WSClient
 import play.api.routing.Router
 import play.api.Application
+import play.grpc.testkit.SslTestServerFactory
 
 /**
  * Test for the Play gRPC ScalaTest APIs
@@ -25,6 +26,8 @@ class PlayScalaTestSpec
     with ServerGrpcClient
     with ScalaFutures
     with IntegrationPatience {
+
+  override def testServerFactory = new SslTestServerFactory
 
   override def fakeApplication(): Application = {
     GuiceApplicationBuilder()
