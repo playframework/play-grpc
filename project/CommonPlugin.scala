@@ -18,7 +18,10 @@ object CommonPlugin extends AutoPlugin {
         Nil
     },
     doc / javacOptions --= Seq("-Xlint:unchecked", "-Xlint:deprecation"),
-    crossScalaVersions := Seq(scala212, scala213),
+    Test / javaOptions ++= Seq("--add-exports=java.base/sun.security.x509=ALL-UNNAMED"),
+    Test / fork        := true,
+    crossScalaVersions := Seq(scala213),
+    scalaVersion       := scala213,
   )
 
   val scalaVersionNumber = Def.setting(VersionNumber(scalaVersion.value))

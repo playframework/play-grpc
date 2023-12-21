@@ -19,7 +19,7 @@ import play.inject.guice.*;
 import play.libs.ws.*;
 
 public final class PlayJavaFunctionalTest {
-  private final TestServerFactory testServerFactory = new DefaultTestServerFactory();
+  private final TestServerFactory testServerFactory = new SslTestServerFactory();
 
   private Application app;
   private RunningServer runningServer;
@@ -49,7 +49,7 @@ public final class PlayJavaFunctionalTest {
 
   private WSResponse wsGet(final String path) throws Exception {
     final WSClient wsClient = app.injector().instanceOf(WSClient.class);
-    final String url = runningServer.endpoints().httpEndpoint().get().pathUrl(path);
+    final String url = runningServer.endpoints().httpsEndpoint().get().pathUrl(path);
     return wsClient
         .url(url)
         .addHeader("Content-Type", GrpcProtocolNative.contentType().toString())

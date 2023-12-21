@@ -14,6 +14,7 @@ import play.api.libs.ws.WSClient
 import play.api.libs.ws.WSRequest
 import play.api.routing.Router
 import play.api.test._
+import play.grpc.testkit.SslTestServerFactory
 
 /**
  * Test for the Play gRPC Specs2 APIs
@@ -21,13 +22,15 @@ import play.api.test._
 @RunWith(classOf[JUnitRunner])
 class PlaySpecs2Spec extends ForServer with ServerGrpcClient with PlaySpecification with ApplicationFactories {
 
+  override def testServerFactory = new SslTestServerFactory
+
   protected def applicationFactory: ApplicationFactory =
     withGuiceApp(GuiceApplicationBuilder().overrides(bind[Router].to[GreeterServiceImpl]))
 
   // RICH: Still need to work out how to make WSClient work properly with endpoints
   def wsUrl(path: String)(implicit running: RunningServer): WSRequest = {
     val ws  = running.app.injector.instanceOf[WSClient]
-    val url = running.endpoints.httpEndpoint.get.pathUrl(path)
+    val url = running.endpoints.httpsEndpoint.get.pathUrl(path)
     ws.url(url)
   }
 

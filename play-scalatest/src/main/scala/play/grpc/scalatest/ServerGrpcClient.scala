@@ -27,8 +27,4 @@ trait ServerGrpcClient extends AkkaGrpcClientHelpers { this: BaseOneServerPerTes
   ): AkkaGrpcClientFactory.Configured[T] = {
     AkkaGrpcClientHelpers.factoryForAppEndpoints(running.app, running.endpoints)
   }
-
-  protected override def newServerForTest(app: Application, testData: TestData): RunningServer =
-    DefaultTestServerFactory.start(app)
-
 }

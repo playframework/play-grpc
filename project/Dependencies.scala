@@ -17,13 +17,13 @@ object Dependencies {
     // bumps Akka HTTP version beyond play's 10.1.x
     val akkaHttp = "10.2.10"
 
-    val akkaGrpc = AkkaGrpcBuildInfo.version
-    val grpc     = AkkaGrpcBuildInfo.grpcVersion
+    val akkaGrpc: String = AkkaGrpcBuildInfo.version
+    val grpc: String     = AkkaGrpcBuildInfo.grpcVersion
 
-    val play = "2.8.21"
+    val play = "2.9.1"
 
-    val scalaTest         = "3.1.4"
-    val scalaTestPlusPlay = "5.1.0"
+    val scalaTest         = "3.2.17"
+    val scalaTestPlusPlay = "6.0.1"
 
     val macwire = "2.5.9"
   }
@@ -74,7 +74,6 @@ object Dependencies {
     val scalaTestPlusPlay = Compile.scalaTestPlusPlay % Test
 
     val junitInterface = "com.github.sbt" % "junit-interface" % "0.13.3" % "test"
-    val logback        = "ch.qos.logback" % "logback-classic" % "1.2.12" % "test"
+    val logback        = "ch.qos.logback" % "logback-classic" % "1.4.14" % "test"
   }
-
 }

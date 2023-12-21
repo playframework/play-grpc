@@ -38,8 +38,8 @@ jobs:
       - "check-docs"
     uses: playframework/.github/.github/workflows/cmd.yml@v3
     with:
-      java: 11, 8
-      scala: 2.12.x, 2.13.x
+      java: 17, 11
+      scala: 2.13.x
       cmd: sbt ++$MATRIX_SCALA test
 
   finish:

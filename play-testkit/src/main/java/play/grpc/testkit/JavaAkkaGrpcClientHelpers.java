@@ -31,7 +31,7 @@ public final class JavaAkkaGrpcClientHelpers {
             .endpoints()
             .filter(e -> e.protocols().contains("HTTP/2.0" /* Play's HttpProtocol.HTTP_2_0 */))
             .toIterable();
-    if (possibleEndpoints.size() == 0) {
+    if (possibleEndpoints.isEmpty()) {
       throw new IllegalArgumentException(
           String.format(
               "gRPC client can't automatically find HTTP/2 connection: "
@@ -60,7 +60,7 @@ public final class JavaAkkaGrpcClientHelpers {
             .getOrElse(
                 () -> {
                   throw new IllegalArgumentException(
-                      "GrpcClientSettings requires a server endpoint with ssl, but non provided");
+                      "GrpcClientSettings requires a server endpoint with ssl, but none provided");
                 });
 
     return grpcClientSettings(http2Endpoint, sslContext, actorSystem);
