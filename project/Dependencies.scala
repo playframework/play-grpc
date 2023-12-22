@@ -40,12 +40,18 @@ object Dependencies {
     val akkaPersistenceQuery     = "com.typesafe.akka" %% "akka-persistence-query"      % Versions.akka
     val akkaSerializationJackson = "com.typesafe.akka" %% "akka-serialization-jackson"  % Versions.akka
 
-    val akkaHttp          = "com.typesafe.akka" %% "akka-http"            % Versions.akkaHttp
-    val akkaHttpSprayJson = "com.typesafe.akka" %% "akka-http-spray-json" % Versions.akkaHttp
-    val akkaHttp2Support  = "com.typesafe.akka" %% "akka-http2-support"   % Versions.akkaHttp
+    val akkaHttp = ("com.typesafe.akka" %% "akka-http" % Versions.akkaHttp).cross(CrossVersion.for3Use2_13)
+    val akkaHttpSprayJson =
+      ("com.typesafe.akka" %% "akka-http-spray-json" % Versions.akkaHttp).cross(CrossVersion.for3Use2_13)
+    val akkaHttp2Support =
+      ("com.typesafe.akka" %% "akka-http2-support" % Versions.akkaHttp).cross(CrossVersion.for3Use2_13)
 
-    val akkaGrpcCodegen = "com.lightbend.akka.grpc" %% "akka-grpc-codegen" % Versions.akkaGrpc // Apache V2
-    val akkaGrpcRuntime = "com.lightbend.akka.grpc" %% "akka-grpc-runtime" % Versions.akkaGrpc // Apache V2
+    val akkaGrpcCodegen = ("com.lightbend.akka.grpc" %% "akka-grpc-codegen" % Versions.akkaGrpc).cross(
+      CrossVersion.for3Use2_13
+    ) // Apache V2
+    val akkaGrpcRuntime = ("com.lightbend.akka.grpc" %% "akka-grpc-runtime" % Versions.akkaGrpc).cross(
+      CrossVersion.for3Use2_13
+    ) // Apache V2
 
     val play = ("com.typesafe.play" %% "play" % Versions.play)
       .exclude("javax.activation", "javax.activation-api") // Apache V2 (exclusion is "either GPL or CDDL")
