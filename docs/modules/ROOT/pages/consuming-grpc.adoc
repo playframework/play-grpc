@@ -33,7 +33,7 @@ You can then put the following `helloworld.proto` file in `app/protobuf`:
 include::example$play-interop-test-scala/src/main/proto/helloworld.proto[tags=protoSources]
 ----
 
-The module file is generated in [.lang-scala]#`example.myapp.helloworld.grpc.helloworld.AkkaGrpcClientModule`,# [.lang-java]#`example.myapp.helloworld.grpc.AkkaGrpcClientModule`,#, which corresponds to the default value
+The module file is generated in [.lang-scala]#`example.myapp.helloworld.grpc.helloworld.AkkaGrpcClientModule`,# [.lang-java]#`example.myapp.helloworld.grpc.AkkaGrpcClientModule`,# which corresponds to the default value
 of `flat_package` for [.lang-scala]#Scala.# [.lang-java]#Java.# You can read more about this in https://doc.akka.io/docs/akka-grpc/current/proto.html[Services].
 
 The exact package of the module will be based on the package the proto files are generated in, configured through
