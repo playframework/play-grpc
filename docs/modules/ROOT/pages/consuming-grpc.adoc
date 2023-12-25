@@ -1,10 +1,10 @@
-== Using a gRPC client in Play
+= Using a gRPC client in Play
 :tabs-sync-option:
 
 Akka gRPC has special support to allow for seamless injection of generated clients in Play. To enable this, you
 need first to enable the gRPC plugin as described in the https://doc.akka.io/docs/akka-grpc/current/client/walkthrough.html[client docs] and then add a source generator in `build.sbt`:
 
-[tabs]
+[tabs,sync-group-id=lang]
 ====
 Scala::
 +
@@ -33,9 +33,8 @@ You can then put the following `helloworld.proto` file in `app/protobuf`:
 include::example$play-interop-test-scala/src/main/proto/helloworld.proto[tags=protoSources]
 ----
 
-The module file is generated in `example.myapp.helloworld.grpc.helloworld.AkkaGrpcClientModule` by default for Scala
-(or `example.myapp.helloworld.grpc.AkkaGrpcClientModule` by default for Java), which corresponds to the default value
-of `flat_package` for Java/Scala. You can read more about this in https://doc.akka.io/docs/akka-grpc/current/proto.html[Services].
+The module file is generated in [.lang-scala]#`example.myapp.helloworld.grpc.helloworld.AkkaGrpcClientModule`,# [.lang-java]#`example.myapp.helloworld.grpc.AkkaGrpcClientModule`,#, which corresponds to the default value
+of `flat_package` for [.lang-scala]#Scala.# [.lang-java]#Java.# You can read more about this in https://doc.akka.io/docs/akka-grpc/current/proto.html[Services].
 
 The exact package of the module will be based on the package the proto files are generated in, configured through
 the `java_package` option in the proto-file (if there are multiple different gRPC generated clients the module will
@@ -43,7 +42,7 @@ be generated in the longest package prefix shared between the clients).
 
 To hook it into Play, in `application.conf`:
 
-[tabs]
+[tabs,sync-group-id=lang]
 ====
 Scala::
 +
@@ -73,7 +72,7 @@ when injecting the client (see https://github.com/akka/akka-grpc/issues/271[#271
 
 You can now use the client in a controller by injecting it:
 
-[tabs]
+[tabs,sync-group-id=lang]
 ====
 Scala::
 +
