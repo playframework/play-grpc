@@ -1,4 +1,4 @@
-== Serving gRPC from Play
+= Serving gRPC from Play
 :tabs-sync-option:
 
 To be able to serve gRPC from a Play Framework app you must enable https://www.playframework.com/documentation/2.9.x/AkkaHttpServer#HTTP/2-support-(incubating)[HTTP/2 Support] with https://www.playframework.com/documentation/latest/ConfiguringHttps[HTTPS] and the ALPN agent.
@@ -17,7 +17,7 @@ libraryDependencies += "com.typesafe.play" %% "play-grpc-generators" % "{page-co
 
 Then you need to enable the Play server side code generator in `build.sbt`:
 
-[tabs]
+[tabs,sync-group-id=lang]
 ====
 Scala::
 +
@@ -46,10 +46,10 @@ The plugin will look for `.proto` service descriptors in `app/protobuf` and outp
 include::example$play-interop-test-scala/src/main/proto/helloworld.proto[tags=protoSources]
 ----
 
-You will get an abstract class named `example.myapp.helloworld.grpc.helloworld.AbstractGreeterServiceRouter` (or `example.myapp.helloworld.grpc.AbstractGreeterServiceRouter`). Create a concrete subclass implementing this
-wherever you see fit in your project, let's say `controller.GreeterServiceImpl` like so:
+You will get an abstract class named [.lang-scala]#`example.myapp.helloworld.grpc.helloworld.AbstractGreeterServiceRouter`.# [.lang-java]#`example.myapp.helloworld.grpc.AbstractGreeterServiceRouter`.#
+Create a concrete subclass implementing this wherever you see fit in your project, let's say `controller.GreeterServiceImpl` like so:
 
-[tabs]
+[tabs,sync-group-id=lang]
 ====
 Scala::
 +
