@@ -8,7 +8,7 @@ need first to enable the gRPC plugin as described in the https://pekko.apache.or
 ====
 Scala::
 +
-[,scala]
+[,scala,subs=attributes+]
 ----
 import play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator
 pekkoGrpcExtraGenerators += PlayScalaClientCodeGenerator
@@ -16,7 +16,7 @@ libraryDependencies += "org.playframework" %% "play-grpc-runtime" % "{page-compo
 ----
 Java::
 +
-[,scala]
+[,scala,subs=attributes+]
 ----
 import play.grpc.gen.javadsl.PlayJavaClientCodeGenerator
 pekkoGrpcExtraGenerators += PlayJavaClientCodeGenerator
