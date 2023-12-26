@@ -8,7 +8,7 @@ need first to enable the gRPC plugin as described in the https://doc.akka.io/doc
 ====
 Scala::
 +
-[,scala]
+[,scala,subs=attributes+]
 ----
 import play.grpc.gen.scaladsl.PlayScalaClientCodeGenerator
 akkaGrpcExtraGenerators += PlayScalaClientCodeGenerator
@@ -16,7 +16,7 @@ libraryDependencies += "com.typesafe.play" %% "play-grpc-runtime" % "{page-compo
 ----
 Java::
 +
-[,scala]
+[,scala,subs=attributes+]
 ----
 import play.grpc.gen.javadsl.PlayJavaClientCodeGenerator
 akkaGrpcExtraGenerators += PlayJavaClientCodeGenerator
