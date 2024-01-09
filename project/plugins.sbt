@@ -1,5 +1,4 @@
 addSbtPlugin("com.eed3si9n"            % "sbt-buildinfo"         % "0.11.0")
-addSbtPlugin("org.apache.pekko"        % "pekko-sbt-paradox"     % "1.0.0")
 addSbtPlugin("org.playframework.twirl" % "sbt-twirl"             % "2.0.3")
 addSbtPlugin("de.heikoseeberger"       % "sbt-header"            % "5.10.0")
 addSbtPlugin("org.scalameta"           % "sbt-scalafmt"          % "2.5.2")
