@@ -160,6 +160,7 @@ val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
       Dependencies.Compile.akkaDiscovery,
       Dependencies.Compile.akkaActorTyped,
       Dependencies.Compile.akkaStream,
+      Dependencies.Compile.akkaSerializationJackson,
     ),
   )
   .pluginTestingSettings
@@ -180,6 +181,8 @@ val playInteropTestScala = Project("play-grpc-interop-test-scala", file("play-in
       Dependencies.Compile.playAkkaHttpServer,
       Dependencies.Compile.playAkkaHttp2Support,
       Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.akkaActorTyped,
+      Dependencies.Compile.akkaSerializationJackson,
       Dependencies.Test.junit,
       Dependencies.Test.playSpecs2,
       Dependencies.Test.scalaTest,
@@ -205,6 +208,8 @@ val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-inte
       Dependencies.Compile.playAkkaHttp2Support,
       Dependencies.Compile.playJava,
       Dependencies.Compile.akkaDiscovery,
+      Dependencies.Compile.akkaActorTyped,
+      Dependencies.Compile.akkaSerializationJackson,
       Dependencies.Test.junit,
       Dependencies.Test.scalaTest,
     ),
