@@ -40,7 +40,9 @@ jobs:
     with:
       java: 17, 11
       scala: 3.x, 2.13.x
-      cmd: sbt ++$MATRIX_SCALA test
+      cmd: |
+        if [ "$MATRIX_SCALA" = "3.x" ]; then export USE_BSL=true; fi
+        sbt -DUSE_BSL=$USE_BSL ++$MATRIX_SCALA test
 
   finish:
     name: Finish
