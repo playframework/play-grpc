@@ -65,7 +65,7 @@ class PlaySpecs2Spec extends ForServer with ServerGrpcClient with PlaySpecificat
         result.header("grpc-status") must beSome(Status.Code.INVALID_ARGUMENT.value().toString)
     }
     "work with a gRPC client" >> { implicit rs: RunningServer =>
-      withGrpcClient[GreeterServiceClient] { client: GreeterServiceClient =>
+      withGrpcClient[GreeterServiceClient] { (client: GreeterServiceClient) =>
         val reply = await(client.sayHello(HelloRequest("Alice")))
         reply.message must ===("Hello, Alice!")
       }
