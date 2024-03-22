@@ -8,9 +8,9 @@ import org.apache.pekko.grpc.gen.{ BuildInfo => PekkoGrpcBuildInfo }
 object Dependencies {
 
   object Versions {
-    val scala212 = "2.12.18"
-    val scala213 = "2.13.12"
-    val scala3   = "3.3.1"
+    val scala212 = "2.12.19"
+    val scala213 = "2.13.13"
+    val scala3   = "3.3.3"
 
     // Don't use PekkoGrpcBuildInfo.pekkoHttpVersion or PekkoGrpcBuildInfo.pekkoVersion and prioritize
     // aligning with versions transitively brought in via Play.
@@ -20,7 +20,7 @@ object Dependencies {
     val pekkoGrpc: String = PekkoGrpcBuildInfo.version
     val grpc: String      = PekkoGrpcBuildInfo.grpcVersion
 
-    val play = "3.0.1"
+    val play = "3.0.2"
 
     val scalaTest         = "3.2.17"
     val scalaTestPlusPlay = "7.0.1"
