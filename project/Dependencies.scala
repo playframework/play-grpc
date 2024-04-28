@@ -8,8 +8,8 @@ import akka.grpc.gen.{ BuildInfo => AkkaGrpcBuildInfo }
 object Dependencies {
 
   object Versions {
-    val scala212 = "2.12.18"
-    val scala213 = "2.13.12"
+    val scala212 = "2.12.19"
+    val scala213 = "2.13.13"
 
     // Don't use AkkaGrpcBuildInfo.akkaHttpVersion or AkkaGrpcBuildInfo.akkaVersion and prioritize
     // aligning with versions transitively brought in via Play.
@@ -20,7 +20,7 @@ object Dependencies {
     val akkaGrpc: String = AkkaGrpcBuildInfo.version
     val grpc: String     = AkkaGrpcBuildInfo.grpcVersion
 
-    val play = "2.9.1"
+    val play = "2.9.2"
 
     val scalaTest         = "3.2.17"
     val scalaTestPlusPlay = "6.0.1"
