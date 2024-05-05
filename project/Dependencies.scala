@@ -20,7 +20,7 @@ object Dependencies {
     val akkaGrpc: String = AkkaGrpcBuildInfo.version
     val grpc: String     = AkkaGrpcBuildInfo.grpcVersion
 
-    val play = "2.9.2"
+    val play = "3.0.2"
 
     val scalaTest         = "3.2.17"
     val scalaTestPlusPlay = "6.0.1"
@@ -46,15 +46,15 @@ object Dependencies {
     val akkaGrpcCodegen = "com.lightbend.akka.grpc" %% "akka-grpc-codegen" % Versions.akkaGrpc // Apache V2
     val akkaGrpcRuntime = "com.lightbend.akka.grpc" %% "akka-grpc-runtime" % Versions.akkaGrpc // Apache V2
 
-    val play = ("com.typesafe.play" %% "play" % Versions.play)
+    val play = ("org.playframework" %% "play" % Versions.play)
       .exclude("javax.activation", "javax.activation-api") // Apache V2 (exclusion is "either GPL or CDDL")
 
-    val playJava             = "com.typesafe.play" %% "play-java"               % Versions.play // Apache V2
-    val playGuice            = "com.typesafe.play" %% "play-guice"              % Versions.play // Apache V2
-    val playAkkaHttpServer   = "com.typesafe.play" %% "play-akka-http-server"   % Versions.play // Apache V2
-    val playAkkaHttp2Support = "com.typesafe.play" %% "play-akka-http2-support" % Versions.play // Apache V2
-    val playTest             = "com.typesafe.play" %% "play-test"               % Versions.play // Apache V2
-    val playSpecs2           = "com.typesafe.play" %% "play-specs2"             % Versions.play // Apache V2
+    val playJava             = "org.playframework" %% "play-java"                % Versions.play // Apache V2
+    val playGuice            = "org.playframework" %% "play-guice"               % Versions.play // Apache V2
+    val playAkkaHttpServer   = "org.playframework" %% "play-pekko-http-server"   % Versions.play // Apache V2
+    val playAkkaHttp2Support = "org.playframework" %% "play-pekko-http2-support" % Versions.play // Apache V2
+    val playTest             = "org.playframework" %% "play-test"                % Versions.play // Apache V2
+    val playSpecs2           = "org.playframework" %% "play-specs2"              % Versions.play // Apache V2
 
     val scalaTestPlusPlay = "org.scalatestplus.play" %% "scalatestplus-play" % Versions.scalaTestPlusPlay // Apache V2
 
@@ -68,7 +68,7 @@ object Dependencies {
     val akkaStreamTestkit     = "com.typesafe.akka" %% "akka-stream-testkit"      % Versions.akka
 
     val junit             = "junit"                   % "junit"       % "4.13.2"           % Test // Common Public License 1.0
-    val playAhcWs         = "com.typesafe.play"      %% "play-ahc-ws" % Versions.play      % Test // Apache V2
+    val playAhcWs         = "org.playframework"      %% "play-ahc-ws" % Versions.play      % Test // Apache V2
     val playSpecs2        = Compile.playSpecs2        % Test
     val scalaTest         = "org.scalatest"          %% "scalatest"   % Versions.scalaTest % Test // Apache V2
     val scalaTestPlusPlay = Compile.scalaTestPlusPlay % Test
