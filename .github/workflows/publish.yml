@@ -12,6 +12,7 @@ jobs:
     uses: playframework/.github/.github/workflows/publish.yml@v3
     with:
       cmd: |
+        export CI_SNAPSHOT_RELEASE=publish
         export CI_RELEASE=publishSigned
         sbt ++2.13.x ci-release
     secrets: inherit
@@ -20,6 +21,7 @@ jobs:
     uses: playframework/.github/.github/workflows/publish.yml@v3
     with:
       cmd: |
+        export CI_SNAPSHOT_RELEASE=publish
         export CI_RELEASE=publishSigned
         sbt -DUSE_BSL=true ++3.x ci-release
     secrets: inherit
