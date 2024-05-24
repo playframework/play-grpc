@@ -7,13 +7,13 @@ on:
     tags: ["**"] # Releases
 
 jobs:
-  publish-artifacts-2.13:
+  publish-artifacts-scala-2:
     name: Publish / Scala 2.13 Artifacts
     uses: playframework/.github/.github/workflows/publish.yml@v3
     with:
       cmd: CI_RELEASE=publishSigned sbt ++2.13.x ci-release
     secrets: inherit
-  publish-artifacts-3:
+  publish-artifacts-scala-3:
     name: Publish / Scala 3 Artifacts
     uses: playframework/.github/.github/workflows/publish.yml@v3
     with:
