@@ -13,7 +13,7 @@ object ProjectExtensions {
     def pluginTestingSettings: Project =
       project
         .settings(
-          libraryDependencies += Dependencies.Compile.akkaGrpcRuntime,
+          libraryDependencies += Dependencies.Compile.akkaGrpcRuntime(scalaVersion.value),
         )
         .enablePlugins(ReflectiveCodeGen)
         .settings(
