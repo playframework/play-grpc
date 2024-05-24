@@ -11,11 +11,15 @@ jobs:
     name: Publish / Scala 2.13 Artifacts
     uses: playframework/.github/.github/workflows/publish.yml@v3
     with:
-      cmd: CI_RELEASE=publishSigned sbt ++2.13.x ci-release
+      cmd: |
+        export CI_RELEASE=publishSigned
+        sbt ++2.13.x ci-release
     secrets: inherit
   publish-artifacts-scala-3:
     name: Publish / Scala 3 Artifacts
     uses: playframework/.github/.github/workflows/publish.yml@v3
     with:
-      cmd: CI_RELEASE=publishSigned sbt -DUSE_BSL=true ++3.x ci-release
+      cmd: |
+        export CI_RELEASE=publishSigned
+        sbt -DUSE_BSL=true ++3.x ci-release
     secrets: inherit
