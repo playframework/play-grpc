@@ -115,6 +115,12 @@ val playGenerators = Project(id = "play-grpc-generators", file("play-generators"
     crossScalaVersions := Seq(scala212),
     scalaVersion       := scala212,
   )
+  .enablePlugins(
+    // We do not publish this project when publishing Scala 3 artifacts. The Scala 2 and Scala 3 publish workflows run in parallel
+    // and if we publish this project in both workflows, it could happen that the Scala 3 workflow writes its artifacts first,
+    // with a dependency on the BSL licenced akka-grpc-codegen lib. The other, slower, workflow can not override already published artifacts.
+    (if (System.getProperty("USE_BSL", "false") == "true") Seq[Plugins](build.play.grpc.NoPublish) else Seq.empty): _*
+  )
 
 val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
   .dependsOn(playRuntime, playTestdata % "test", playActionsTestData % "test")
