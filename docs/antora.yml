@@ -5,4 +5,4 @@ nav:
   - modules/ROOT/nav.adoc
 asciidoc:
   attributes:
-    pekko-grpc-version: 1.0.2 # Sync with `sbt-pekko-grpc` in project/plugins.sbt
+    pekko-grpc-version: 1.0.3 # Sync with `sbt-pekko-grpc` in project/plugins.sbt
