@@ -4,13 +4,12 @@
 // tag::using-client[]
 package controllers
 
-import javax.inject.Inject
-import javax.inject.Singleton
-
 import scala.concurrent.ExecutionContext
 
 import example.myapp.helloworld.grpc.helloworld.GreeterServiceClient
 import example.myapp.helloworld.grpc.helloworld.HelloRequest
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import play.api.mvc.AbstractController
 import play.api.mvc.ControllerComponents
 

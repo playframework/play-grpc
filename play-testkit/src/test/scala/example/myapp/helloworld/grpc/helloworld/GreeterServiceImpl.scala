@@ -3,11 +3,10 @@
  */
 package example.myapp.helloworld.grpc.helloworld
 
-import javax.inject.Inject
-import javax.inject.Singleton
-
 import scala.concurrent.Future
 
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import org.apache.pekko.actor.ActorSystem
 
 /** User implementation, with support for dependency injection etc */

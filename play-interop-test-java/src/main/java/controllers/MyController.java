@@ -7,8 +7,8 @@ package controllers;
 import example.myapp.helloworld.grpc.GreeterServiceClient;
 import example.myapp.helloworld.grpc.HelloRequest;
 import java.util.concurrent.CompletionStage;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import play.mvc.Controller;
 import play.mvc.Result;
 

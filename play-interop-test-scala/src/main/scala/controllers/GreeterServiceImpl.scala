@@ -4,14 +4,13 @@
 // tag::service-impl[]
 package controllers
 
-import javax.inject.Inject
-import javax.inject.Singleton
-
 import scala.concurrent.Future
 
 import example.myapp.helloworld.grpc.helloworld.AbstractGreeterServiceRouter
 import example.myapp.helloworld.grpc.helloworld.HelloReply
 import example.myapp.helloworld.grpc.helloworld.HelloRequest
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import org.apache.pekko.actor.ActorSystem
 
 /** User implementation, with support for dependency injection etc */
