@@ -15,18 +15,18 @@ concurrency:
 jobs:
   check-code-style:
     name: Code Style
-    uses: playframework/.github/.github/workflows/cmd.yml@v3
+    uses: playframework/.github/.github/workflows/cmd.yml@v4
     with:
       cmd: sbt scalafmtCheckAll scalafmtSbtCheck javafmtCheckAll headerCheckAll
 
 #  MiMa is not enabled yet, since this library is marked as "API may change".
 #  check-binary-compatibility:
 #    name: Binary Compatibility
-#    uses: playframework/.github/.github/workflows/binary-check.yml@v3
+#    uses: playframework/.github/.github/workflows/binary-check.yml@v4
 
   check-docs:
     name: Docs
-    uses: playframework/.github/.github/workflows/antora.yml@v3
+    uses: playframework/.github/.github/workflows/antora.yml@v4
     with:
       path: "./docs"
 
@@ -36,9 +36,10 @@ jobs:
       - "check-code-style"
       # - "check-binary-compatibility"
       - "check-docs"
-    uses: playframework/.github/.github/workflows/cmd.yml@v3
+    uses: playframework/.github/.github/workflows/cmd.yml@v4
     with:
-      java: 17, 11
+      # Can't test with Java 21+ currently because of https://github.com/lightbend/ssl-config/issues/367
+      java: 17
       scala: 3.x, 2.13.x
       cmd: sbt ++$MATRIX_SCALA test
 
@@ -47,4 +48,4 @@ jobs:
     if: github.event_name == 'pull_request'
     needs: # Should be last
       - "tests"
-    uses: playframework/.github/.github/workflows/rtm.yml@v3
+    uses: playframework/.github/.github/workflows/rtm.yml@v4
