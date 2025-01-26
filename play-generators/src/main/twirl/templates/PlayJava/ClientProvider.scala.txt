@@ -6,7 +6,7 @@
 @org.apache.pekko.grpc.gen.Constants.DoNotEditComment
 package @service.packageName;
 
-import javax.inject.*;
+import jakarta.inject.*;
 
 import scala.concurrent.ExecutionContext;
 

@@ -11,7 +11,7 @@ import example.myapp.helloworld.grpc.HelloReply;
 import example.myapp.helloworld.grpc.HelloRequest;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /** User implementation, with support for dependency injection etc */
 @Singleton

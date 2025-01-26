@@ -6,8 +6,8 @@ package example.myapp.helloworld.grpc;
 import org.apache.pekko.actor.ActorSystem;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 /** User implementation, with support for dependency injection etc */
 @Singleton
