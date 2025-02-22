@@ -39,7 +39,7 @@ jobs:
     uses: playframework/.github/.github/workflows/cmd.yml@v4
     with:
       # Can't test with Java 21+ currently because of https://github.com/lightbend/ssl-config/issues/367
-      java: 17
+      java: 21, 17
       scala: 3.x, 2.13.x
       cmd: sbt ++$MATRIX_SCALA test
 
