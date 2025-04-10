@@ -6,11 +6,11 @@ package play.grpc.testkit;
 import static org.junit.Assert.*;
 import static play.inject.Bindings.*;
 
-import org.apache.pekko.grpc.GrpcClientSettings;
-import org.apache.pekko.grpc.internal.GrpcProtocolNative;
 import example.myapp.helloworld.grpc.*;
 import io.grpc.Status;
 import java.util.concurrent.TimeUnit;
+import org.apache.pekko.grpc.GrpcClientSettings;
+import org.apache.pekko.grpc.internal.GrpcProtocolNative;
 import org.junit.*;
 import play.*;
 import play.api.routing.*;
