@@ -6,9 +6,9 @@ package controllers;
 
 import example.myapp.helloworld.grpc.GreeterServiceClient;
 import example.myapp.helloworld.grpc.HelloRequest;
-import java.util.concurrent.CompletionStage;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import java.util.concurrent.CompletionStage;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -26,6 +26,7 @@ public class MyController extends Controller {
     return greeterServiceClient
         .sayHello(HelloRequest.newBuilder().setName(name).build())
         .thenApply(response -> ok("response: " + response.getMessage()));
-  };
+  }
+  ;
 }
 // end::using-client[]
