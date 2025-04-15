@@ -17,6 +17,7 @@ jobs:
     name: Code Style
     uses: playframework/.github/.github/workflows/cmd.yml@v4
     with:
+      env: JAVA_TOOL_OPTIONS='--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED'
       cmd: sbt scalafmtCheckAll scalafmtSbtCheck javafmtCheckAll headerCheckAll
 
 #  MiMa is not enabled yet, since this library is marked as "API may change".
