@@ -1,2 +1,5 @@
 # Scala Steward: Reformat with scalafmt 3.7.17
 65edf34ef0b8252a2c9c9740b325b81b5e1d5206
+
+# Scala Steward: Reformat with sbt-java-formatter 0.10.0
+c0c95492fbdd4a9f65b8641345db4c50c096e903
