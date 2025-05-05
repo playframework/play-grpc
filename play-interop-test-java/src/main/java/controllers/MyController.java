@@ -26,6 +26,7 @@ public class MyController extends Controller {
     return greeterServiceClient
         .sayHello(HelloRequest.newBuilder().setName(name).build())
         .thenApply(response -> ok("response: " + response.getMessage()));
-  };
+  }
+  ;
 }
 // end::using-client[]

@@ -4,7 +4,6 @@
 // tag::service-impl[]
 package controllers;
 
-import org.apache.pekko.actor.ActorSystem;
 import com.google.inject.Inject;
 import example.myapp.helloworld.grpc.AbstractGreeterServiceRouter;
 import example.myapp.helloworld.grpc.HelloReply;
@@ -12,6 +11,7 @@ import example.myapp.helloworld.grpc.HelloRequest;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import javax.inject.Singleton;
+import org.apache.pekko.actor.ActorSystem;
 
 /** User implementation, with support for dependency injection etc */
 @Singleton
