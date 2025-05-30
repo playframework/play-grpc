@@ -23,7 +23,7 @@ object Publish extends AutoPlugin {
     organizationName     := "The Play Framework Project",
     organizationHomepage := Some(url("https://playframework.com")),
     homepage             := Some(url("https://github.com/playframework/play-grpc")),
-    scmInfo := Some(
+    scmInfo              := Some(
       ScmInfo(url("https://github.com/playframework/play-grpc"), "git@github.com:playframework/play-grpc"),
     ),
     licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
