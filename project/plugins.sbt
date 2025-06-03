@@ -4,4 +4,4 @@ addSbtPlugin("de.heikoseeberger"       % "sbt-header"            % "5.10.0")
 addSbtPlugin("org.scalameta"           % "sbt-scalafmt"          % "2.5.4")
 addSbtPlugin("com.github.sbt"          % "sbt-java-formatter"    % "0.10.0")
 addSbtPlugin("org.apache.pekko"        % "pekko-grpc-sbt-plugin" % "1.0.2") // Sync with docs/antora.yml
-addSbtPlugin("com.github.sbt"          % "sbt-ci-release"        % "1.9.3")
+addSbtPlugin("com.github.sbt"          % "sbt-ci-release"        % "1.11.1")
