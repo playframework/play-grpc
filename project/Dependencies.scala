@@ -71,8 +71,8 @@ object Dependencies {
     val play = ("com.typesafe.play" %% "play" % Versions.play)
       .exclude("javax.activation", "javax.activation-api") // Apache V2 (exclusion is "either GPL or CDDL")
 
-    val playJava  = "com.typesafe.play" %% "play-java"  % Versions.play // Apache V2
-    val playGuice = "com.typesafe.play" %% "play-guice" % Versions.play // Apache V2
+    val playJava                       = "com.typesafe.play" %% "play-java"  % Versions.play // Apache V2
+    val playGuice                      = "com.typesafe.play" %% "play-guice" % Versions.play // Apache V2
     def playAkkaHttpServer(sv: String) = Seq(
       ("com.typesafe.play" %% "play-akka-http-server" % Versions.play) // Apache V2
         .excludeAll(onlyForScala3(sv, ExclusionRule("com.typesafe.akka", "akka-http-core_2.13")): _*)

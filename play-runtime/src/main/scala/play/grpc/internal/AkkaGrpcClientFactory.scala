@@ -21,7 +21,7 @@ object AkkaGrpcClientFactory {
     //    }
     val classT: Class[_] = classTag[T].runtimeClass
     val module: AnyRef   = getClass.getClassLoader.loadClass(classT.getName + "$").getField("MODULE$").get(null)
-    val instance =
+    val instance         =
       module.asInstanceOf[{ def apply(settings: GrpcClientSettings)(implicit sys: ClassicActorSystemProvider): T }]
     instance(settings)(sys)
   }
