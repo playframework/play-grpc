@@ -119,7 +119,7 @@ object ReflectiveCodeGen extends AutoPlugin {
     //    with more than one extraGenerators0 at a time. For that reason I've split the generated code and
     //    recreate it over and over for each generator. Performance-wise it has a negligible impact.
     //    (see also https://github.com/playframework/play-grpc/pull/356#issuecomment-832092996)
-    val tb = universe.runtimeMirror(loader).mkToolBox()
+    val tb         = universe.runtimeMirror(loader).mkToolBox()
     val akkaSource =
       s"""import akka.grpc.sbt.AkkaGrpcPlugin
          |import akka.grpc.sbt.GeneratorBridge
