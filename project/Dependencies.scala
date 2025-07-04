@@ -20,7 +20,7 @@ object Dependencies {
     val pekkoGrpc: String = PekkoGrpcBuildInfo.version
     val grpc: String      = PekkoGrpcBuildInfo.grpcVersion
 
-    val play = "3.1.0-M1"
+    val play = "3.1.0-M2"
 
     val scalaTest         = "3.2.19"
     val scalaTestPlusPlay = "8.0.0-M2"
