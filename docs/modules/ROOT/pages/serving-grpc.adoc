@@ -11,7 +11,7 @@ Generating classes from the gRPC service definition is done by adding the https:
 ----
 // in project/plugins.sbt:
 addSbtPlugin("com.lightbend.akka.grpc" % "sbt-akka-grpc" % "{akka-grpc-version}")
-resolvers += Resolver.sonatypeRepo("snapshots")
+resolvers += Resolver.sonatypeCentralSnapshots
 libraryDependencies += "com.typesafe.play" %% "play-grpc-generators" % "{page-component-version}"
 ----
 
