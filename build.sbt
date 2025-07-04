@@ -27,7 +27,7 @@ ThisBuild / javacOptions ++= List(
 
 // Only needed for snapshots
 // See also projects/plugins.sbt
-//ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
+//ThisBuild / resolvers += Resolver.sonatypeCentralSnapshots
 
 val playGrpc = Project("play-grpc", file("."))
 aggregateProjects(
