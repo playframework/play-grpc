@@ -23,7 +23,7 @@ object Dependencies {
     val play = "3.0.8"
 
     val scalaTest         = "3.2.17"
-    val scalaTestPlusPlay = "7.0.1"
+    val scalaTestPlusPlay = "7.0.2"
 
     val macwire = "2.6.5"
   }
