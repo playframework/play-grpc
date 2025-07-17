@@ -127,6 +127,12 @@ import play.api.routing.Router.Routes
           case HttpEntity.Chunk(data, ext) => Chunk(data)
         }
         Chunked(playChunks, Some(ct.toString()))
+      case HttpEntity.Strict(ct, data) =>
+        val trailer                            = akkaResp.attributes.get(AttributeKeys.trailer).collect { case t: Trailer => t }
+        val playChunks: Source[HttpChunk, Any] = Source(
+          Seq(Chunk(data), LastChunk(Headers(trailer.toSeq.flatMap(_.headers): _*)))
+        )
+        Chunked(playChunks, Some(ct.toString()))
       case e => throw new NotImplementedError(s"Unexpected response entity type: ${e.getClass.getName}")
     }
     Result(akkaToPlayResponseHeaders(akkaResp), playEntity)
