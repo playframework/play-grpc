@@ -128,7 +128,7 @@ import play.api.routing.Router.Routes
         }
         Chunked(playChunks, Some(ct.toString()))
       case HttpEntity.Strict(ct, data) =>
-        val trailer = pekkoResp.attributes.get(AttributeKeys.trailer).collect { case t: Trailer => t }
+        val trailer                            = pekkoResp.attributes.get(AttributeKeys.trailer).collect { case t: Trailer => t }
         val playChunks: Source[HttpChunk, Any] = Source(
           Seq(Chunk(data), LastChunk(Headers(trailer.toSeq.flatMap(_.headers): _*)))
         )
