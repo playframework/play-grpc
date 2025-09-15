@@ -6,9 +6,9 @@ package build.play.grpc
 
 import sbt._
 
-import de.heikoseeberger.sbtheader.CommentCreator
-import de.heikoseeberger.sbtheader.CommentStyle
-import de.heikoseeberger.sbtheader.HeaderPlugin
+import sbtheader.CommentCreator
+import sbtheader.CommentStyle
+import sbtheader.HeaderPlugin
 import Keys._
 
 object CopyrightHeader extends AutoPlugin {
