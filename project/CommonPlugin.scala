@@ -18,8 +18,6 @@ object CommonPlugin extends AutoPlugin {
         Nil
     },
     doc / javacOptions --= Seq("-Xlint:unchecked", "-Xlint:deprecation"),
-    Test / javaOptions ++= Seq("--add-exports=java.base/sun.security.x509=ALL-UNNAMED"),
-    Test / fork        := true,
     crossScalaVersions := Seq(scala213, scala3),
     scalaVersion       := scala213,
   )
