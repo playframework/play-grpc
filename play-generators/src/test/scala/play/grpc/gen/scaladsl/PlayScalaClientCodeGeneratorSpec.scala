@@ -4,6 +4,7 @@
 package play.grpc.gen.scaladsl
 
 import com.google.protobuf.DescriptorProtos.ServiceOptions
+import org.apache.pekko.grpc.gen.scaladsl.BadCitizen
 import org.apache.pekko.grpc.gen.scaladsl.Service
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -15,7 +16,20 @@ class PlayScalaClientCodeGeneratorSpec extends AnyWordSpec with Matchers {
     "choose the single package name" in {
       PlayScalaClientCodeGenerator
         .packageForSharedModuleFile(
-          Seq(Service("descriptor", "a.b", "MyService", "???", Nil, false, false, ServiceOptions.getDefaultInstance)),
+          Seq(
+            Service(
+              "descriptor",
+              "a.b",
+              "MyService",
+              "???",
+              Nil,
+              false,
+              false,
+              ServiceOptions.getDefaultInstance,
+              None,
+              BadCitizen.scalaCompatConstants()
+            )
+          ),
         ) should ===(
         "a.b",
       )
@@ -25,8 +39,30 @@ class PlayScalaClientCodeGeneratorSpec extends AnyWordSpec with Matchers {
       PlayScalaClientCodeGenerator
         .packageForSharedModuleFile(
           Seq(
-            Service("descriptor", "a.b.c", "MyService", "???", Nil, false, false, ServiceOptions.getDefaultInstance),
-            Service("descriptor", "a.b.e", "OtherService", "???", Nil, false, false, ServiceOptions.getDefaultInstance),
+            Service(
+              "descriptor",
+              "a.b.c",
+              "MyService",
+              "???",
+              Nil,
+              false,
+              false,
+              ServiceOptions.getDefaultInstance,
+              None,
+              BadCitizen.scalaCompatConstants()
+            ),
+            Service(
+              "descriptor",
+              "a.b.e",
+              "OtherService",
+              "???",
+              Nil,
+              false,
+              false,
+              ServiceOptions.getDefaultInstance,
+              None,
+              BadCitizen.scalaCompatConstants()
+            ),
           ),
         ) should ===("a.b")
     }
@@ -35,8 +71,30 @@ class PlayScalaClientCodeGeneratorSpec extends AnyWordSpec with Matchers {
       PlayScalaClientCodeGenerator
         .packageForSharedModuleFile(
           Seq(
-            Service("descriptor", "a.b.c", "MyService", "???", Nil, false, false, ServiceOptions.getDefaultInstance),
-            Service("descriptor", "c.d.e", "OtherService", "???", Nil, false, false, ServiceOptions.getDefaultInstance),
+            Service(
+              "descriptor",
+              "a.b.c",
+              "MyService",
+              "???",
+              Nil,
+              false,
+              false,
+              ServiceOptions.getDefaultInstance,
+              None,
+              BadCitizen.scalaCompatConstants()
+            ),
+            Service(
+              "descriptor",
+              "c.d.e",
+              "OtherService",
+              "???",
+              Nil,
+              false,
+              false,
+              ServiceOptions.getDefaultInstance,
+              None,
+              BadCitizen.scalaCompatConstants()
+            ),
           ),
         ) should ===("")
     }
