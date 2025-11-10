@@ -9,7 +9,7 @@ on:
 jobs:
   publish-artifacts-scala-2:
     name: Publish / Scala 2.13 Artifacts
-    uses: playframework/.github/.github/workflows/publish.yml@v3
+    uses: playframework/.github/.github/workflows/publish.yml@v4
     with:
       cmd: |
         export CI_SNAPSHOT_RELEASE=publish
@@ -18,7 +18,7 @@ jobs:
     secrets: inherit
   publish-artifacts-scala-3:
     name: Publish / Scala 3 Artifacts
-    uses: playframework/.github/.github/workflows/publish.yml@v3
+    uses: playframework/.github/.github/workflows/publish.yml@v4
     with:
       cmd: |
         export CI_SNAPSHOT_RELEASE=publish
