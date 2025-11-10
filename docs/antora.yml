@@ -1,8 +1,8 @@
 name: play-grpc
 title: Play gRPC
-version: 0.12.x
+version: 0.13.x
 nav:
   - modules/ROOT/nav.adoc
 asciidoc:
   attributes:
-    pekko-grpc-version: 1.0.3 # Sync with `sbt-pekko-grpc` in project/plugins.sbt
+    pekko-grpc-version: 1.2.0 # Sync with `sbt-pekko-grpc` in project/plugins.sbt
