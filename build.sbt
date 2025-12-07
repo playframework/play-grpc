@@ -132,8 +132,7 @@ val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
       Dependencies.Compile.akkaDiscovery(scalaVersion.value),
       Dependencies.Compile.akkaActorTyped(scalaVersion.value),
       Dependencies.Compile.akkaStream(scalaVersion.value),
-      Dependencies.Compile.akkaSerializationJackson(scalaVersion.value),
-    ),
+    ) ++ Dependencies.Compile.akkaSerializationJackson(scalaVersion.value),
   )
   .pluginTestingSettings
 
@@ -145,8 +144,7 @@ val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
       Dependencies.Compile.akkaDiscovery(scalaVersion.value),
       Dependencies.Compile.akkaActorTyped(scalaVersion.value),
       Dependencies.Compile.akkaStream(scalaVersion.value),
-      Dependencies.Compile.akkaSerializationJackson(scalaVersion.value),
-    ),
+    ) ++ Dependencies.Compile.akkaSerializationJackson(scalaVersion.value),
   )
   .pluginTestingSettings
 
@@ -163,8 +161,7 @@ val playScalaTest = Project("play-grpc-scalatest", file("play-scalatest"))
       Dependencies.Compile.akkaDiscovery(scalaVersion.value),
       Dependencies.Compile.akkaActorTyped(scalaVersion.value),
       Dependencies.Compile.akkaStream(scalaVersion.value),
-      Dependencies.Compile.akkaSerializationJackson(scalaVersion.value),
-    ),
+    ) ++ Dependencies.Compile.akkaSerializationJackson(scalaVersion.value),
   )
   .pluginTestingSettings
 
@@ -183,13 +180,13 @@ val playInteropTestScala = Project("play-grpc-interop-test-scala", file("play-in
       Dependencies.Compile.playGuice,
       Dependencies.Compile.akkaDiscovery(scalaVersion.value),
       Dependencies.Compile.akkaActorTyped(scalaVersion.value),
-      Dependencies.Compile.akkaSerializationJackson(scalaVersion.value),
       Dependencies.Test.junit,
       Dependencies.Test.playSpecs2,
       Dependencies.Test.scalaTest,
       Dependencies.Test.scalaTestPlusPlay,
     ) ++ Dependencies.Compile.playAkkaHttpServer(scalaVersion.value) ++
-      Dependencies.Compile.playAkkaHttp2Support(scalaVersion.value),
+      Dependencies.Compile.playAkkaHttp2Support(scalaVersion.value) ++
+      Dependencies.Compile.akkaSerializationJackson(scalaVersion.value),
   )
   .pluginTestingSettings
   .enablePlugins(build.play.grpc.NoPublish)
@@ -209,11 +206,11 @@ val playInteropTestJava = Project("play-grpc-interop-test-java", file("play-inte
       Dependencies.Compile.playJava,
       Dependencies.Compile.akkaDiscovery(scalaVersion.value),
       Dependencies.Compile.akkaActorTyped(scalaVersion.value),
-      Dependencies.Compile.akkaSerializationJackson(scalaVersion.value),
       Dependencies.Test.junit,
       Dependencies.Test.scalaTest,
     ) ++ Dependencies.Compile.playAkkaHttpServer(scalaVersion.value) ++
-      Dependencies.Compile.playAkkaHttp2Support(scalaVersion.value),
+      Dependencies.Compile.playAkkaHttp2Support(scalaVersion.value) ++
+      Dependencies.Compile.akkaSerializationJackson(scalaVersion.value),
   )
   .enablePlugins(build.play.grpc.NoPublish)
   .pluginTestingSettings
