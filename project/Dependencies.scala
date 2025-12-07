@@ -37,7 +37,10 @@ object Dependencies {
     val pekkoDiscovery            = "org.apache.pekko" %% "pekko-discovery"              % Versions.pekko
     val pekkoPersistenceTyped     = "org.apache.pekko" %% "pekko-persistence-typed"      % Versions.pekko
     val pekkoPersistenceQuery     = "org.apache.pekko" %% "pekko-persistence-query"      % Versions.pekko
-    val pekkoSerializationJackson = "org.apache.pekko" %% "pekko-serialization-jackson"  % Versions.pekko
+    val pekkoSerializationJackson = Seq(
+      ("org.apache.pekko" %% "pekko-serialization-jackson" % Versions.pekko).excludeAll(ExclusionRule("org.lz4")),
+      "at.yawk.lz4"        % "lz4-java"                    % "1.10.1" // CVE‐2025‐12183 + CVE-2025-66566
+    )
 
     val pekkoHttp          = "org.apache.pekko" %% "pekko-http"            % Versions.pekkoHttp
     val pekkoHttpSprayJson = "org.apache.pekko" %% "pekko-http-spray-json" % Versions.pekkoHttp

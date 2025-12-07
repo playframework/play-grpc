@@ -128,8 +128,7 @@ val playTestkit = Project("play-grpc-testkit", file("play-testkit"))
       Dependencies.Compile.pekkoDiscovery,
       Dependencies.Compile.pekkoActorTyped,
       Dependencies.Compile.pekkoStream,
-      Dependencies.Compile.pekkoSerializationJackson,
-    ),
+    ) ++ Dependencies.Compile.pekkoSerializationJackson,
   )
   .pluginTestingSettings
 
@@ -141,8 +140,7 @@ val playSpecs2 = Project("play-grpc-specs2", file("play-specs2"))
       Dependencies.Compile.pekkoDiscovery,
       Dependencies.Compile.pekkoActorTyped,
       Dependencies.Compile.pekkoStream,
-      Dependencies.Compile.pekkoSerializationJackson,
-    ),
+    ) ++ Dependencies.Compile.pekkoSerializationJackson,
   )
   .pluginTestingSettings
 
