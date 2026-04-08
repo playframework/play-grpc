@@ -1,7 +1,6 @@
 import build.play.grpc.Dependencies
 import build.play.grpc.Dependencies.Versions.scala212
 import build.play.grpc.ProjectExtensions.AddPluginTest
-import build.play.grpc.WorkaroundTwirlFormatCompat
 
 // Customise sbt-dynver's behaviour to make it work with tags which aren't v-prefixed
 (ThisBuild / dynverVTagPrefix) := false
@@ -103,14 +102,6 @@ val playActionsTestData = Project("play-grpc-actions-testdata", file("play-actio
 val playGenerators = Project(id = "play-grpc-generators", file("play-generators"))
   .enablePlugins(SbtTwirl, BuildInfoPlugin)
   .settings(
-    // Temporary Twirl compatibility shim:
-    // pekko-grpc-codegen ships precompiled Twirl template classes under templates.* that still call
-    // BaseScalaTemplate.format(), but newer Twirl only exposes $twirl__format() (see playframework/twirl#1097)
-    // We generate local classes with the same binary names and a bridging format() method so they
-    // shadow the transitive pekko-grpc-codegen copies on the runtime classpath.
-    // This relies on standard JVM build-tool ordering where the direct artifact's classes/jar are
-    // ahead of transitive dependency jars.
-    Compile / sourceGenerators += WorkaroundTwirlFormatCompat.generate.taskValue,
     libraryDependencies ++= Seq(
       Dependencies.Compile.pekkoGrpcCodegen,
       Dependencies.Test.scalaTest,
