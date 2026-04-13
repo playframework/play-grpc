@@ -8,8 +8,8 @@ import akka.grpc.gen.{ BuildInfo => AkkaGrpcBuildInfo }
 object Dependencies {
 
   object Versions {
-    val scala212 = "2.12.20"
-    val scala213 = "2.13.17"
+    val scala212 = "2.12.21"
+    val scala213 = "2.13.18"
     val scala3   = "3.3.7"
 
     // Don't use AkkaGrpcBuildInfo.akkaHttpVersion or AkkaGrpcBuildInfo.akkaVersion and prioritize
@@ -25,7 +25,7 @@ object Dependencies {
     val akkaGrpc: String = AkkaGrpcBuildInfo.version
     val grpc: String     = AkkaGrpcBuildInfo.grpcVersion
 
-    val play = "2.9.9"
+    val play = "2.9.10"
 
     val scalaTest         = "3.2.17"
     val scalaTestPlusPlay = "6.0.2"
@@ -55,7 +55,7 @@ object Dependencies {
       ("com.typesafe.akka" %% "akka-persistence-query" % Versions.akka(sv)).withConfigurations(Versions.conf(sv))
     def akkaSerializationJackson(sv: String) = Seq(
       ("com.typesafe.akka" %% "akka-serialization-jackson" % Versions.akka(sv)).withConfigurations(Versions.conf(sv)),
-      "at.yawk.lz4"         % "lz4-java"                   % "1.10.1" // CVE‐2025‐12183 + CVE-2025-66566
+      "at.yawk.lz4"         % "lz4-java"                   % "1.10.4" // CVE‐2025‐12183 + CVE-2025-66566
     )
 
     def akkaHttp(sv: String) =
