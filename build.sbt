@@ -29,6 +29,8 @@ ThisBuild / javacOptions ++= List(
   "-Xlint:deprecation",
 )
 
+ThisBuild / javafmtFormatterCompatibleJavaVersion := 11
+
 // Only needed for snapshots
 // See also projects/plugins.sbt
 //ThisBuild / resolvers += Resolver.sonatypeCentralSnapshots
