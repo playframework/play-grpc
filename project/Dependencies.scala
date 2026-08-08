@@ -55,7 +55,7 @@ object Dependencies {
       ("com.typesafe.akka" %% "akka-persistence-query" % Versions.akka(sv)).withConfigurations(Versions.conf(sv))
     def akkaSerializationJackson(sv: String) = Seq(
       ("com.typesafe.akka" %% "akka-serialization-jackson" % Versions.akka(sv)).withConfigurations(Versions.conf(sv)),
-      "at.yawk.lz4"         % "lz4-java"                   % "1.11.1" // CVE‐2025‐12183 + CVE-2025-66566
+      "at.yawk.lz4"         % "lz4-java"                   % "1.11.2" // CVE‐2025‐12183 + CVE-2025-66566
     )
 
     def akkaHttp(sv: String) =
