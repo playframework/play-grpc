@@ -10,7 +10,7 @@ object Dependencies {
   object Versions {
     val scala212 = "2.12.21"
     val scala213 = "2.13.18"
-    val scala3   = "3.3.8"
+    val scala3   = "3.9.0"
 
     // Don't use PekkoGrpcBuildInfo.pekkoHttpVersion or PekkoGrpcBuildInfo.pekkoVersion and prioritize
     // aligning with versions transitively brought in via Play.
