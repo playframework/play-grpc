@@ -1,5 +1,5 @@
 import build.play.grpc.Dependencies
-import build.play.grpc.Dependencies.Versions.scala212
+import build.play.grpc.Dependencies.Versions.scala212Version
 import build.play.grpc.ProjectExtensions.AddPluginTest
 import build.play.grpc.WorkaroundTwirlFormatCompat
 
@@ -9,6 +9,8 @@ import build.play.grpc.WorkaroundTwirlFormatCompat
 ThisBuild / organization := "org.playframework"
 
 ThisBuild / scalacOptions ++= List(
+  "-release",
+  "17",
   "-encoding",
   "utf8",
   "-deprecation",
@@ -22,6 +24,8 @@ ThisBuild / scalacOptions ++= List(
 )
 
 ThisBuild / javacOptions ++= List(
+  "--release",
+  "17",
   "-Xlint:unchecked",
   "-Xlint:deprecation",
 )
@@ -121,8 +125,8 @@ val playGenerators = Project(id = "play-grpc-generators", file("play-generators"
     buildInfoKeys += "pekkoGrpcVersion" → Dependencies.Versions.pekkoGrpc,
     buildInfoPackage                   := "play.grpc.gen",
     // Only used in build tools (like sbt), so only 2.12 is needed:
-    crossScalaVersions := Seq(scala212),
-    scalaVersion       := scala212,
+    crossScalaVersions := Seq(scala212Version),
+    scalaVersion       := scala212Version,
   )
 
 val playTestkit = Project("play-grpc-testkit", file("play-testkit"))

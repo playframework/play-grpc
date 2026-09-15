@@ -3,8 +3,9 @@ package build.play.grpc
 import sbt._
 import sbt.Keys._
 
-import Dependencies.Versions.scala213
-import Dependencies.Versions.scala3
+import Dependencies.Versions.publishedScalaVersions
+import Dependencies.Versions.resolveScalaVersion
+import Dependencies.Versions.scala213Version
 
 // WORKAROUND https://github.com/sbt/sbt/issues/2899
 object CommonPlugin extends AutoPlugin {
@@ -17,9 +18,12 @@ object CommonPlugin extends AutoPlugin {
       else
         Nil
     },
+    scalacOptions ++= {
+      if (scalaVersion.value.startsWith("3.3.")) Seq("-Yfuture-lazy-vals") else Seq.empty
+    },
     doc / javacOptions --= Seq("-Xlint:unchecked", "-Xlint:deprecation"),
-    crossScalaVersions := Seq(scala213, scala3),
-    scalaVersion       := scala213,
+    crossScalaVersions := publishedScalaVersions,
+    scalaVersion       := resolveScalaVersion(sys.props.getOrElse("scala.version", scala213Version)),
   )
 
   val scalaVersionNumber = Def.setting(VersionNumber(scalaVersion.value))

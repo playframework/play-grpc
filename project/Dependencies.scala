@@ -8,9 +8,23 @@ import org.apache.pekko.grpc.gen.{ BuildInfo => PekkoGrpcBuildInfo }
 object Dependencies {
 
   object Versions {
-    val scala212 = "2.12.21"
-    val scala213 = "2.13.18"
-    val scala3   = "3.9.0"
+    val scala212Version   = "2.12.21"
+    val scala213Version   = "2.13.18"
+    val scala3Version     = "3.3.8"
+    val scala39LTSVersion = "3.9.0"
+    val scala3NextVersion = "3.10.0-RC2"
+
+    val publishedScalaVersions = Seq(scala213Version, scala3Version)
+
+    private val scalaVersionAliases = Map(
+      "2.12.x" -> scala212Version,
+      "2.13.x" -> scala213Version,
+      "3.3.x"  -> scala3Version,
+      "3.9.x"  -> scala39LTSVersion,
+      "3.next" -> scala3NextVersion,
+    )
+
+    def resolveScalaVersion(version: String): String = scalaVersionAliases.getOrElse(version, version)
 
     // Don't use PekkoGrpcBuildInfo.pekkoHttpVersion or PekkoGrpcBuildInfo.pekkoVersion and prioritize
     // aligning with versions transitively brought in via Play.
@@ -20,7 +34,8 @@ object Dependencies {
     val pekkoGrpc: String = PekkoGrpcBuildInfo.version
     val grpc: String      = PekkoGrpcBuildInfo.grpcVersion
 
-    val play = "3.1.0-M9"
+    // M4 is the newest Play 3.1 milestone whose Scala 3 artifacts were built with Scala 3.3.
+    val play = sys.props.getOrElse("play.version", "3.1.0-M4")
 
     val scalaTest         = "3.2.20"
     val scalaTestPlusPlay = "8.0.0-M2"
