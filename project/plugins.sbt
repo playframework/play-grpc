@@ -1,6 +1,6 @@
 resolvers += Resolver.sonatypeCentralSnapshots
 
-addSbtPlugin("com.eed3si9n"            % "sbt-buildinfo"         % "0.13.1")
+addSbtPlugin("com.eed3si9n"            % "sbt-buildinfo"         % "0.13.2")
 addSbtPlugin("org.playframework.twirl" % "sbt-twirl"             % "2.1.0-M9+129-bab5ac69-SNAPSHOT")
 addSbtPlugin("com.github.sbt"          % "sbt-header"            % "5.11.0")
 addSbtPlugin("org.scalameta"           % "sbt-scalafmt"          % "2.6.2")
