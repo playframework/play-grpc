@@ -56,8 +56,9 @@ aggregateProjects(
 )
 
 enablePlugins(build.play.grpc.NoPublish)
-Compile / headerCreate / unmanagedSources := ((baseDirectory.value / "project") ** "*.scala").get()
-crossScalaVersions                        := Nil // https://github.com/sbt/sbt/issues/3465
+LocalRootProject / Compile / headerCreate / unmanagedSources :=
+  ((baseDirectory.value / "project") ** "*.scala").get()
+LocalRootProject / crossScalaVersions := Nil // https://github.com/sbt/sbt/issues/3465
 
 val playRuntime = Project("play-grpc-runtime", file("play-runtime"))
   .settings(
