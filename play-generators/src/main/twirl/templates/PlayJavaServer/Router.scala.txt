@@ -8,7 +8,7 @@ package @service.packageName;
 
 import java.util.concurrent.CompletionStage;
 
-import org.apache.pekko.japi.Function;
+import org.apache.pekko.japi.function.Function;
 
 import org.apache.pekko.http.scaladsl.model.HttpRequest;
 import org.apache.pekko.http.scaladsl.model.HttpResponse;

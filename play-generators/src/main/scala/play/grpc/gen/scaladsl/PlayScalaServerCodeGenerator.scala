@@ -41,7 +41,7 @@ class PlayScalaServerCodeGenerator extends ScalaCodeGenerator {
         b.setName(s"${service.packageDir}/Abstract${service.name}PowerApiRouter.scala")
         logger.info(s"Generating Pekko gRPC service power API play router for ${service.packageName}.${service.name}")
         immutable.Seq(b.build)
-      } else immutable.Seq.empty,
+      } else immutable.Seq.empty
     }
 }
 object PlayScalaServerCodeGenerator extends PlayScalaServerCodeGenerator

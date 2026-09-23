@@ -1,5 +1,5 @@
 import build.play.grpc.Dependencies
-import build.play.grpc.Dependencies.Versions.scala212Version
+import build.play.grpc.Dependencies.Versions.scala39LTSVersion
 import build.play.grpc.ProjectExtensions.AddPluginTest
 import build.play.grpc.WorkaroundTwirlFormatCompat
 
@@ -31,10 +31,17 @@ ThisBuild / javacOptions ++= List(
 )
 
 ThisBuild / javafmtFormatterCompatibleJavaVersion := 17
+ThisBuild / Test / fork                           := true
 
-// Only needed for snapshots
-// See also projects/plugins.sbt
-//ThisBuild / resolvers += Resolver.sonatypeCentralSnapshots
+ThisBuild / resolvers ++= Seq(
+  Resolver.sonatypeCentralSnapshots,
+  Resolver.ApacheMavenSnapshotsRepo,
+)
+
+ThisBuild / dependencyOverrides ++= Seq(
+  Dependencies.Compile.pekkoStream,
+  Dependencies.Compile.pekkoDiscovery,
+)
 
 val playGrpc = Project("play-grpc", file("."))
 aggregateProjects(
@@ -49,7 +56,7 @@ aggregateProjects(
 )
 
 enablePlugins(build.play.grpc.NoPublish)
-Compile / headerCreate / unmanagedSources := ((baseDirectory.value / "project") ** "*.scala").get
+Compile / headerCreate / unmanagedSources := ((baseDirectory.value / "project") ** "*.scala").get()
 crossScalaVersions                        := Nil // https://github.com/sbt/sbt/issues/3465
 
 val playRuntime = Project("play-grpc-runtime", file("play-runtime"))
@@ -114,8 +121,6 @@ val playGenerators = Project(id = "play-grpc-generators", file("play-generators"
     // BaseScalaTemplate.format(), but newer Twirl only exposes $twirl__format() (see playframework/twirl#1097)
     // We generate local classes with the same binary names and a bridging format() method so they
     // shadow the transitive pekko-grpc-codegen copies on the runtime classpath.
-    // This relies on standard JVM build-tool ordering where the direct artifact's classes/jar are
-    // ahead of transitive dependency jars.
     Compile / sourceGenerators += WorkaroundTwirlFormatCompat.generate.taskValue,
     libraryDependencies ++= Seq(
       Dependencies.Compile.pekkoGrpcCodegen,
@@ -124,9 +129,9 @@ val playGenerators = Project(id = "play-grpc-generators", file("play-generators"
     buildInfoKeys ++= Seq[BuildInfoKey](organization, name, version, scalaVersion, sbtVersion),
     buildInfoKeys += "pekkoGrpcVersion" → Dependencies.Versions.pekkoGrpc,
     buildInfoPackage                   := "play.grpc.gen",
-    // Only used in build tools (like sbt), so only 2.12 is needed:
-    crossScalaVersions := Seq(scala212Version),
-    scalaVersion       := scala212Version,
+    // Only used in sbt 2 build tools, so publish it with sbt's Scala 3 line.
+    crossScalaVersions := Seq(scala39LTSVersion),
+    scalaVersion       := scala39LTSVersion,
   )
 
 val playTestkit = Project("play-grpc-testkit", file("play-testkit"))

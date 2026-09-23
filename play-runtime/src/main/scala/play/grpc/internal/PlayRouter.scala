@@ -20,19 +20,6 @@ import play.api.routing.Router.Routes
  * INTERNAL API
  */
 @InternalApi private[grpc] object PlayRouterHelper {
-  @deprecated("Prefer handlerFunction(org.apache.pekko.japi.function.Function[])", "0.10.0")
-  def handlerFor(
-      javaHandler: org.apache.pekko.japi.Function[org.apache.pekko.http.javadsl.model.HttpRequest, CompletionStage[
-        org.apache.pekko.http.javadsl.model.HttpResponse,
-      ]],
-  )(implicit ec: ExecutionContext): HttpRequest => Future[HttpResponse] =
-    PekkoHttpHandler.apply(req =>
-      javaHandler
-        .apply(req.asInstanceOf[org.apache.pekko.http.javadsl.model.HttpRequest])
-        .asScala
-        .map(javaResp => javaResp.asInstanceOf[org.apache.pekko.http.scaladsl.model.HttpResponse]),
-    )
-
   def handlerFor(
       javaHandler: org.apache.pekko.japi.function.Function[
         org.apache.pekko.http.javadsl.model.HttpRequest,

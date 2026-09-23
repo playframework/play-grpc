@@ -28,17 +28,16 @@ object Dependencies {
 
     // Don't use PekkoGrpcBuildInfo.pekkoHttpVersion or PekkoGrpcBuildInfo.pekkoVersion and prioritize
     // aligning with versions transitively brought in via Play.
-    val pekko     = "1.7.0"
-    val pekkoHttp = "1.4.0"
+    val pekko     = "2.0.0-M4"
+    val pekkoHttp = "2.0.0-M1+293-40b07a21-SNAPSHOT"
 
     val pekkoGrpc: String = PekkoGrpcBuildInfo.version
     val grpc: String      = PekkoGrpcBuildInfo.grpcVersion
 
-    // M4 is the newest Play 3.1 milestone whose Scala 3 artifacts were built with Scala 3.3.
-    val play = sys.props.getOrElse("play.version", "3.1.0-M4")
+    val play = sys.props.getOrElse("play.version", "3.1.0-M10-e1f3c2a9-SNAPSHOT")
 
     val scalaTest         = "3.2.20"
-    val scalaTestPlusPlay = "8.0.0-M2"
+    val scalaTestPlusPlay = "8.0.0-M2+51-661d6e61-SNAPSHOT"
 
     val macwire = "2.6.5"
   }
