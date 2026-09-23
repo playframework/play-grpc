@@ -10,6 +10,11 @@ import sbt.internal.inc.classpath.ClasspathUtilities
 import sbt.Keys._
 import sbt.ProjectRef
 
+import org.apache.pekko.grpc.gen.CodeGenerator
+import org.apache.pekko.grpc.gen.CodeGenerator.ScalaBinaryVersion
+import org.apache.pekko.grpc.gen.StdoutLogger
+import org.apache.pekko.grpc.sbt.GeneratorBridge
+import org.apache.pekko.grpc.sbt.PekkoGrpcPlugin
 import org.apache.pekko.grpc.sbt.PekkoGrpcPlugin.autoImport._
 import protocbridge.{ Artifact => BridgeArtifact }
 import protocbridge.Target
@@ -18,11 +23,12 @@ import ProtocPlugin.autoImport.PB
 
 /** A plugin that allows to use a code generator compiled in one subproject to be used in a test project */
 object ReflectiveCodeGen extends AutoPlugin {
-  val generatedLanguages    = SettingKey[Seq[PekkoGrpc.Language]]("reflectiveGrpcGeneratedLanguages")
-  val generatedSources      = SettingKey[Seq[PekkoGrpc.GeneratedSource]]("reflectiveGrpcGeneratedSources")
-  val extraGenerators       = SettingKey[Seq[String]]("reflectiveGrpcExtraGenerators")
-  val codeGeneratorSettings = settingKey[Seq[String]]("Code generator settings")
-  val protocOptions         = settingKey[Seq[String]]("Protoc Options.")
+  val generatedLanguages     = SettingKey[Seq[PekkoGrpc.Language]]("reflectiveGrpcGeneratedLanguages")
+  val generatedSources       = SettingKey[Seq[PekkoGrpc.GeneratedSource]]("reflectiveGrpcGeneratedSources")
+  val extraGenerators        = SettingKey[Seq[String]]("reflectiveGrpcExtraGenerators")
+  val codeGeneratorSettings  = settingKey[Seq[String]]("Code generator settings")
+  val protocOptions          = settingKey[Seq[String]]("Protoc Options.")
+  private val mutableTargets = settingKey[MutableTargets]("Mutable reflective code generator targets")
 
   // needed to be able to override the PB.generate task reliably
   override def requires = ProtocPlugin
@@ -52,10 +58,14 @@ object ReflectiveCodeGen extends AutoPlugin {
             }
           }.value,
         // HACK: make the targets mutable, so we can fill them while running the above PB.generate
-        PB.targets := scala.collection.mutable.ListBuffer.empty,
+        mutableTargets := new MutableTargets,
+        PB.targets     := mutableTargets.value,
         // Put an artifact resolver that returns the project's classpath for our generators
         PB.artifactResolver := Def.taskDyn {
-          val cp          = (ProjectRef(file("."), "play-grpc-generators") / Compile / fullClasspath).value.map(_.data)
+          val cp = classpathFiles(
+            (ProjectRef(file("."), "play-grpc-generators") / Compile / fullClasspath).value,
+            fileConverter.value,
+          )
           val oldResolver = PB.artifactResolver.value
           Def.task { (artifact: BridgeArtifact) =>
             artifact.groupId match {
@@ -74,8 +84,9 @@ object ReflectiveCodeGen extends AutoPlugin {
           extraGenerators.value,
           sourceManaged.value,
           codeGeneratorSettings.value,
-          PB.targets.value.asInstanceOf[ListBuffer[Target]],
+          mutableTargets.value,
           scalaBinaryVersion.value,
+          fileConverter.value,
         ),
         PB.recompile ~= (_ => true),
         (Compile / PB.protoSources) := PB.protoSources.value ++ Seq(
@@ -92,79 +103,50 @@ object ReflectiveCodeGen extends AutoPlugin {
       watchSources ++= (ProjectRef(file("."), "play-grpc-generators") / watchSources).value,
     )
 
-  val setCodeGenerator = taskKey[Unit]("grpc-set-code-generator")
+  @transient val setCodeGenerator = taskKey[Unit]("grpc-set-code-generator")
 
-  def loadAndSetGenerator(
+  private def loadAndSetGenerator(
       classpath: Classpath,
       languages0: Seq[PekkoGrpc.Language],
       sources0: Seq[PekkoGrpc.GeneratedSource],
       extraGenerators0: Seq[String],
       targetPath: File,
       generatorSettings: Seq[String],
-      targets: ListBuffer[Target],
+      targets: MutableTargets,
       scalaBinaryVersion: String,
+      converter: xsbti.FileConverter,
   ): Unit = {
-    val languages = languages0.mkString(", ")
-    val sources   = sources0.mkString(", ")
-
-    val cp = classpath.map(_.data)
+    val cp = classpathFiles(classpath, converter)
     // ensure to set right parent classloader, so that protocbridge.ProtocCodeGenerator etc are
     // compatible with what is already accessible from this sbt build
-    val loader = ClasspathUtilities.toLoader(cp, classOf[protocbridge.ProtocCodeGenerator].getClassLoader)
-    import scala.reflect.runtime.universe
-    import scala.tools.reflect.ToolBox
-
-    // NOTE to maintainers:
-    //  - For some reason, the reflective code below fails compilation when trying to run it with
-    //    with more than one extraGenerators0 at a time. For that reason I've split the generated code and
-    //    recreate it over and over for each generator. Performance-wise it has a negligible impact.
-    //    (see also https://github.com/playframework/play-grpc/pull/356#issuecomment-832092996)
-    val tb          = universe.runtimeMirror(loader).mkToolBox()
-    val pekkoSource =
-      s"""import org.apache.pekko.grpc.sbt.PekkoGrpcPlugin
-         |import org.apache.pekko.grpc.sbt.GeneratorBridge
-         |import PekkoGrpcPlugin.autoImport._
-         |import PekkoGrpc._
-         |import org.apache.pekko.grpc.gen.CodeGenerator.ScalaBinaryVersion
-         |
-         |val languages: Seq[PekkoGrpc.Language] = Seq($languages)
-         |val sources: Seq[PekkoGrpc.GeneratedSource] = Seq($sources)
-         |val scalaBinaryVersion = ScalaBinaryVersion("$scalaBinaryVersion")
-         |
-         |val logger = org.apache.pekko.grpc.gen.StdoutLogger
-         |
-         |(targetPath: java.io.File, settings: Seq[String]) => {
-         |  val generators = PekkoGrpcPlugin.generatorsFor(sources, languages, scalaBinaryVersion, logger)
-         |  PekkoGrpcPlugin.targetsFor(targetPath, settings, generators)
-         |}
-        """.stripMargin
-    val pekkoGeneratorsF = tb.eval(tb.parse(pekkoSource)).asInstanceOf[(File, Seq[String]) => Seq[Target]]
-    val pekkoGenerators  = pekkoGeneratorsF(targetPath, generatorSettings)
-
-    def source(singleGenerator: String) =
-      s"""import org.apache.pekko.grpc.sbt.PekkoGrpcPlugin
-         |import org.apache.pekko.grpc.sbt.GeneratorBridge
-         |import PekkoGrpcPlugin.autoImport._
-         |import PekkoGrpc._
-         |import org.apache.pekko.grpc.gen.CodeGenerator.ScalaBinaryVersion
-         |
-         |val scalaBinaryVersion = ScalaBinaryVersion("$scalaBinaryVersion")
-         |
-         |val logger = org.apache.pekko.grpc.gen.StdoutLogger
-         |
-         |(targetPath: java.io.File, settings: Seq[String]) => {
-         |  val generators = Seq(GeneratorBridge.sandboxedGenerator($singleGenerator, scalaBinaryVersion, org.apache.pekko.grpc.gen.StdoutLogger))
-         |  PekkoGrpcPlugin.targetsFor(targetPath, settings, generators)
-         |}
-        """.stripMargin
-    val extras = extraGenerators0.flatMap { singleGenerator =>
-      val generatorsF = tb.eval(tb.parse(source(singleGenerator))).asInstanceOf[(File, Seq[String]) => Seq[Target]]
-      generatorsF(targetPath, generatorSettings)
+    val loader          = ClasspathUtilities.toLoader(cp, classOf[protocbridge.ProtocCodeGenerator].getClassLoader)
+    val binaryVersion   = ScalaBinaryVersion(scalaBinaryVersion)
+    val pekkoGenerators = PekkoGrpcPlugin.generatorsFor(sources0, languages0, binaryVersion, StdoutLogger)
+    val extraGenerators = extraGenerators0.map { generatorClassName =>
+      val module = loader.loadClass(s"$generatorClassName$$").getField("MODULE$").get(null)
+      GeneratorBridge.sandboxedGenerator(module.asInstanceOf[CodeGenerator], binaryVersion, StdoutLogger)
     }
 
-    targets.clear()
-    targets ++= pekkoGenerators
-    targets ++= extras
+    targets.replaceWith(PekkoGrpcPlugin.targetsFor(targetPath, generatorSettings, pekkoGenerators ++ extraGenerators))
+  }
+
+  private def classpathFiles(classpath: Classpath, converter: xsbti.FileConverter): Seq[File] =
+    classpath.map(_.data).map {
+      case file: File                        => file
+      case virtualFile: xsbti.VirtualFileRef => converter.toPath(virtualFile).toFile
+    }
+
+  private final class MutableTargets extends scala.collection.immutable.AbstractSeq[Target] {
+    private val underlying = ListBuffer.empty[Target]
+
+    override def apply(index: Int): Target  = underlying(index)
+    override def length: Int                = underlying.length
+    override def iterator: Iterator[Target] = underlying.iterator
+
+    def replaceWith(targets: Seq[Target]): Unit = {
+      underlying.clear()
+      underlying ++= targets
+    }
   }
 
   def generateTaskFromProtocPlugin: Def.Initialize[Task[Seq[File]]] =

@@ -26,7 +26,7 @@ object Publish extends AutoPlugin {
     scmInfo              := Some(
       ScmInfo(url("https://github.com/playframework/play-grpc"), "git@github.com:playframework/play-grpc"),
     ),
-    licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+    licenses := Seq(License("Apache-2.0", uri("http://www.apache.org/licenses/LICENSE-2.0"))),
     developers += Developer(
       "playframework",
       "The Play Framework Contributors",

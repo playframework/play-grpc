@@ -3,6 +3,8 @@
  */
 package play.grpc
 
+import java.net.InetAddress
+
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContextExecutor
 
@@ -25,9 +27,13 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.BeforeAndAfterAll
 import play.api.libs.typedmap.TypedMap
 import play.api.mvc.pekkohttp.PekkoHttpHandler
-import play.api.mvc.request.RemoteConnection
+import play.api.mvc.request.PeerEndpoint
+import play.api.mvc.request.RemoteInfo
+import play.api.mvc.request.RequestAuthority
 import play.api.mvc.request.RequestFactory
 import play.api.mvc.request.RequestTarget
+import play.api.mvc.request.Scheme
+import play.api.mvc.request.TransportConnection
 import play.api.mvc.Headers
 import GreeterServiceMarshallers._
 
@@ -90,16 +96,23 @@ class PlayScalaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterA
         .runWith(Sink.reduce[ByteString](_ ++ _))
         .map(deserializer.deserialize)
 
-    def playRequestFor(uri: Uri) =
+    def playRequestFor(uri: Uri) = {
+      val peer = PeerEndpoint(InetAddress.getByName(uri.authority.host.address), None)
       RequestFactory.plain.createRequest(
-        RemoteConnection(uri.authority.host.address, secure = false, clientCertificateChain = None),
-        "GET",
-        RequestTarget(uri.toString, uri.path.toString, queryString = Map.empty),
+        transport = TransportConnection(peer, None),
+        clientCertificate = None,
+        xForwardedClientCertificates = Vector.empty,
+        remote = RemoteInfo.fromPeer(peer),
+        scheme = Scheme.parseOrThrow(uri.scheme),
+        authority = Some(RequestAuthority.parseOrThrow(uri.authority.toString)),
+        method = "GET",
+        target = RequestTarget(uri.toString, uri.path.toString, queryString = Map.empty),
         version = "42",
-        Headers(),
+        headers = Headers(),
         attrs = TypedMap.empty,
         body = (),
       )
+    }
   }
 
   override def afterAll(): Unit = {

@@ -14,7 +14,7 @@ import play.grpc.internal.PlayRouterUsingActions;
 import org.apache.pekko.grpc.javadsl.GrpcExceptionHandler;
 import org.apache.pekko.http.javadsl.model.HttpRequest;
 import org.apache.pekko.http.javadsl.model.HttpResponse;
-import org.apache.pekko.japi.Function;
+import org.apache.pekko.japi.function.Function;
 import play.api.mvc.EssentialAction;
 import play.api.mvc.RequestHeader;
 import play.api.mvc.PlayBodyParsers;

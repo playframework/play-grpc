@@ -40,7 +40,7 @@ class PlayJavaServerCodeGenerator extends JavaCodeGenerator {
         b.setName(s"${service.packageDir}/Abstract${service.name}PowerApiRouter.java")
         logger.info(s"Generating Pekko gRPC service power API play router for ${service.packageName}.${service.name}")
         immutable.Seq(b.build)
-      } else immutable.Seq.empty,
+      } else immutable.Seq.empty
     }
 }
 object PlayJavaServerCodeGenerator extends PlayJavaServerCodeGenerator
