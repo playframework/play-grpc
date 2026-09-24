@@ -1,4 +1,5 @@
 import build.play.grpc.Dependencies
+import build.play.grpc.Dependencies.Versions.scala212Version
 import build.play.grpc.Dependencies.Versions.scala39LTSVersion
 import build.play.grpc.ProjectExtensions.AddPluginTest
 import build.play.grpc.WorkaroundTwirlFormatCompat
@@ -130,8 +131,8 @@ val playGenerators = Project(id = "play-grpc-generators", file("play-generators"
     buildInfoKeys ++= Seq[BuildInfoKey](organization, name, version, scalaVersion, sbtVersion),
     buildInfoKeys += "pekkoGrpcVersion" → Dependencies.Versions.pekkoGrpc,
     buildInfoPackage                   := "play.grpc.gen",
-    // Only used in sbt 2 build tools, so publish it with sbt's Scala 3 line.
-    crossScalaVersions := Seq(scala39LTSVersion),
+    // sbt 1 consumers need Scala 2.12; this sbt 2 build uses Scala 3.9.
+    crossScalaVersions := Seq(scala212Version, scala39LTSVersion),
     scalaVersion       := scala39LTSVersion,
   )
 
