@@ -28,8 +28,8 @@ object Dependencies {
 
     // Don't use PekkoGrpcBuildInfo.pekkoHttpVersion or PekkoGrpcBuildInfo.pekkoVersion and prioritize
     // aligning with versions transitively brought in via Play.
-    val pekko     = "2.0.0-M4"
-    val pekkoHttp = "2.0.0-M1+314-958943d2-SNAPSHOT"
+    val pekko     = "2.0.0"
+    val pekkoHttp = "2.0.0"
 
     val pekkoGrpc: String = PekkoGrpcBuildInfo.version
     val grpc: String      = PekkoGrpcBuildInfo.grpcVersion
@@ -37,7 +37,7 @@ object Dependencies {
     val play = sys.props.getOrElse("play.version", "3.1.0-M10-de32fcb4-SNAPSHOT")
 
     val scalaTest         = "3.2.20"
-    val scalaTestPlusPlay = "8.0.0-M2+86-ba513f60-SNAPSHOT"
+    val scalaTestPlusPlay = "8.0.0-M2+91-0f24d96f-SNAPSHOT"
 
     val macwire = "2.6.5"
   }
