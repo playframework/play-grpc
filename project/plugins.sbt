@@ -5,7 +5,5 @@ addSbtPlugin("org.playframework.twirl" % "sbt-twirl"             % "2.1.0-M9+129
 addSbtPlugin("com.github.sbt"          % "sbt-header"            % "5.11.0")
 addSbtPlugin("org.scalameta"           % "sbt-scalafmt"          % "2.6.2")
 addSbtPlugin("com.github.sbt"          % "sbt-java-formatter"    % "0.14.0")
-addSbtPlugin("org.apache.pekko"        % "pekko-grpc-sbt-plugin" % "2.0.0-M2") // Sync with docs/antora.yml
-// Remove this explicit dependency when upgrading pekko-grpc-sbt-plugin to 2.0.0-M3 or later.
-addSbtPlugin("com.thesamet"   % "sbt-protoc"     % "1.1.0-RC2")
-addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.12.1")
+addSbtPlugin("org.apache.pekko"        % "pekko-grpc-sbt-plugin" % "2.0.0") // Sync with docs/antora.yml
+addSbtPlugin("com.github.sbt"          % "sbt-ci-release"        % "1.12.1")

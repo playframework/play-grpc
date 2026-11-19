@@ -86,7 +86,7 @@ class PlayScalaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterA
             .single(msg)
             .map(serializer.serialize)
             .map(DataFrame(_))
-            .via(GrpcProtocolNative.newWriter(Identity).frameEncoder),
+            .map(GrpcProtocolNative.newWriter(Identity).encodeFrame),
         ),
       )
     }

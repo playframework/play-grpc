@@ -130,7 +130,7 @@ class PlayJavaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAl
             .single(msg)
             .map(serializer.serialize)
             .map(DataFrame(_))
-            .via(GrpcProtocolNative.newWriter(Identity).frameEncoder),
+            .map(GrpcProtocolNative.newWriter(Identity).encodeFrame),
         ),
       )
     }
