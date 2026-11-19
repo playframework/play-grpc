@@ -4,6 +4,8 @@ import sbt._
 import sbt.Keys._
 
 object WorkaroundTwirlFormatCompat {
+  val Sources = config("twirlCompatSources").hide
+
   private val TemplateSources = Seq(
     "templates/JavaClient/txt/GenMethodImports.template.scala",
     "templates/JavaClient/txt/ClientPowerApi.template.scala",
@@ -35,10 +37,17 @@ object WorkaroundTwirlFormatCompat {
     val outputDir  = (Compile / sourceManaged).value / "pekko-grpc-twirl-compat"
     val extractDir = streams.value.cacheDirectory / "pekko-grpc-twirl-compat"
 
-    val sourceJar = (Compile / updateClassifiers).value.allFiles
-      .find(file =>
-        file.getName == s"pekko-grpc-codegen_${scalaBinaryVersion.value}-${Dependencies.Versions.pekkoGrpc}-sources.jar"
+    // This is a required build input; optional IDE classifier downloads can omit it.
+    val sourceJar = update.value
+      .matching(
+        configurationFilter(Sources.name) &&
+          moduleFilter(
+            organization = "org.apache.pekko",
+            name = s"pekko-grpc-codegen_${scalaBinaryVersion.value}",
+            revision = Dependencies.Versions.pekkoGrpc,
+          ) && artifactFilter(classifier = "sources")
       )
+      .headOption
       .getOrElse(sys.error("Could not locate pekko-grpc-codegen sources jar for Twirl compatibility generation"))
 
     IO.delete(outputDir)
