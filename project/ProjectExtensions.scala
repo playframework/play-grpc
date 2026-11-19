@@ -20,6 +20,10 @@ object ProjectExtensions {
           // Defaults to `Seq("Scala")` so we only need to add Java
           ReflectiveCodeGen.generatedLanguages += PekkoGrpc.Java,
           ReflectiveCodeGen.codeGeneratorSettings -= "flat_package", // avoid Java+Scala fqcn conflicts
+          // Match the sbt plugin's Scala 3 source generation in the integration fixtures.
+          ReflectiveCodeGen.codeGeneratorSettings ++= {
+            if (scalaBinaryVersion.value == "3") Seq("scala3_sources") else Seq.empty
+          },
         )
   }
 }

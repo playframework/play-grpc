@@ -108,6 +108,7 @@ val playActionsTestData = Project("play-grpc-actions-testdata", file("play-actio
   .pluginTestingSettings
 
 val playGenerators = Project(id = "play-grpc-generators", file("play-generators"))
+  .configs(WorkaroundTwirlFormatCompat.Sources)
   .enablePlugins(SbtTwirl, BuildInfoPlugin)
   .settings(
     // Temporary Twirl compatibility shim:
@@ -118,6 +119,7 @@ val playGenerators = Project(id = "play-grpc-generators", file("play-generators"
     Compile / sourceGenerators += WorkaroundTwirlFormatCompat.generate.taskValue,
     libraryDependencies ++= Seq(
       Dependencies.Compile.pekkoGrpcCodegen,
+      Dependencies.Compile.pekkoGrpcCodegen.classifier("sources").intransitive() % WorkaroundTwirlFormatCompat.Sources,
       Dependencies.Test.scalaTest,
     ),
     buildInfoKeys ++= Seq[BuildInfoKey](organization, name, version, scalaVersion, sbtVersion),

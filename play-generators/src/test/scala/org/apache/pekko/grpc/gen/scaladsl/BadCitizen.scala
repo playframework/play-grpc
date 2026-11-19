@@ -4,7 +4,8 @@
 package org.apache.pekko.grpc.gen.scaladsl
 
 object BadCitizen {
-  def scalaCompatConstants(): ScalaCompatConstants = new org.apache.pekko.grpc.gen.scaladsl.ScalaCompatConstants(
-    emitScala3Sources = true,
-  )
+  def scalaCompatConstants(emitScala3Sources: Boolean = true): ScalaCompatConstants =
+    new org.apache.pekko.grpc.gen.scaladsl.ScalaCompatConstants(
+      emitScala3Sources = emitScala3Sources,
+    )
 }

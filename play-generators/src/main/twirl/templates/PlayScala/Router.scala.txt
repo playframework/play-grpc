@@ -21,6 +21,6 @@ import play.grpc.internal.PlayRouter
     extends PlayRouter(@{service.name}.name)
     with @{serviceName} {
 
-    override protected val respond = @{serviceName}Handler(this, @{service.name}.name, eHandler)(system)
+    override protected val respond = @{serviceName}Handler(this, @{service.name}.name, eHandler)(@{service.scalaCompatConstants.ImplicitUsing}system)
   }
 }
