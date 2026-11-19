@@ -36,11 +36,6 @@ ThisBuild / Test / fork                           := true
 
 ThisBuild / resolvers += Resolver.sonatypeCentralSnapshots
 
-ThisBuild / dependencyOverrides ++= Seq(
-  Dependencies.Compile.pekkoStream,
-  Dependencies.Compile.pekkoDiscovery,
-)
-
 val playGrpc = Project("play-grpc", file("."))
 aggregateProjects(
   playRuntime,
