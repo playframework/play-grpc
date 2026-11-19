@@ -34,10 +34,7 @@ ThisBuild / javacOptions ++= List(
 ThisBuild / javafmtFormatterCompatibleJavaVersion := 17
 ThisBuild / Test / fork                           := true
 
-ThisBuild / resolvers ++= Seq(
-  Resolver.sonatypeCentralSnapshots,
-  Resolver.ApacheMavenSnapshotsRepo,
-)
+ThisBuild / resolvers += Resolver.sonatypeCentralSnapshots
 
 ThisBuild / dependencyOverrides ++= Seq(
   Dependencies.Compile.pekkoStream,
