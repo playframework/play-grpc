@@ -36,7 +36,7 @@ import scala.concurrent.ExecutionContext
      */
     @@InternalApi
     final override protected def createHandler(serviceName: String, system: ActorSystem): RequestHeader => EssentialAction = {
-      val handler = @{serviceName}Handler(this, serviceName, eHandler)(system)
+      val handler = @{serviceName}Handler(this, serviceName, eHandler)(@{service.scalaCompatConstants.ImplicitUsing}system)
       reqOuter =>
         implicit val ec: ExecutionContext = system.dispatcher
         Path(reqOuter.path) match {

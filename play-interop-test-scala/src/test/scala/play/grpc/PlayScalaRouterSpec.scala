@@ -35,7 +35,8 @@ import play.api.mvc.request.RequestTarget
 import play.api.mvc.request.Scheme
 import play.api.mvc.request.TransportConnection
 import play.api.mvc.Headers
-import GreeterServiceMarshallers._
+import GreeterServiceMarshallers.HelloReplySerializer
+import GreeterServiceMarshallers.HelloRequestSerializer
 
 class PlayScalaRouterSpec extends AnyWordSpec with Matchers with BeforeAndAfterAll with ScalaFutures {
   implicit val sys: ActorSystem             = ActorSystem()
