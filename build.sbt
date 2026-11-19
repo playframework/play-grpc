@@ -34,15 +34,7 @@ ThisBuild / javacOptions ++= List(
 ThisBuild / javafmtFormatterCompatibleJavaVersion := 17
 ThisBuild / Test / fork                           := true
 
-ThisBuild / resolvers ++= Seq(
-  Resolver.sonatypeCentralSnapshots,
-  Resolver.ApacheMavenSnapshotsRepo,
-)
-
-ThisBuild / dependencyOverrides ++= Seq(
-  Dependencies.Compile.pekkoStream,
-  Dependencies.Compile.pekkoDiscovery,
-)
+ThisBuild / resolvers += Resolver.sonatypeCentralSnapshots
 
 val playGrpc = Project("play-grpc", file("."))
 aggregateProjects(
