@@ -29,7 +29,7 @@ object Dependencies {
     // Don't use PekkoGrpcBuildInfo.pekkoHttpVersion or PekkoGrpcBuildInfo.pekkoVersion and prioritize
     // aligning with versions transitively brought in via Play.
     val pekko     = "2.0.0"
-    val pekkoHttp = "2.0.0"
+    val pekkoHttp = "2.0.1"
 
     val pekkoGrpc: String = PekkoGrpcBuildInfo.version
     val grpc: String      = PekkoGrpcBuildInfo.grpcVersion
