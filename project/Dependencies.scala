@@ -37,7 +37,7 @@ object Dependencies {
     val play = sys.props.getOrElse("play.version", "3.1.0-M10-de32fcb4-SNAPSHOT")
 
     val scalaTest         = "3.2.20"
-    val scalaTestPlusPlay = "8.0.0-M2+95-3cde726d-SNAPSHOT"
+    val scalaTestPlusPlay = "8.0.0-M2+99-ae5a27dd-SNAPSHOT"
 
     val macwire = "2.6.5"
   }
